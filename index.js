@@ -1,10 +1,9 @@
 const { App, ExpressReceiver } = require('@slack/bolt');
-// const actions = require('./controllers/listeners/actions');
-// const messages = require('./controllers/listeners/messages');
-// const events = require('./controllers/listeners/events');
-// const commands = require('./controllers/listeners/commands');
-// const views = require('./controllers/listeners/views');
-// const routes = require('./controllers/listeners/routes')
+const actions = require('./controllers/listeners/actions');
+const events = require('./controllers/listeners/events');
+const commands = require('./controllers/listeners/commands');
+const views = require('./controllers/listeners/views');
+const routes = require('./controllers/listeners/routes')
 
 const receiver = new ExpressReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
