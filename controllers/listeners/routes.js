@@ -12,6 +12,7 @@ async function init(receiver, app) {
             console.log('coshea : /slack-post');
 
 
+            res.send({ test: 'test' });
         } catch (error) {
             res.send(error);
         }
