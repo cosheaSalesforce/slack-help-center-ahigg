@@ -30,7 +30,7 @@ const app = new App({
         await app.start(process.env.PORT || 3000);
 
         console.log('⚡️ Bolt app is running!');
-        app.step(workflows.caseCreationWorkflow());
+        app.step(await workflows.caseCreationWorkflow());
     } catch (ex) {
         console.log(ex);
     }

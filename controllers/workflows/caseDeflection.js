@@ -1,5 +1,5 @@
 async function caseCreationWorkflow() {
-    const ws = new WorkflowStep('workflow_example', {
+    const ws = new WorkflowStep('case_deflection', {
         edit: async ({ ack, step, configure }) => {
             await ack();
             console.log("inside edit");
@@ -8,34 +8,34 @@ async function caseCreationWorkflow() {
             const blocks = [
                 {
                     type: 'input',
-                    block_id: 'task_name_input',
+                    block_id: 'user_name',
                     element: {
                         type: 'plain_text_input',
-                        action_id: 'name',
+                        action_id: 'username',
                         placeholder: {
                             type: 'plain_text',
-                            text: 'Add a task name',
+                            text: 'Add a username',
                         },
                     },
                     label: {
                         type: 'plain_text',
-                        text: 'Task name',
+                        text: 'Username',
                     },
                 },
                 {
                     type: 'input',
-                    block_id: 'task_description_input',
+                    block_id: 'channel_id',
                     element: {
                         type: 'plain_text_input',
-                        action_id: 'description',
+                        action_id: 'channel',
                         placeholder: {
                             type: 'plain_text',
-                            text: 'Add a task description',
+                            text: 'Add a channel ID',
                         },
                     },
                     label: {
                         type: 'plain_text',
-                        text: 'Task description',
+                        text: 'channel ID',
                     },
                 },
             ];
@@ -48,24 +48,24 @@ async function caseCreationWorkflow() {
 
 
             const { values } = view.state;
-            const taskName = values.task_name_input.name;
-            const taskDescription = values.task_description_input.description;
+            const username = values.user_name.username;
+            const channelID = values.channel_id.channel;
 
             const inputs = {
-                taskName: { value: taskName.value },
-                taskDescription: { value: taskDescription.value }
+                username: { value: username.value },
+                channelID: { value: channelID.value }
             };
 
             const outputs = [
                 {
                     type: 'text',
-                    name: 'taskName',
-                    label: 'Task name',
+                    name: 'username',
+                    label: 'Username',
                 },
                 {
                     type: 'text',
-                    name: 'taskDescription',
-                    label: 'Task description',
+                    name: 'channelID',
+                    label: 'Channel ID',
                 }
             ];
 
@@ -77,13 +77,13 @@ async function caseCreationWorkflow() {
             const { inputs } = step;
 
             const outputs = {
-                taskName: inputs.taskName.value,
-                taskDescription: inputs.taskDescription.value,
+                username: inputs.username.value,
+                channelID: inputs.channelID.value,
             };
 
             // signal back to Slack that everything was successful
-            console.log(inputs.taskName.value);
-            console.log(inputs.taskDescription.value);
+            console.log(inputs.username.value);
+            console.log(inputs.channelID.value);
             console.log(step);
             await complete({ outputs });
         },
