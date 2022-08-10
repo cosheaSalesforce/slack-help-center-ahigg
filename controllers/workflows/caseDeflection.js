@@ -88,8 +88,9 @@ async function caseCreationWorkflow() {
             await complete({ outputs });
         },
     });
-
-    module.exports = {
-        caseCreationWorkflow,
-    };
+    return ws;
 }
+
+module.exports = {
+    caseCreationWorkflow,
+};
