@@ -17,6 +17,9 @@ const app = new App({
 
 
 (async () => {
+
+    console.log('coshea : doing init');
+
     try {
         // Init for listeners
         await actions.init(app);
