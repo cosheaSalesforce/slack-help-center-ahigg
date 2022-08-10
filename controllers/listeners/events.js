@@ -12,6 +12,11 @@ async function init(app) {
         await reactionsHandler.handleReactionToPost();
     });
 
+    app.event('message', async ({ event, client, context }) => {
+        console.log("catch message");
+        console.log(event);
+    });
+
 }
 module.exports = {
     init
