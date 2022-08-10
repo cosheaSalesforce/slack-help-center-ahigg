@@ -1,5 +1,5 @@
 const express = require("express");
-const handleSlackMessageResponse = require("../handlers/handleSlackMessageResponse");
+const messenger = require("../handlers/messenger");
 
 async function init(receiver, app) {
     receiver.router.use(express.json());
@@ -9,7 +9,13 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
-            console.log('coshea : /slack-post');
+            // params required
+            // - channelId
+            // - threadId
+            // - messageContent
+            // - user
+            // - isEphermal
+            // - showNewCase
 
 
             res.send({ test: 'test' });
