@@ -5,7 +5,8 @@ const salesforceService = require("../../services/salesforce.service");
  */
 async function showCaseCreationModal(payload, client) {
     try {
-        var viewFromat = businessCaseFormat.createBusinessCaseFormat();
+
+        //var viewFromat = businessCaseFormat.createBusinessCaseFormat();
         var usersEmail = payload.user_name + "@salesforce.com";
         const result = await client.views.open({
             // Pass a valid trigger_id within 3 seconds of receiving it
@@ -13,15 +14,20 @@ async function showCaseCreationModal(payload, client) {
             // View payload
             view: viewFromat,
         });
-        var userFromOrg = await salesforceService.getUsersDetailsFromOrg(payload.user.name + "@salesforce.com", payload.user.id);
-        if (userFromOrg.length == 0) {
-            await client.chat.postEphemeral({
-                channel: payload.user.id,
-                user: payload.user.id,
-                text: "An error occurred, please contact our Help-Center team!",
-            });
-        }
+        // var userFromOrg = await salesforceService.getUsersDetailsFromOrg(payload.user.name + "@salesforce.com", payload.user.id);
+        // if (userFromOrg.length == 0) {
+        //     await client.chat.postEphemeral({
+        //         channel: payload.user.id,
+        //         user: payload.user.id,
+        //         text: "An error occurred, please contact our Help-Center team!",
+        //     });
+        // }
     } catch (error) {
-        mixpanelService.trackErrors(error, "showNewModal", usersEmail);
+        // mixpanelService.trackErrors(error, "showNewModal", usersEmail);
     }
+
+
+    module.exports = {
+        showCaseCreationModal,
+    };
 }
