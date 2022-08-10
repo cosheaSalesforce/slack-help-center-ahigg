@@ -1,3 +1,5 @@
+const { WorkflowStep } = require("@slack/bolt");
+
 async function caseCreationWorkflow() {
     const ws = new WorkflowStep('case_deflection', {
         edit: async ({ ack, step, configure }) => {
