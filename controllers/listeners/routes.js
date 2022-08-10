@@ -1,7 +1,7 @@
 const express = require("express");
 const handleSlackMessageResponse = require("../handlers/handleSlackMessageResponse");
 
-async function init(app) {
+async function init(receiver, app) {
     receiver.router.use(express.json());
     receiver.router.use(express.urlencoded({ extended: true }));
 
