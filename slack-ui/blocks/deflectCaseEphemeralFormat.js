@@ -18,7 +18,7 @@ async function createDeflectionFormat() {
         {
             accessory: {
                 type: "button",
-                action_id: "create_case",
+                action_id: "createNewCase",
                 text: {
                     type: "plain_text",
                     text: "New Case",

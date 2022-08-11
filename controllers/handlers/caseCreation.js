@@ -5,15 +5,15 @@ const salesforceService = require("../../services/salesforce.service");
  */
 async function showCaseCreationModal(payload, client) {
     try {
-
+        console.log("Welcome to the case creation modal!");
         //var viewFromat = businessCaseFormat.createBusinessCaseFormat();
-        var usersEmail = payload.user_name + "@salesforce.com";
-        const result = await client.views.open({
-            // Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id: payload.trigger_id,
-            // View payload
-            view: viewFromat,
-        });
+        // var usersEmail = payload.user_name + "@salesforce.com";
+        // const result = await client.views.open({
+        //     // Pass a valid trigger_id within 3 seconds of receiving it
+        //     trigger_id: payload.trigger_id,
+        //     // View payload
+        //     view: viewFromat,
+        // });
         // var userFromOrg = await salesforceService.getUsersDetailsFromOrg(payload.user.name + "@salesforce.com", payload.user.id);
         // if (userFromOrg.length == 0) {
         //     await client.chat.postEphemeral({
