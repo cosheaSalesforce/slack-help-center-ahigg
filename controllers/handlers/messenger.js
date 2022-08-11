@@ -20,9 +20,16 @@ async function postMessages(app, slackPosts) {
 
         // Post to User?
         if(slackPost.userEmail) {
-            var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
-            payload.user = user.user.id;
-            blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
+            try {
+                var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
+                payload.user = user.user.id;
+                blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
+            } catch(ex) {
+                console.log('Error finding User: ' , ex);
+            }
+            // var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
+            // payload.user = user.user.id;
+            // blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
 
         blocks.push(getTextBlock(slackPost.messageContent));
