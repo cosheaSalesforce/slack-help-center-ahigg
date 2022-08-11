@@ -22,7 +22,6 @@ async function postMessages(app, slackPosts) {
         if(slackPost.userEmail) {
             try {
                 var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
-                payload.user = user.user.id;
                 blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
             } catch(ex) {
                 console.log('Error finding User: ' , ex);
@@ -79,7 +78,8 @@ function getTextBlock(text) {
         "type": "section",
         "text": {
             "type": "mrkdwn",
-            "text": text
+            "text": text,
+            "verbatim": true
         }
     };
 }
