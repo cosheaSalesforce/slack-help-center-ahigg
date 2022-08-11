@@ -1,3 +1,5 @@
+const deflectFromWorkflowHandler = require("../handlers/deflectFromWorkflow");
+
 const { WorkflowStep } = require("@slack/bolt");
 
 async function caseCreationWorkflow() {
@@ -84,10 +86,9 @@ async function caseCreationWorkflow() {
             };
 
             // signal back to Slack that everything was successful
-            console.log(inputs.username.value);
-            console.log(inputs.channelID.value);
-            console.log(step);
+            deflectFromWorkflowHandler.postDeflectionMessage(username.vlaue, channelID.value);
             await complete({ outputs });
+
         },
     });
     return ws;
