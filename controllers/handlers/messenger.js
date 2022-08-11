@@ -30,12 +30,17 @@ async function postMessages(app, slackPosts) {
             // payload.user = user.user.id;
             // blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
+   
+
         var content = slackPost.messageContent.split("\n").join("\n");
         console.log(slackPost.messageContent);
 
+        await slackPost.messageContent.split("\n").forEach(function(x){
+            blocks.push(getTextBlock(x));
+        });
 
         // blocks.push(getTextBlock(slackPost.messageContent));
-        blocks.push(getTextBlock(content));
+        // blocks.push(getTextBlock(content));
 
         if(slackPost.showNewCase) {
             blocks.push(getButtonBlock());
