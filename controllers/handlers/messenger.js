@@ -32,6 +32,8 @@ async function postMessages(app, slackPosts) {
             // blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
 
+        console.log(slackPost.messageContent);
+
         blocks.push(getTextBlock(slackPost.messageContent));
 
         if(slackPost.showNewCase) {
