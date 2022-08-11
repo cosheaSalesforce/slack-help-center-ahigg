@@ -27,10 +27,12 @@ async function postMessages(app, slackPosts) {
                 console.log('Error finding User: ' , ex);
             }
         }
+
+        var content = slackPost.messageContent.replace("\\n","\n");
    
 
-        blocks.push(getTextBlock(slackPost.messageContent));
-        // blocks.push(getTextBlock(content));
+        // blocks.push(getTextBlock(slackPost.messageContent));
+        blocks.push(getTextBlock(content));
 
         if(slackPost.showNewCase) {
             blocks.push(getButtonBlock());
