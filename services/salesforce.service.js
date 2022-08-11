@@ -34,6 +34,9 @@ async function doLogin() {
     return loggedIn;
 }
 
+async function updateCaseStatus() {
+    
+}
 
 module.exports = {
     doLogin,

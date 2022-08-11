@@ -4,6 +4,7 @@ async function init(app) {
 
     app.event('reaction_added', async ({ event, client, context }) => {
         console.log("catch added");
+        console.log(event);
         await reactionsHandler.handleReactionToPost();
     });
 
@@ -12,10 +13,10 @@ async function init(app) {
         await reactionsHandler.handleReactionToPost();
     });
 
-    app.event('message', async ({ event, client, context }) => {
-        console.log("catch message");
-        console.log(event);
-    });
+    // app.event('message', async ({ event, client, context }) => {
+    //     console.log("catch message");
+    //     console.log(event);
+    // });
 
 }
 module.exports = {
