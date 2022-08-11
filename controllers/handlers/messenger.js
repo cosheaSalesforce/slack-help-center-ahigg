@@ -28,7 +28,8 @@ async function postMessages(app, slackPosts) {
             }
         }
 
-        var content = slackPost.messageContent.replace("\\n","\n");
+        // var content = slackPost.messageContent.replace("\\n","\n");
+        var content = replaceAll(slackPost.messageContent, "\\n","\n");
    
 
         // blocks.push(getTextBlock(slackPost.messageContent));
@@ -61,6 +62,10 @@ async function postMessages(app, slackPosts) {
             console.log('EXCEPTION: ' , ex);
         }
     }
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
 async function postMessage() {
