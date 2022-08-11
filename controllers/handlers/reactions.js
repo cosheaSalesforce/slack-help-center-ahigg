@@ -5,7 +5,7 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
     userInfo  = await app.client.users.profile.get({
         user: userId
     })
-    console.log(userInfo);
+    console.log(userInfo.profile.email);
 
 }
 
