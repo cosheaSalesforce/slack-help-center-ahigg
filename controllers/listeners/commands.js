@@ -5,6 +5,7 @@ async function init(app) {
         await ack();
         try {
             await caseCreationHandler.showCaseCreationModal(payload, client);
+            await caseCreationHandler.showCaseCreationModal(payload, client);
         } catch (error) {
             console.error(error);
         }

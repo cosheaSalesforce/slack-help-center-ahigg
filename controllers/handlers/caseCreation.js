@@ -25,9 +25,8 @@ async function showCaseCreationModal(payload, client) {
     } catch (error) {
         // mixpanelService.trackErrors(error, "showNewModal", usersEmail);
     }
-
-
-    module.exports = {
-        showCaseCreationModal,
-    };
 }
+
+module.exports = {
+    showCaseCreationModal,
+};
