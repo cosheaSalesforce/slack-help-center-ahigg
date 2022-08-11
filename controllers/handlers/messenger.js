@@ -33,7 +33,6 @@ async function postMessages(app, slackPosts) {
 
         console.log(slackPost.messageContent);
 
-        var messageContent = slackPost.messageContent.Replace(slackPost.messageContent, "\\n", "\n", -1)
         blocks.push(getTextBlock(slackPost.messageContent));
 
         if(slackPost.showNewCase) {
