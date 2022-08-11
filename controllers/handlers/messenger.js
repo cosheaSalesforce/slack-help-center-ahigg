@@ -35,7 +35,7 @@ async function postMessages(app, slackPosts) {
         var content = slackPost.messageContent.split("\n").join("\n");
         console.log(slackPost.messageContent);
 
-        await slackPost.messageContent.split("\n").forEach(function(x){
+        await slackPost.messageContent.split("\\n").forEach(function(x){
             blocks.push(getTextBlock(x));
         });
 
