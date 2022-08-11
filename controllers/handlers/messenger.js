@@ -26,20 +26,10 @@ async function postMessages(app, slackPosts) {
             } catch(ex) {
                 console.log('Error finding User: ' , ex);
             }
-            // var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
-            // payload.user = user.user.id;
-            // blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
    
 
-        var content = slackPost.messageContent.split("\n").join("\n");
-        console.log(slackPost.messageContent);
-
-        await slackPost.messageContent.split("\\n").forEach(function(x){
-            blocks.push(getTextBlock(x));
-        });
-
-        // blocks.push(getTextBlock(slackPost.messageContent));
+        blocks.push(getTextBlock(slackPost.messageContent));
         // blocks.push(getTextBlock(content));
 
         if(slackPost.showNewCase) {
