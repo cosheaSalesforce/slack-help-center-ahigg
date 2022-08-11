@@ -17,6 +17,7 @@ const app = new App({
 
 
 (async () => {
+
     try {
         // Init for listeners
         await actions.init(app);
