@@ -34,7 +34,8 @@ async function postMessages(app, slackPosts) {
         console.log(slackPost.messageContent);
 
 
-        blocks.push(getTextBlock(slackPost.messageContent));
+        // blocks.push(getTextBlock(slackPost.messageContent));
+        blocks.push(getTextBlock(content));
 
         if(slackPost.showNewCase) {
             blocks.push(getButtonBlock());
