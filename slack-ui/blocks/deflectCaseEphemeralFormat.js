@@ -27,7 +27,7 @@ async function createDeflectionFormat(channelId) {
                         emoji: true
                     },
                     style: "primary",
-                    value: channelId;
+                    value: channelId
                 },
             ]
         }
