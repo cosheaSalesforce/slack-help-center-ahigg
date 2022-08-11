@@ -9,8 +9,8 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
-            messenger.postMessages(req.body);
-            
+            messenger.postMessages(app, req.body);
+
             res.send({ test: 'test' });
         } catch (error) {
             res.send(error);
