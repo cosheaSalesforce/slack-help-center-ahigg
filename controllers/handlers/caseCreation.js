@@ -7,7 +7,6 @@ async function showCaseCreationModal(payload, client) {
     try {
         console.log("Welcome to the case creation modal!!");
         console.log(payload);
-        console.log(client);
 
 
 
