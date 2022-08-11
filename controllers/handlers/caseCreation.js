@@ -3,11 +3,10 @@ const salesforceService = require("../../services/salesforce.service");
 /**
  * The function creates the initial modal for creating a new case
  */
-async function showCaseCreationModal(payload, client) {
+async function showCaseCreationModal(payload, client, channelId) {
     try {
         console.log("Welcome to the case creation modal!!");
-        console.log(payload);
-
+        console.log(channelId);
 
 
 
