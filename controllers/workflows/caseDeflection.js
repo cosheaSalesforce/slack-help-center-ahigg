@@ -6,8 +6,6 @@ async function caseCreationWorkflow() {
     const ws = new WorkflowStep('case_deflection', {
         edit: async ({ ack, step, configure }) => {
             await ack();
-            console.log("inside edit");
-            console.log(step);
 
             const blocks = [
                 {
@@ -48,8 +46,6 @@ async function caseCreationWorkflow() {
         },
         save: async ({ ack, step, view, update }) => {
             await ack();
-            console.log("inside save");
-
 
             const { values } = view.state;
             const username = values.user_name.username;
@@ -76,7 +72,6 @@ async function caseCreationWorkflow() {
             await update({ inputs, outputs });
         },
         execute: async ({ step, complete, fail }) => {
-            console.log("inside execute");
 
             const { inputs } = step;
 
@@ -86,7 +81,6 @@ async function caseCreationWorkflow() {
             };
 
             // signal back to Slack that everything was successful
-            console.log(step);
             deflectFromWorkflowHandler.postDeflectionMessage(inputs.username.value, inputs.channelID.value);
             await complete({ outputs });
 
