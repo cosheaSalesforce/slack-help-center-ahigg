@@ -13,7 +13,7 @@
 async function postMessages(app, slackPosts) {
    
 
-    for( vari = 0; i < slackPosts.length; i++) {
+    for( var i = 0; i < slackPosts.length; i++) {
         var slackPost = slackPosts[i];
 
         var blocks = [];
