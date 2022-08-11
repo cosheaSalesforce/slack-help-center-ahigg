@@ -38,6 +38,11 @@ async function postMessages(app, slackPosts) {
                 payload.thread_ts = slackPost.threadId;
             }
 
+            if(slackPost.isEphermal != null && slackPost.userEmail != null) {
+                var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
+                payload.user = user.user.id;
+            }
+
             if(slackPost.isEphermal) {
                 app.client.chat.postEphemeral(payload);
             } else {
