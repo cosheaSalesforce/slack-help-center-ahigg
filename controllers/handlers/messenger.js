@@ -20,7 +20,9 @@ async function postMessages(app, slackPosts) {
 
         // Post to User?
         if(slackPost.userEmail) {
-            blocks.push(getTextBlock('Hey ' + slackPost.userEmail + ','));
+            var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
+            payload.user = user.user.id;
+            blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
 
         blocks.push(getTextBlock(slackPost.messageContent));
