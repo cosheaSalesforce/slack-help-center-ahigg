@@ -3,12 +3,13 @@ const slackService = require("../../services/slack.service");
 
 async function postDeflectionMessage(username, channelId) {
 
-    var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelId);
+    var channelIdSub = channelId.substring(2, channelId.length - 1);
+    var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
     var app = await slackService.getAppInstance();
-    console.log(channelId);
+    console.log(channelIdSub);
 
     await app.client.chat.postEphemeral({
-        channel: 'C03RZHGJ0R0',
+        channel: channelIdSub,
         user: 'U03939T1E8N',
         text: "Before you create a case, check out this helpful information!",
         blocks: block,
