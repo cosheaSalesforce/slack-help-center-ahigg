@@ -5,6 +5,7 @@ async function postDeflectionMessage(username, channelId) {
 
     var block = await deflectCaseEphemeralFormat.createDeflectionFormat();
     var app = slackService.getAppInstance();
+    console.log(app.client);
 
     await app.client.chat.postEphemeral({
         channel: channelId,
