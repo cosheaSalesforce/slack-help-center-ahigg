@@ -6,6 +6,7 @@ const salesforceService = require("../../services/salesforce.service");
 async function showCaseCreationModal(payload, client) {
     try {
         console.log("Welcome to the case creation modal!!");
+        console.log(payload);
         //var viewFromat = businessCaseFormat.createBusinessCaseFormat();
         // var usersEmail = payload.user_name + "@salesforce.com";
         // const result = await client.views.open({
