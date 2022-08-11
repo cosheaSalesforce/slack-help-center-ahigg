@@ -29,6 +29,8 @@ async function createDeflectionFormat() {
 
         }
     ]
+
+    return block;
 }
 
 module.exports = {
