@@ -30,19 +30,22 @@ async function postMessages(app, slackPosts) {
         }
 
         try {
-            if(slackPost.threadId == null) {
-                app.client.chat.postMessage({ channel: slackPost.channelId, blocks: blocks });
+            var payload = {};
+            payload.channel = slackPost.channelId;
+            payload.blocks = blocks;
+
+            if(slackPost.threadId != null) {
+                payload.thread_ts = slackPost.threadId;
+            }
+
+            if(slackPost.isEphermal) {
+                app.client.chat.postEphemeral(payload);
             } else {
-                app.client.chat.postMessage({ channel: slackPost.channelId, blocks: blocks, thread_ts: slackPost.threadId });
+                app.client.chat.postMessage(payload);
             }
         } catch(ex) {
             console.log('EXCEPTION: ' , ex);
         }
-        // if(slackPost.threadId == null) {
-        //     app.client.chat.postMessage({ channel: slackPost.channelId, blocks: blocks });
-        // } else {
-        //     app.client.chat.postMessage({ channel: slackPost.channelId, blocks: blocks, thread_ts: slackPost.threadId });
-        // }
     }
 }
 
