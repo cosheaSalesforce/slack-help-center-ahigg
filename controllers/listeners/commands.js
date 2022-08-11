@@ -4,7 +4,7 @@ async function init(app) {
     app.command("/newcase", async ({ ack, payload, client }) => {
         await ack();
         try {
-            caseCreationHandler.showCaseCreationModal(payload, client);
+            await caseCreationHandler.showCaseCreationModal(payload, client);
         } catch (error) {
             console.error(error);
         }
