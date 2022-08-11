@@ -9,19 +9,8 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
-            // params required
-            // - channelId
-            // - threadId ?
-            // - messageContent
-            // - userEmail ?
-            // - isEphermal
-            // - showNewCase
-
-
-            console.log(req.body)
-
-
-
+            messenger.postMessages(req.body);
+            
             res.send({ test: 'test' });
         } catch (error) {
             res.send(error);
