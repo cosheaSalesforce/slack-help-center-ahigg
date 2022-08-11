@@ -11,11 +11,15 @@ async function init(receiver, app) {
 
             // params required
             // - channelId
-            // - threadId
+            // - threadId ?
             // - messageContent
-            // - user
+            // - userEmail ?
             // - isEphermal
             // - showNewCase
+
+
+            console.log(req.body)
+
 
 
             res.send({ test: 'test' });
