@@ -30,8 +30,9 @@ async function postMessages(app, slackPosts) {
             // payload.user = user.user.id;
             // blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
         }
-
+        var content = slackPost.messageContent.split('\n').join("\n");
         console.log(slackPost.messageContent);
+
 
         blocks.push(getTextBlock(slackPost.messageContent));
 
@@ -78,8 +79,7 @@ function getTextBlock(text) {
         "type": "section",
         "text": {
             "type": "mrkdwn",
-            "text": text,
-            "verbatim": true
+            "text": text
         }
     };
 }
