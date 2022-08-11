@@ -7,7 +7,7 @@ async function postDeflectionMessage(username, channelId) {
     await client.chat.postEphemeral({
         channel: channelId,
         user: username,
-        text: "Before you create a case check out this helpful information!",
+        text: "Before you create a case, check out this helpful information!",
         blocks: block,
     });
 }
