@@ -86,7 +86,7 @@ async function caseCreationWorkflow() {
             };
 
             // signal back to Slack that everything was successful
-            deflectFromWorkflowHandler.postDeflectionMessage(username.value, channelID.value);
+            deflectFromWorkflowHandler.postDeflectionMessage(inputs.username.value, inputs.channelID.value);
             await complete({ outputs });
 
         },
