@@ -3,7 +3,7 @@ const slackService = require("../../services/slack.service");
 
 async function postDeflectionMessage(username, channelId) {
 
-    var block = await deflectCaseEphemeralFormat.createDeflectionFormat();
+    var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelId);
     var app = await slackService.getAppInstance();
     console.log(channelId);
 

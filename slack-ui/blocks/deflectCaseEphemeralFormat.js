@@ -1,4 +1,4 @@
-async function createDeflectionFormat() {
+async function createDeflectionFormat(channelId) {
 
     var block = [
         {
@@ -26,7 +26,8 @@ async function createDeflectionFormat() {
                         text: "New Case",
                         emoji: true
                     },
-                    style: "primary"
+                    style: "primary",
+                    value: channelId;
                 },
             ]
         }
