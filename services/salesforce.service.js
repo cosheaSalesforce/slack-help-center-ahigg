@@ -34,9 +34,17 @@ async function doLogin() {
     return loggedIn;
 }
 
-// async function get
+async function getSlackChannelAndHcApplication(channelId) {
+    //await checkAuth();
+    return conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
+        if (err) {
+            return null;
+        }
+    });
+}
 
 
 module.exports = {
     doLogin,
+    getSlackChannelAndHcApplication,
 };
