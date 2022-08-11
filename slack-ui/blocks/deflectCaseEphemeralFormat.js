@@ -16,17 +16,19 @@ async function createDeflectionFormat() {
             }
         },
         {
-            accessory: {
-                type: "button",
-                action_id: "createNewCase",
-                text: {
-                    type: "plain_text",
-                    text: "New Case",
-                    emoji: true
+            type: "actions",
+            elements: [
+                {
+                    type: "button",
+                    action_id: "createNewCase",
+                    text: {
+                        type: "plain_text",
+                        text: "New Case",
+                        emoji: true
+                    },
+                    style: "primary"
                 },
-                style: "primary"
-            },
-
+            ]
         }
     ]
 
