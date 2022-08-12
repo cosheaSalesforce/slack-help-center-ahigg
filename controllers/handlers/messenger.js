@@ -53,11 +53,16 @@ async function postMessages(app, slackPosts) {
                 payload.user = user.user.id;
             }
 
+            var postMessageResponse;
+
             if(slackPost.isEphermal) {
-                app.client.chat.postEphemeral(payload);
+                postMessageResponse = await app.client.chat.postEphemeral(payload);
             } else {
-                app.client.chat.postMessage(payload);
+                postMessageResponse = await app.client.chat.postMessage(payload);
             }
+
+            console.log('postMessageResponse: ' , postMessageResponse);
+            
         } catch(ex) {
             console.log('EXCEPTION: ' , ex);
         }
@@ -69,14 +74,6 @@ function escapeRegExp(string) {
 }
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
-async function postMessage() {
-
-}
-
-async function post() {
-
 }
 
 
