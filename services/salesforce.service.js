@@ -35,10 +35,10 @@ async function doLogin() {
 }
 
 async function updateCaseStatus(userEmail, reaction, channelId, messageTs) {
-    conaole.log(userEmail);
-    conaole.log(reaction);
-    conaole.log(channelId);
-    conaole.log(messageTs);
+    console.log(userEmail);
+    console.log(reaction);
+    console.log(channelId);
+    console.log(messageTs);
     await checkAuth();
     var body = {
         userEmail: userEmail,
@@ -46,7 +46,7 @@ async function updateCaseStatus(userEmail, reaction, channelId, messageTs) {
         channelId: channelId,
         messageTs: messageTs,
     };
-
+    console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
         if (err) {
             return null;
