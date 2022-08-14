@@ -8,6 +8,7 @@ async function getAppInstance() {
 }
 
 async function getUserEmailById(userId) {
+    console.log(userId);
     const app = getAppInstance();
     userInfo  = await app.client.users.profile.get({
         user: userId
