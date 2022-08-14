@@ -52,6 +52,7 @@ async function updateCaseStatus(userEmail, reaction, channelId, messageTs) {
             return null;
         }
         else {
+            console.log(result);
             return result;
         }
     });
