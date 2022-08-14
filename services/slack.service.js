@@ -8,6 +8,7 @@ async function getAppInstance() {
 }
 
 async function getUserEmailById(userId) {
+    const app = getAppInstance();
     userInfo  = await app.client.users.profile.get({
         user: userId
     });
@@ -16,6 +17,7 @@ async function getUserEmailById(userId) {
 }
 
 async function getUserIdByEmail(userEmail) {
+    const app = getAppInstance();
     userInfo = await app.client.users.lookupByEmail({
         email: userEmail
     });
