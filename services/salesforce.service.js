@@ -49,6 +49,7 @@ async function updateCaseStatus(userEmail, reaction, channelId, messageTs) {
     console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
         if (err) {
+            console.log(err);
             return null;
         }
         else {
