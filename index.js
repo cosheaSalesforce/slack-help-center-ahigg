@@ -29,7 +29,7 @@ const app = new App({
 
         await app.start(process.env.PORT || 3000);
 
-        console.log('⚡️ Bolt app is running!!');
+        console.log('⚡️ Bolt app is running!');
     } catch (ex) {
         console.log(ex);
     }
