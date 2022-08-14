@@ -5,7 +5,7 @@ async function init(app) {
     app.event('reaction_added', async ({ event, client, context }) => {
         console.log("catch added");
         console.log(event);
-        await reactionsHandler.handleReactionToMessage(client, event.user, event.reaction, event.item.channel, event.item.ts);
+        await reactionsHandler.handleReactionToMessage(event.user, event.reaction, event.item.channel, event.item.ts);
     });
 
     // app.event('message', async ({ event, client, context }) => {

@@ -1,11 +1,10 @@
 const slackService = require("../../services/slack.service");
+const salesforceService = require("../../services/salesforce.service");
 
-async function handleReactionToMessage(client, userId, reaction, channelId, messageTs) {
-    const app = await slackService.getAppInstance();
-    userInfo  = await app.client.users.profile.get({
-        user: userId
-    })
-    console.log(userInfo.profile.email);
+async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
+    const userEmail = await slackService.getUserEmailById(userId);
+    await salesforceService.updateCaseStatus(userEmail, reaction, channelId, messageTs);
+
 
 }
 

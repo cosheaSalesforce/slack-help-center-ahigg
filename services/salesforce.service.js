@@ -34,10 +34,30 @@ async function doLogin() {
     return loggedIn;
 }
 
-async function updateCaseStatus() {
-    
+async function updateCaseStatus(userEmail, reaction, channelId, messageTs) {
+    conaole.log(userEmail);
+    conaole.log(reaction);
+    conaole.log(channelId);
+    conaole.log(messageTs);
+    await checkAuth();
+    var body = {
+        userEmail: userEmail,
+        reaction: reaction,
+        channelId: channelId,
+        messageTs: messageTs,
+    };
+
+    await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
+        if (err) {
+            return null;
+        }
+        else {
+            return result;
+        }
+    });
 }
 
 module.exports = {
     doLogin,
+    updateCaseStatus
 };

@@ -7,6 +7,23 @@ async function getAppInstance() {
     });
 }
 
+async function getUserEmailById(userId) {
+    userInfo  = await app.client.users.profile.get({
+        user: userId
+    });
+    userRealName = userInfo.profile.real_name;
+    return `${userRealName}@salesforce.com`
+}
+
+async function getUserIdByEmail(userEmail) {
+    userInfo = await app.client.users.lookupByEmail({
+        email: userEmail
+    });
+    return userInfo.user.id;
+}
+
 module.exports = {
-    getAppInstance
+    getAppInstance,
+    getUserEmailById,
+    getUserIdByEmail
 }
