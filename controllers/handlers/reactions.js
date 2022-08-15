@@ -6,9 +6,6 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
         const statusToUpdate = (reaction == 'registered') ? 'working' : 'closed';
         const userEmail = await slackService.getUserEmailById(userId);
         const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
-        console.log(messageTs);
-        console.log(statusToUpdate);
-        console.log(parentMessageTs);
         await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs);
     }
     else {
