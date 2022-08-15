@@ -9,7 +9,7 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
         console.log(messageTs);
         console.log(statusToUpdate);
         console.log(parentMessageTs);
-        // await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs);
+        await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs);
     }
     else {
         console.log("nothing happened");

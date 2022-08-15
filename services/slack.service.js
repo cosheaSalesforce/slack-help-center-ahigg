@@ -26,7 +26,6 @@ async function getUserIdByEmail(userEmail) {
 
 async function getParentMessageTs(channelId, ts) {
     try {
-        console.log(ts);
         const app = await getAppInstance();
         const result = await app.client.conversations.history({
             channel: channelId,
