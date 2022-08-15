@@ -36,9 +36,27 @@ async function doLogin() {
 
 async function getSlackChannelAndHcApplication(channelId) {
     //await checkAuth();
-    return conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
+    return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
         if (err) {
-            return null;
+            return err;
+        }
+    });
+}
+
+async function getCategoryGroup(HcApp) {
+    //await checkAuth();
+    return await conn.apex.get(`/categoryGroup/${HcApp}`, function (err, res) {
+        if (err) {
+            return err;
+        }
+    });
+}
+
+async function getCategories(categoryGroup) {
+    //await checkAuth();
+    return await conn.apex.get(`/categories/${categoryGroup}`, function (err, res) {
+        if (err) {
+            return err;
         }
     });
 }
@@ -47,4 +65,6 @@ async function getSlackChannelAndHcApplication(channelId) {
 module.exports = {
     doLogin,
     getSlackChannelAndHcApplication,
+    getCategoryGroup,
+    getCategories,
 };
