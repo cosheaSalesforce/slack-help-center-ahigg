@@ -24,7 +24,7 @@ async function getUserIdByEmail(userEmail) {
     return userInfo.user.id;
 }
 
-async function getParentMessage(channelId, ts) {
+async function getParentMessageTs(channelId, ts) {
     try {
         console.log(ts);
         const app = await getAppInstance();
@@ -32,7 +32,6 @@ async function getParentMessage(channelId, ts) {
             channel: channelId,
             latest: ts,
         });
-        console.log(result.messages)
         if (result.messages.length > 0) {
             return result.messages[0].ts;
         }
@@ -46,5 +45,5 @@ module.exports = {
     getAppInstance,
     getUserEmailById,
     getUserIdByEmail,
-    getParentMessage
+    getParentMessageTs
 }
