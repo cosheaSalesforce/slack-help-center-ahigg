@@ -8,7 +8,6 @@ async function getAppInstance() {
 }
 
 async function getUserEmailById(userId) {
-    console.log(userId);
     const app = await getAppInstance();
     userInfo  = await app.client.users.profile.get({
         user: userId
@@ -25,8 +24,21 @@ async function getUserIdByEmail(userEmail) {
     return userInfo.user.id;
 }
 
+async function fetchMessage(channelId, ts) {
+    try {
+        const app = await getAppInstance();
+        const result = await app.client.conversations.history({
+            channel: channelId,
+            latest: ts,
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     getAppInstance,
     getUserEmailById,
-    getUserIdByEmail
+    getUserIdByEmail,
+    fetchMessage
 }
