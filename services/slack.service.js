@@ -24,14 +24,18 @@ async function getUserIdByEmail(userEmail) {
     return userInfo.user.id;
 }
 
-async function fetchMessage(channelId, ts) {
+async function getParentMessage(channelId, ts) {
     try {
+        console.log(ts);
         const app = await getAppInstance();
         const result = await app.client.conversations.history({
             channel: channelId,
             latest: ts,
         });
-        return result;
+        if (result.messages.length() > 0) {
+            return result.messages.ts;
+        }
+        return ts;
     } catch (error) {
         console.error(error);
     }
@@ -41,5 +45,5 @@ module.exports = {
     getAppInstance,
     getUserEmailById,
     getUserIdByEmail,
-    fetchMessage
+    getParentMessage
 }
