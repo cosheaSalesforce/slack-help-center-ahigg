@@ -12,6 +12,7 @@ async function getUserEmailById(userId) {
     userInfo  = await app.client.users.profile.get({
         user: userId
     });
+    console.log(userInfo);
     userRealName = userInfo.profile.real_name;
     return `${userRealName}@salesforce.com`
 }
