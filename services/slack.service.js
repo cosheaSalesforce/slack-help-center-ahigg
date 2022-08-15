@@ -34,7 +34,7 @@ async function getParentMessage(channelId, ts) {
         });
         console.log(result.messages)
         if (result.messages.length > 0) {
-            return result.messages.ts;
+            return result.messages[0].ts;
         }
         return ts;
     } catch (error) {
