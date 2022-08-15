@@ -31,6 +31,7 @@ async function fetchMessage(channelId, ts) {
             channel: channelId,
             latest: ts,
         });
+        return result;
     } catch (error) {
         console.error(error);
     }

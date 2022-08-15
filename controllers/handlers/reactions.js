@@ -6,8 +6,6 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
     const messages = await slackService.fetchMessage(channelId, messageTs);
     console.log(messages);
     await salesforceService.updateCaseStatus(userEmail, reaction, channelId, messageTs);
-
-
 }
 
 module.exports = {
