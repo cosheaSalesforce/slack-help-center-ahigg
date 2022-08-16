@@ -68,7 +68,7 @@ async function createHcCase(app, catGroup, Categories) {
         HcApplication: app,
         HcCategoryGroup: catGroup,
         HcCategories: Categories,
-        //email: email,
+        //email: email,.
     };
 
     // // ---------- TESTING FRONT END, REMOVE FROM COMMENTS LATER ----------
