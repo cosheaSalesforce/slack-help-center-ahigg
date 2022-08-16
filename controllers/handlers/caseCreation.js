@@ -10,6 +10,8 @@ async function showCaseCreationModal(payload, client, channelId) {
         console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
+        console.log('1. new case - HcApplication:')
+        console.log(queryResult);
         if (queryResult.HCApplication__c == null) {
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat();
             const result = await client.views.open({
@@ -26,6 +28,8 @@ async function showCaseCreationModal(payload, client, channelId) {
                 state: "categories"
             };
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
+            console.log('2. new case - HcCategoryGroup and Categories:')
+            console.log(queryGroupedCategories);
 
 
 
