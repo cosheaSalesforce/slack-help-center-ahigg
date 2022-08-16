@@ -34,14 +34,15 @@ async function doLogin() {
     return loggedIn;
 }
 
-async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
+async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent) {
     await checkAuth();
     var body = {
         userEmail: userEmail,
         statusToUpdate: statusToUpdate,
         channelId: channelId,
         messageTs: messageTs,
-        parentMessageTs: parentMessageTs
+        parentMessageTs: parentMessageTs,
+        messageContent: messageContent
     };
     console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {

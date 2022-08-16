@@ -55,9 +55,6 @@ async function getMessageContent(channelId, ts) {
 
         var messageContent = '';
         for(let i in result.messages) {
-            console.log(result.messages[i]);
-            console.log(result.messages[i].ts);
-            console.log(result.messages[i].text);
             if (result.messages[i].ts == ts) {
                 messageContent = result.messages[i].text;
                 return messageContent;
