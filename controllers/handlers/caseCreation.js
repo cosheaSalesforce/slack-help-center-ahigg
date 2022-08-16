@@ -19,32 +19,43 @@ async function showCaseCreationModal(payload, client, channelId) {
                 view: viewFromat,
             });
         } else {
-            var categoryGroups = await salesforceService.getCategoryGroup(queryResult.HCApplication__c);
-            var groupsList = [];
-            var groupNames = [];
-            var categoriesNames = []
-            for (const group of categoryGroups) {
-                groupsList.push(group.Id);
-                groupNames.push(group.Name);
-            }
-            var categories = await salesforceService.getCategories(groupsList);
-            for (const category of categories) {
-                categoriesNames.push(category.Name);
-            }
-
             var valuesObj = {
                 application: queryResult.HCApplication__c,
                 categoryGroup: groupNames,
                 categories: categoriesNames,
                 state: "categories"
             };
-            var viewformat = createHcCatSelectionHandler.createCategoriesSelectionFormat(valuesObj, groupNames, categoriesNames);
-            const result = await client.views.open({
-                // Pass a valid trigger_id within 3 seconds of receiving it
-                trigger_id: payload.trigger_id,
-                // View payload
-                view: viewFromat,
-            });
+            var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
+
+
+
+
+
+            //     var groupsList = [];
+            //     var groupNames = [];
+            //     var categoriesNames = []
+            //     for (const group of categoryGroups) {
+            //         groupsList.push(group.Id);
+            //         groupNames.push(group.Name);
+            //     }
+            //     var categories = await salesforceService.getCategories(groupsList);
+            //     for (const category of categories) {
+            //         categoriesNames.push(category.Name);
+            //     }
+
+            //     var valuesObj = {
+            //         application: queryResult.HCApplication__c,
+            //         categoryGroup: groupNames,
+            //         categories: categoriesNames,
+            //         state: "categories"
+            //     };
+            //     var viewformat = createHcCatSelectionHandler.createCategoriesSelectionFormat(valuesObj, groupNames, categoriesNames);
+            //     const result = await client.views.open({
+            //         // Pass a valid trigger_id within 3 seconds of receiving it
+            //         trigger_id: payload.trigger_id,
+            //         // View payload
+            //         view: viewFromat,
+            //     });
         }
 
     } catch (error) {

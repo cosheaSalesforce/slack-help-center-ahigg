@@ -43,18 +43,27 @@ async function getSlackChannelAndHcApplication(channelId) {
     });
 }
 
-async function getCategoryGroup(HcApp) {
-    //await checkAuth();
-    return await conn.apex.get(`/categoryGroup/${HcApp}`, function (err, res) {
-        if (err) {
-            return err;
-        }
-    });
-}
+// async function getCategoryGroup(HcApp) {
+//     //await checkAuth();
+//     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
+//         if (err) {
+//             return err;
+//         }
+//     });
+// }
+// //hcsGroupedCategories
+// async function getCategories(categoryGroup) {
+//     //await checkAuth();
+//     return await conn.apex.get(`/categories/${categoryGroup}`, function (err, res) {
+//         if (err) {
+//             return err;
+//         }
+//     });
+// }
 
-async function getCategories(categoryGroup) {
+async function getGroupedCategories(HcApp) {
     //await checkAuth();
-    return await conn.apex.get(`/categories/${categoryGroup}`, function (err, res) {
+    return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
         if (err) {
             return err;
         }
@@ -114,8 +123,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 module.exports = {
     doLogin,
     getSlackChannelAndHcApplication,
-    getCategoryGroup,
-    getCategories,
+    getGroupedCategories,
     createHcCase,
     updateCaseStatus,
 }
