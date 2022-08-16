@@ -88,6 +88,28 @@ async function createHcCase(app, catGroup, Categories) {
     return returnedCase;
 }
 
+async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
+    await checkAuth();
+    var body = {
+        userEmail: userEmail,
+        statusToUpdate: statusToUpdate,
+        channelId: channelId,
+        messageTs: messageTs,
+        parentMessageTs: parentMessageTs
+    };
+    console.log(body);
+    await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
+        if (err) {
+            console.log(err);
+            return null;
+        }
+        else {
+            console.log(result);
+            return result;
+        }
+    });
+}
+
 
 module.exports = {
     doLogin,
@@ -95,4 +117,7 @@ module.exports = {
     getCategoryGroup,
     getCategories,
     createHcCase,
-};
+    updateCaseStatus,
+}
+
+

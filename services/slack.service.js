@@ -7,6 +7,43 @@ async function getAppInstance() {
     });
 }
 
+async function getUserEmailById(userId) {
+    const app = await getAppInstance();
+    userInfo = await app.client.users.info({
+        user: userId
+
+    });
+    userRealName = userInfo.user.name;
+    return `${userRealName}@salesforce.com`
+}
+
+async function getUserIdByEmail(userEmail) {
+    const app = await getAppInstance();
+    userInfo = await app.client.users.lookupByEmail({
+        email: userEmail
+    });
+    return userInfo.user.id;
+}
+
+async function getParentMessageTs(channelId, ts) {
+    try {
+        const app = await getAppInstance();
+        const result = await app.client.conversations.history({
+            channel: channelId,
+            latest: ts,
+        });
+        if (result.messages.length > 0) {
+            return result.messages[0].ts;
+        }
+        return ts;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
-    getAppInstance
+    getAppInstance,
+    getUserEmailById,
+    getUserIdByEmail,
+    getParentMessageTs
 }
