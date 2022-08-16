@@ -47,10 +47,9 @@ async function getParentMessageTs(channelId, ts) {
 async function getMessageContent(channelId, ts) {
     try {
         const app = await getAppInstance();
-        const result = await app.client.conversations.history({
+        const result = await app.client.conversations.replies({
             channel: channelId,
             latest: ts,
-            "limit": 2,
         });
         console.log(result);
         if (result.messages.length > 0) {
