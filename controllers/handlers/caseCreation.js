@@ -10,7 +10,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
-        if (queryResult.HCApplication__c = null) {
+        if (queryResult.HCApplication__c == null) {
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat();
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
