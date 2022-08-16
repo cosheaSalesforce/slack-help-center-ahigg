@@ -4,7 +4,7 @@ const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCat
 /**
  * The function creates the initial modal for creating a new case
  */
-function showCaseCreationModal(payload, client, channelId) {
+async function showCaseCreationModal(payload, client, channelId) {
     try {
         console.log("Welcome to the case creation modal!!");
         console.log(channelId);
