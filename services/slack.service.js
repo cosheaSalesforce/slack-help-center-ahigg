@@ -51,11 +51,15 @@ async function getMessageContent(channelId, ts) {
             channel: channelId,
             ts: ts,
         });
-        console.log(result);
-        if (result.messages.length > 0) {
-            return result.messages[0].ts;
+
+        const messageContent = '';
+        for(let message in result.messages) {
+            if (message.ts == ts) {
+                messageContent = message.text;
+                return messageContent;
+            }
         }
-        return ts;
+        return messageContent;
     } catch (error) {
         console.error(error);
     }
