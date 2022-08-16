@@ -1,6 +1,6 @@
 const salesforceService = require("../../services/salesforce.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
-const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCategoriesSelectionFormat");
+const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 /**
  * The function creates the initial modal for creating a new case
  */
