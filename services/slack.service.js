@@ -53,7 +53,7 @@ async function getMessageContent(channelId, ts) {
             ts: ts,
         });
 
-        const messageContent = '';
+        var messageContent = '';
         for(let i in result.messages) {
             console.log(result.messages[i]);
             console.log(result.messages[i].ts);
