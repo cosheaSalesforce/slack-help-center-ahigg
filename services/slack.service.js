@@ -32,6 +32,7 @@ async function getParentMessageTs(channelId, ts) {
             channel: channelId,
             latest: ts,
         });
+        console.log(result);
         if (result.messages.length > 0) {
             return result.messages[0].ts;
         }
