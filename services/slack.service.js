@@ -34,7 +34,6 @@ async function getParentMessageTs(channelId, ts) {
             "limit": 1,
             "inclusive": true
         });
-        console.log(result);
         if (result.messages.length > 0) {
             return result.messages[0].ts;
         }
@@ -46,7 +45,6 @@ async function getParentMessageTs(channelId, ts) {
 
 async function getMessageContent(channelId, ts) {
     try {
-        console.log("here");
         const app = await getAppInstance();
         const result = await app.client.conversations.replies({
             channel: channelId,
