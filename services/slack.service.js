@@ -9,14 +9,10 @@ async function getAppInstance() {
 
 async function getUserEmailById(userId) {
     const app = await getAppInstance();
-    // userInfo  = await app.client.users.profile.get({
-    //     user: userId
-    // });
     userInfo = await app.client.users.info({
         user: userId
 
     });
-    console.log(userInfo);
     userRealName = userInfo.user.name;
     return `${userRealName}@salesforce.com`
 }

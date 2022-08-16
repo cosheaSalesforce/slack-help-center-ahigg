@@ -3,7 +3,7 @@ const salesforceService = require("../../services/salesforce.service");
 
 async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
     if (reaction == 'registered' || reaction == 'check') {
-        const statusToUpdate = (reaction == 'registered') ? 'working' : 'closed';
+        const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
         const userEmail = await slackService.getUserEmailById(userId);
         const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
         await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs);
