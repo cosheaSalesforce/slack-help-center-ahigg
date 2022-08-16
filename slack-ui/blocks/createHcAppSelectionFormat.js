@@ -23,7 +23,7 @@ function createCaseAppSelectionFormat() {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: "Provide choose an application for your case.",
+                    text: "Please choose an application for your case.",
                 }
             },
             {

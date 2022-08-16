@@ -61,10 +61,38 @@ async function getCategories(categoryGroup) {
     });
 }
 
+//Creates a new help-center case
+async function createHcCase(app, catGroup, Categories) {
+    //await checkAuth();
+    var body = {
+        HcApplication: app,
+        HcCategoryGroup: catGroup,
+        HcCategories: Categories,
+        //email: email,
+    };
+
+    // // ---------- TESTING FRONT END, REMOVE FROM COMMENTS LATER ----------
+    // const returnedCase = await conn.apex.post("/HelpCenterCase/", body, function (err, returnedBc) {
+    //     if (err) {
+    //         return null;
+    //     }
+    // });
+    // // ---------- END OF THE SECTION THAT NEEDS TO BE UN-COMMENTED ----------
+
+    // var bodyAuth = { bc: returnedCase };
+    // const result = await conn.apex.post("/BusinessCaseCalculatorAuthentication/", bodyAuth, function (err, result) {
+    //     if (err) {
+    //         return null;
+    //     }
+    // });
+    return returnedCase;
+}
+
 
 module.exports = {
     doLogin,
     getSlackChannelAndHcApplication,
     getCategoryGroup,
     getCategories,
+    createHcCase,
 };

@@ -25,14 +25,13 @@ function showCaseCreationModal(payload, client, channelId) {
             var categoriesNames = []
             for (const group of categoryGroups) {
                 groupsList.push(group.Id);
+                groupNames.push(group.Name);
             }
             var categories = await salesforceService.getCategories(groupsList);
             for (const category of categories) {
                 categoriesNames.push(category.Name);
             }
-            for (const group of categoryGroups) {
-                groupNames.push(group.Name);
-            }
+
             var valuesObj = {
                 application: queryResult.HCApplication__c,
                 categoryGroup: groupNames,
@@ -67,28 +66,61 @@ function handleCaseCreationModal(ack, body, client, view) {
         var categoriesNames = []
         for (const group of categoryGroups) {
             groupsList.push(group.Id);
+            groupNames.push(group.Name);
         }
         var categories = await salesforceService.getCategories(groupsList);
         for (const category of categories) {
             categoriesNames.push(category.Name);
         }
-        for (const group of categoryGroups) {
-            groupNames.push(group.Name);
-        }
         await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, groupNames, categoriesNames) });
     }
     if (metaState.state == "categories") {
         var meta = JSON.parse(currentView.private_metadata);
-        //meta.categoryGroup = stateValues.application.application_action.selected_option.value;
-        //meta.categories = stateValues.application.application_action.selected_option.value;
+        meta.categoryGroup = stateValues.category_group.category_group_action.selected_option.value;
+        meta.categories = stateValues.categories.categories_action.selected_option.value;
         await ack();
         try {
-            //createBusinessCaseFromSlack(body, client, view, meta);
+            createHcCaseFromSlack(body, client, view, meta);
         } catch (error) {
             //mixpanelService.trackErrors(error, "showNewModal", usersEmail);
             console.error(error);
         }
     }
+}
+
+/**
+ * The function recieves the required details to create a help-center case, creates it and the notifies
+ * the user that his case was created
+ */
+async function createHcCaseFromSlack(body, client, view, meta) {
+    let userID = body.user.id;
+    // var userInfo = await client.users.info({
+    //     user: body.user.id,
+    // });
+    // var usersEmail = userInfo.user.name + "@salesforce.com";
+    var myNewCase = await salesforceService.createHcCase(
+        meta.application,
+        meta.categoryGroup,
+        meta.categories,
+        //usersEmail,
+    );
+    console.log('successfully reached the end of the front-end side for creating a case, hurray!');
+    // var url = await salesforceService.getDomain();
+    // url = url + "/" + myNewCase.Id;
+
+    // var logo = meta.calculator == "a0109000010yOBfAAM" ? ":salesforce: " : ":mulesoft-logo: ";
+    // var txt = logo + "<" + url + "|" + myNewCase.Business_Case_Name__c + ">";
+
+    // // Respond to action with an ephemeral message
+    // var ephermalBlock = ephermalMessageFormat.createEphermalMessageBlocks(url, txt, myNewCase.Id, myNewCase.Business_Case_Name__c);
+    // await client.chat.postEphemeral({
+    //     channel: userID,
+    //     user: userID,
+    //     text: "Your new Business Case has been created!",
+    //     blocks: ephermalBlock,
+    // });
+    // //logging the creation of a new business case
+    // mixpanelService.trackNewBusinessCase(myNewCase.Business_Case_Name__c, usersEmail);
 }
 
 module.exports = {
