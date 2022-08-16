@@ -17,7 +17,7 @@ async function getUserEmailById(userId) {
 
     });
     console.log(userInfo);
-    userRealName = userInfo.profile.real_name;
+    userRealName = userInfo.user.name;
     return `${userRealName}@salesforce.com`
 }
 
