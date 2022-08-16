@@ -44,9 +44,28 @@ async function getParentMessageTs(channelId, ts) {
     }
 }
 
+async function getMessageContent(channelId, ts) {
+    try {
+        const app = await getAppInstance();
+        const result = await app.client.conversations.history({
+            channel: channelId,
+            latest: ts,
+            "limit": 1,
+        });
+        console.log(result);
+        if (result.messages.length > 0) {
+            return result.messages[0].ts;
+        }
+        return ts;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     getAppInstance,
     getUserEmailById,
     getUserIdByEmail,
-    getParentMessageTs
+    getParentMessageTs,
+    getMessageContent
 }
