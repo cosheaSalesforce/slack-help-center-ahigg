@@ -46,6 +46,7 @@ async function getParentMessageTs(channelId, ts) {
 
 async function getMessageContent(channelId, ts) {
     try {
+        console.log("here");
         const app = await getAppInstance();
         const result = await app.client.conversations.replies({
             channel: channelId,
@@ -54,6 +55,7 @@ async function getMessageContent(channelId, ts) {
 
         const messageContent = '';
         for(let message in result.messages) {
+            console.log(message);
             if (message.ts == ts) {
                 messageContent = message.text;
                 return messageContent;
