@@ -52,7 +52,7 @@ async function showCaseCreationModal(payload, client, channelId) {
     }
 }
 
-function handleCaseCreationModal(ack, body, client, view) {
+async function handleCaseCreationModal(ack, body, client, view) {
     var stateValues = body.view.state.values;
     var currentView = body.view;
     var metaState = JSON.parse(currentView.private_metadata);
