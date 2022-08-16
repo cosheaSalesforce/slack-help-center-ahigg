@@ -50,7 +50,7 @@ async function getMessageContent(channelId, ts) {
         const result = await app.client.conversations.history({
             channel: channelId,
             latest: ts,
-            "limit": 1,
+            "limit": 2,
         });
         console.log(result);
         if (result.messages.length > 0) {
