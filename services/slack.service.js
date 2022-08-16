@@ -49,7 +49,7 @@ async function getMessageContent(channelId, ts) {
         const app = await getAppInstance();
         const result = await app.client.conversations.replies({
             channel: channelId,
-            latest: ts,
+            ts: ts,
         });
         console.log(result);
         if (result.messages.length > 0) {
