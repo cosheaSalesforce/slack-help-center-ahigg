@@ -54,10 +54,10 @@ async function getMessageContent(channelId, ts) {
         });
 
         const messageContent = '';
-        for(let message in result.messages) {
-            console.log(message);
-            if (message.ts == ts) {
-                messageContent = message.text;
+        for(let i in result.messages) {
+            console.log(messages[i]);
+            if (messages[i].ts == ts) {
+                messageContent = messages[i].text;
                 return messageContent;
             }
         }
