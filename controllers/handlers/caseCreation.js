@@ -30,11 +30,13 @@ async function showCaseCreationModal(payload, client, channelId) {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
             console.log(JSON.stringify(queryGroupedCategories));
-            for (const query in queryGroupedCategories) {
-                console.log(JSON.stringify(query));
-                console.log(JSON.stringify(query.groupCategories));
-                console.log(JSON.stringify(query.categoryGroup));
-            }
+            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(queryResult.HCApplication__c, queryGroupedCategories);
+            const result = await client.views.open({
+                // Pass a valid trigger_id within 3 seconds of receiving it
+                trigger_id: payload.trigger_id,
+                // View payload
+                view: viewFormat,
+            });
 
 
 

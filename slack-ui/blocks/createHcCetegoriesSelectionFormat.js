@@ -1,5 +1,41 @@
 // creates a case menu format to select Category-Group and Categories for a view and return it
-function createCategoriesSelectionFormat(privateMetadata, categoryGroupNames, categoriesNames) {
+function createCategoriesSelectionFormat(hcApp, categoriesObj) {
+
+    var optsGroupsAndCategories = []
+
+    for (var i = 0; i < categoriesObj.length; i++) {
+        optsGroupsAndCategories.push({
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: categoriesObj[i].categoryGroup.Name,
+            },
+        });
+        optsGroupsAndCategories.push({
+            type: "input",
+            block_id: 'category_group' + i,
+            element: {
+                type: "static_select",
+                placeholder: {
+                    type: "plain_text",
+                    text: "Select an option..",
+                    emoji: true,
+                },
+                options: optsCatGroup,
+                action_id: "category_group_action" + i,
+            },
+            label: {
+                type: "plain_text",
+                text: "Category Group",
+                emoji: true,
+            },
+        });
+    }
+
+
+
+
+
 
     var optsCatGroup = [];
     var optsCategories = [];
