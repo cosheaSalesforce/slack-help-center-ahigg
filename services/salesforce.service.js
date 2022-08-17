@@ -10,7 +10,9 @@ const conn = new jsforce.Connection({
 
 async function checkAuth() {
     try {
+        console.log('before identity');
         var identity = await conn.identity();
+        console.log('after identity');
         return identity;
     } catch (ex) {
         await doLogin();
