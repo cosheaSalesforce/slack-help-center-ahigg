@@ -31,7 +31,7 @@ async function showCaseCreationModal(payload, client, channelId) {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
             console.log(queryGroupedCategories);
-            console.log(queryGroupedCategories.grouipCategories[0]);
+            console.log(queryGroupedCategories[0].grouipCategories[0]);
 
 
 
