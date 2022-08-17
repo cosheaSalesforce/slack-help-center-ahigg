@@ -64,6 +64,7 @@ async function getSlackChannelAndHcApplication(channelId) {
 // }
 
 async function getGroupedCategories(HcApp) {
+    console.log('waiting for checkAuth');
     await checkAuth();
     console.log('passed checkAuth');
     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {

@@ -24,8 +24,8 @@ async function showCaseCreationModal(payload, client, channelId) {
             console.log('1.5. Trying to get group categories now')
             var valuesObj = {
                 application: queryResult.HCApplication__c,
-                categoryGroup: groupNames,
-                categories: categoriesNames,
+                categoryGroup: null,
+                categories: null,
                 state: "categories"
             };
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
