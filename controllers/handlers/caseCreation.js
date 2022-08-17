@@ -72,22 +72,24 @@ async function handleCaseCreationModal(ack, body, client, view) {
     var currentView = body.view;
     var metaState = JSON.parse(currentView.private_metadata);
     if (metaState.state == "application") {
+        console.log('2. new case - HcCategoryGroup and Categories:')
         var meta = JSON.parse(currentView.private_metadata);
         meta.application = stateValues.application.application_action.selected_option.value;
         meta.state = "categories";
-        var categoryGroups = await salesforceService.getCategoryGroup(queryResult.HCApplication__c);
-        var groupsList = [];
-        var groupNames = [];
-        var categoriesNames = []
-        for (const group of categoryGroups) {
-            groupsList.push(group.Id);
-            groupNames.push(group.Name);
-        }
-        var categories = await salesforceService.getCategories(groupsList);
-        for (const category of categories) {
-            categoriesNames.push(category.Name);
-        }
-        await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, groupNames, categoriesNames) });
+        console.log(meta);
+        // var categoryGroups = await salesforceService.getCategoryGroup(queryResult.HCApplication__c);
+        // var groupsList = [];
+        // var groupNames = [];
+        // var categoriesNames = []
+        // for (const group of categoryGroups) {
+        //     groupsList.push(group.Id);
+        //     groupNames.push(group.Name);
+        // }
+        // var categories = await salesforceService.getCategories(groupsList);
+        // for (const category of categories) {
+        //     categoriesNames.push(category.Name);
+        // }
+        // await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, groupNames, categoriesNames) });
     }
     if (metaState.state == "categories") {
         var meta = JSON.parse(currentView.private_metadata);
