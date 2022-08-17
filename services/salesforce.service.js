@@ -10,9 +10,7 @@ const conn = new jsforce.Connection({
 
 async function checkAuth() {
     try {
-        console.log('before identity');
         var identity = await conn.identity();
-        console.log('after identity');
         return identity;
     } catch (ex) {
         await doLogin();
@@ -64,9 +62,7 @@ async function getSlackChannelAndHcApplication(channelId) {
 // }
 
 async function getGroupedCategories(HcApp) {
-    console.log('waiting for checkAuth');
     await checkAuth();
-    console.log('passed checkAuth');
     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
         if (err) {
             return err;
