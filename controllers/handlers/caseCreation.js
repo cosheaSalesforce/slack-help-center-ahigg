@@ -21,6 +21,7 @@ async function showCaseCreationModal(payload, client, channelId) {
                 view: viewFormat,
             });
         } else {
+            console.log('1.5. Trying to get group categories now')
             var valuesObj = {
                 application: queryResult.HCApplication__c,
                 categoryGroup: groupNames,
