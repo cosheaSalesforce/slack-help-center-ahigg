@@ -26,11 +26,7 @@ async function showCaseCreationModal(payload, client, channelId) {
             console.log(queryGroupedCategories);
             console.log(JSON.stringify(queryGroupedCategories));
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
-            console.log("looking at the two maps:");
-            console.log(GroupedCategories);
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-            console.log(CategoryGroupsNames);
-            console.log();
             var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(queryResult.HCApplication__c, GroupedCategories, CategoryGroupsNames);
             console.log("looking at the view:");
             console.log(viewFormat);
@@ -137,7 +133,6 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values 
  */
 function createMapGroupCategoryIdToName(categoriesObj) {
-    console.log('got into the second function');
     var CategoryGroupsNames = new Map();
     for (var i = 0; i < categoriesObj.length; i++) {
         var catGroup = categoriesObj[i].categoryGroup;

@@ -2,7 +2,7 @@
 function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroupsNames) {
 
     var privateMetadata = {
-        application: queryResult.HCApplication__c,
+        application: hcApp,
         categoryGroupIdsMap: categoryGroupsNames,
         categories: null,
         state: "categories"
