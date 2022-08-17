@@ -35,8 +35,7 @@ async function doLogin() {
 }
 
 async function getSlackChannelAndHcApplication(channelId) {
-    //await checkAuth();
-    console.log(channelId);
+    await checkAuth();
     return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
         if (err) {
             return err;
@@ -63,7 +62,7 @@ async function getSlackChannelAndHcApplication(channelId) {
 // }
 
 async function getGroupedCategories(HcApp) {
-    //await checkAuth();
+    await checkAuth();
     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
         if (err) {
             return err;
