@@ -133,7 +133,7 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
 }
 
 /**
- * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values
+ * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values 
  */
 function createMapGroupCategoryIdToName(categoriesObj) {
     var CategoryGroupsNames = new Map();
