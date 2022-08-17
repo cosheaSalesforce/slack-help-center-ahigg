@@ -127,9 +127,13 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
     var GroupedCategories = new Map();
     console.log('got into the first function');
     for (const x of categoriesObj) {
+        console.log(x);
         var catGroup = x.cateGoryGroup;
+        console.log(catGroup);
         var catGroupCategories = x.groupCategories;
+        console.log(catGroupCategories);
         GroupedCategories.set(catGroup.Id, catGroupCategories);
+        console.log(GroupedCategories);
     }
     console.log('got out of the first function');
     return GroupedCategories;
