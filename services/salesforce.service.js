@@ -57,7 +57,22 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
     });
 }
 
+async function searchKnowledgeArticles(searchTerm, channelId) {
+    await checkAuth();
+    await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
+        if (err) {
+            return null;
+        }
+        else {
+            console.log(result);
+            return result;
+        }
+    })
+
+}
+
 module.exports = {
     doLogin,
-    updateCaseStatus
+    updateCaseStatus,
+    searchKnowledgeArticles
 };
