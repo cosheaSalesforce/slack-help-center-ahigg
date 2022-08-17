@@ -125,21 +125,11 @@ async function createHcCaseFromSlack(body, client, view, meta) {
  */
 function createMapCategoryGroupAndCategories(categoriesObj) {
     var GroupedCategories = new Map();
-    console.log('got into the first function');
     for (const x of categoriesObj) {
-        console.log('x;');
-        console.log(x);
         var catGroup = x.categoryGroup;
-        console.log('catGroup:');
-        console.log(catGroup);
         var catGroupCategories = x.groupCategories;
-        console.log('catGroupCategories:');
-        console.log(catGroupCategories);
         GroupedCategories.set(catGroup.Id, catGroupCategories);
-        console.log('GroupedCategories:');
-        console.log(GroupedCategories);
     }
-    console.log('got out of the first function');
     return GroupedCategories;
 }
 
@@ -150,7 +140,7 @@ function createMapGroupCategoryIdToName(categoriesObj) {
     console.log('got into the second function');
     var CategoryGroupsNames = new Map();
     for (var i = 0; i < categoriesObj.length; i++) {
-        var catGroup = categoriesObj[i].cateGoryGroup;
+        var catGroup = categoriesObj[i].categoryGroup;
         CategoryGroupsNames.set(catGroup.Id, catGroup.Name);
     }
     return CategoryGroupsNames;
