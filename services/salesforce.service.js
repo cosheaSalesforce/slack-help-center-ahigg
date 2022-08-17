@@ -36,6 +36,7 @@ async function doLogin() {
 
 async function getSlackChannelAndHcApplication(channelId) {
     //await checkAuth();
+    console.log(channelId);
     return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
         if (err) {
             return err;
