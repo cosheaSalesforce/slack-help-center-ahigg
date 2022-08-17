@@ -9,6 +9,8 @@ async function showCaseCreationModal(payload, client, channelId) {
         console.log("Welcome to the case creation modal!!");
         console.log(channelId);
 
+        console.log(payload);
+
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         console.log('1. new case - HcApplication:')
 
