@@ -11,7 +11,7 @@ async function showCaseCreationModal(payload, client, channelId) {
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         console.log('1. new case - HcApplication:')
-        console.log(queryResult);
+
         if (queryResult.HCApplication__c == null) {
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat();
             const result = await client.views.open({
@@ -21,52 +21,24 @@ async function showCaseCreationModal(payload, client, channelId) {
                 view: viewFormat,
             });
         } else {
-            var valuesObj = {
-                application: queryResult.HCApplication__c,
-                categoryGroup: null,
-                categories: null,
-                state: "categories"
-            };
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
             console.log(JSON.stringify(queryGroupedCategories));
-            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(queryResult.HCApplication__c, queryGroupedCategories);
+            var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
+            var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
+            console.log("looking at the two maps:");
+            console.log(GroupedCategories);
+            console.log(CategoryGroupsNames);
+            console.log();
+            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(queryResult.HCApplication__c, GroupedCategories, CategoryGroupsNames);
+            console.log("looking at the view:");
+            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
                 // View payload
                 view: viewFormat,
             });
-
-
-
-
-
-            //     var groupsList = [];
-            //     var groupNames = [];
-            //     var categoriesNames = []
-            //     for (const group of categoryGroups) {
-            //         groupsList.push(group.Id);
-            //         groupNames.push(group.Name);
-            //     }
-            //     var categories = await salesforceService.getCategories(groupsList);
-            //     for (const category of categories) {
-            //         categoriesNames.push(category.Name);
-            //     }
-
-            //     var valuesObj = {
-            //         application: queryResult.HCApplication__c,
-            //         categoryGroup: groupNames,
-            //         categories: categoriesNames,
-            //         state: "categories"
-            //     };
-            //     var viewformat = createHcCatSelectionHandler.createCategoriesSelectionFormat(valuesObj, groupNames, categoriesNames);
-            //     const result = await client.views.open({
-            //         // Pass a valid trigger_id within 3 seconds of receiving it
-            //         trigger_id: payload.trigger_id,
-            //         // View payload
-            //         view: viewFromat,
-            //     });
         }
 
     } catch (error) {
@@ -145,6 +117,31 @@ async function createHcCaseFromSlack(body, client, view, meta) {
     // });
     // //logging the creation of a new business case
     // mixpanelService.trackNewBusinessCase(myNewCase.Business_Case_Name__c, usersEmail);
+}
+
+/**
+ * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
+ */
+function createMapCategoryGroupAndCategories(queryGroupedCategories) {
+    var GroupedCategories = new Map();
+    for (var i = 0; i < categoriesObj.length; i++) {
+        var catGroup = categoriesObj[i].cateGoryGroup;
+        var catGroupCategories = categoriesObj[i].groupCategories;
+        GroupedCategories.set(catGroup.Id, catGroupCategories);
+    }
+    return GroupedCategories
+}
+
+/**
+ * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values
+ */
+function createMapGroupCategoryIdToName(queryGroupedCategories) {
+    var CategoryGroupsNames = new Map();
+    for (var i = 0; i < categoriesObj.length; i++) {
+        var catGroup = categoriesObj[i].cateGoryGroup;
+        CategoryGroupsNames.set(catGroup.Id, catGroup.Name);
+    }
+    return CategoryGroupsNames;
 }
 
 module.exports = {
