@@ -18,7 +18,7 @@ async function showCaseCreationModal(payload, client, channelId) {
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
                 // View payload
-                view: viewFromat,
+                view: viewFormat,
             });
         } else {
             var valuesObj = {
