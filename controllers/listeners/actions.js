@@ -2,10 +2,10 @@ const caseCreationHandler = require("../handlers/caseCreation");
 
 async function init(app) {
 
-    app.action("createNewCase", async ({ ack, payload, client, say }) => {
+    app.action("createNewCase", async ({ ack, body, client, payload, say }) => {
         await ack();
         try {
-            caseCreationHandler.showCaseCreationModal(payload, client, payload.value);
+            caseCreationHandler.showCaseCreationModal(body, client, payload.value);
         } catch (error) {
             console.error(error);
         }
