@@ -23,7 +23,8 @@ async function showCaseCreationModal(payload, client, channelId) {
         } else {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
-            //console.log(JSON.stringify(queryGroupedCategories));
+            console.log(queryGroupedCategories);
+            console.log(JSON.stringify(queryGroupedCategories));
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
             console.log("looking at the two maps:");
