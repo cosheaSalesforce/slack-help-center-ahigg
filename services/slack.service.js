@@ -50,7 +50,7 @@ async function getMessageContent(channelId, ts) {
             channel: channelId,
             ts: ts,
         });
-
+        
         var messageContent = '';
         for(let i in result.messages) {
             if (result.messages[i].ts == ts) {
