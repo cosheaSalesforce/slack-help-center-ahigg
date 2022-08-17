@@ -129,7 +129,7 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
     for (const x of categoriesObj) {
         console.log('x;');
         console.log(x);
-        var catGroup = x.cateGoryGroup;
+        var catGroup = x.categoryGroup;
         console.log('catGroup:');
         console.log(catGroup);
         var catGroupCategories = x.groupCategories;
