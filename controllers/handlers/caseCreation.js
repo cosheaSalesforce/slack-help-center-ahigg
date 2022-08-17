@@ -21,7 +21,6 @@ async function showCaseCreationModal(payload, client, channelId) {
                 view: viewFormat,
             });
         } else {
-            console.log('1.5. Trying to get group categories now')
             var valuesObj = {
                 application: queryResult.HCApplication__c,
                 categoryGroup: null,
@@ -31,7 +30,12 @@ async function showCaseCreationModal(payload, client, channelId) {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
             console.log(queryGroupedCategories);
-            console.log(queryGroupedCategories[0].grouipCategories[0]);
+            for (const query in queryGroupedCategories) {
+                console.log(query);
+                console.log(query.groupCategories);
+                console.log(query.categoryGroup);
+            }
+
 
 
 
