@@ -122,20 +122,20 @@ async function createHcCaseFromSlack(body, client, view, meta) {
 /**
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
  */
-function createMapCategoryGroupAndCategories(queryGroupedCategories) {
+function createMapCategoryGroupAndCategories(categoriesObj) {
     var GroupedCategories = new Map();
     for (var i = 0; i < categoriesObj.length; i++) {
         var catGroup = categoriesObj[i].cateGoryGroup;
         var catGroupCategories = categoriesObj[i].groupCategories;
         GroupedCategories.set(catGroup.Id, catGroupCategories);
     }
-    return GroupedCategories
+    return GroupedCategories;
 }
 
 /**
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values
  */
-function createMapGroupCategoryIdToName(queryGroupedCategories) {
+function createMapGroupCategoryIdToName(categoriesObj) {
     var CategoryGroupsNames = new Map();
     for (var i = 0; i < categoriesObj.length; i++) {
         var catGroup = categoriesObj[i].cateGoryGroup;
