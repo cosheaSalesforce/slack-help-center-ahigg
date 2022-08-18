@@ -69,7 +69,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
     }
     if (metaState.state == "categories") {
         var meta = JSON.parse(currentView.private_metadata);
-        meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
+        //meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
         meta.description = stateValues.description.description_action.value; //check if works properly
         var groupIdToCategory = new Map(); // maps group Ids to the selected category values from the user's selection
         for (const x of categoryGroupsNames.keys()) {
