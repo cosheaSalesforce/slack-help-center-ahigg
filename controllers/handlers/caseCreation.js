@@ -70,9 +70,8 @@ async function handleCaseCreationModal(ack, body, client, view) {
         //meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
         meta.description = stateValues.description.description_action.value; //check if works properly
         var groupIdToCategory = {}; // maps group Ids to the selected category values from the user's selection
-        console.log(meta);
-        console.log("specifically the ids and names map:");
-        console.log(meta.categoryGroupIdsMap);
+
+        console.log(stateValues);
         for (var x in meta.categoryGroupIdsMap) {
             var idString = x + '_action';
             console.log(idString);
