@@ -57,8 +57,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
         var meta = JSON.parse(currentView.private_metadata);
         meta.application = stateValues.application.application_action.selected_option.value;
         meta.state = "categories";
-        console.log(meta);
-
         var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
         var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
         var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
@@ -73,9 +71,10 @@ async function handleCaseCreationModal(ack, body, client, view) {
 
         console.log(stateValues);
         for (var x in meta.categoryGroupIdsMap) {
-            var idString = x + '_action';
-            console.log(idString);
-            groupIdToCategory[x] = stateValues.x.idString.selected_option.value;
+            console.log(stateValues.x);
+            // var idString = x + '_action';
+            // console.log(idString);
+            groupIdToCategory[x] = stateValues.x.x + '_action'.selected_option.value;
         }
         meta.categories = groupIdToCategory;
         await ack();
