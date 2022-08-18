@@ -4,6 +4,8 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     const userEmail = `${username}@salesforce.com`;
     const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId);
     console.log(results);
+    
+    //TODO: Spreate to another file
     //Creates blocks to display to the user
     var articleBlocks = [];
     results.forEach(article => {
@@ -15,6 +17,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
             },
           });
     });
+    
     //Sends ephmeral message to the user
     await client.chat.postEphemeral({
         channel: channelId,
