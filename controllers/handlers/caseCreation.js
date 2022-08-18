@@ -28,7 +28,7 @@ async function showCaseCreationModal(payload, client, channelId) {
 
             var privateMetadata = {
                 application: queryResult.HCApplication__c,
-                categoryGroupIdsMap: categoryGroupsNames,
+                categoryGroupIdsMap: CategoryGroupsNames,
                 categories: null,
                 description: null,
                 state: "categories"
