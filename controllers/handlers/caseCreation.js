@@ -111,10 +111,9 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         meta.description,
         userID, // for the Case Contact field
     );
-
+    console.log(client);
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
-    var app = slackService.getAppInstance();
-    await app.client.chat.postMessage({
+    await client.chat.postMessage({
         channel: meta.slackChannel,
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
