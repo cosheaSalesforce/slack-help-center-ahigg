@@ -1,4 +1,5 @@
 const salesforceService = require("../../services/salesforce.service");
+const slackService = require("../../services/slack.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubmissionToChannelMsg");
@@ -112,7 +113,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
     );
 
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
-
+    var app = slackService.getAppInstance();
     await app.client.chat.postMessage({
         channel: meta.slackChannel,
         text: "A new case has been submitted:",
