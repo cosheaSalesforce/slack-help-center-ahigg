@@ -1,13 +1,5 @@
 // creates a case menu format to select Category-Group and Categories for a view and return it
-function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroupsNames) {
-
-    var privateMetadata = {
-        application: hcApp,
-        categoryGroupIdsMap: categoryGroupsNames,
-        categories: null,
-        description: null,
-        state: "categories"
-    };
+function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
     var optsGroupsAndCategories = []
 

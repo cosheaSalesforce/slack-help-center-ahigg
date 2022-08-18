@@ -7,9 +7,6 @@ const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCet
 async function showCaseCreationModal(payload, client, channelId) {
     try {
         console.log("Welcome to the case creation modal!!");
-        console.log(channelId);
-
-        console.log(payload);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         console.log('1. new case - HcApplication:')
@@ -25,13 +22,19 @@ async function showCaseCreationModal(payload, client, channelId) {
         } else {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
             console.log('2. new case - HcCategoryGroup and Categories:')
-            console.log(queryGroupedCategories);
-            console.log(JSON.stringify(queryGroupedCategories));
+
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(queryResult.HCApplication__c, GroupedCategories, CategoryGroupsNames);
-            console.log("looking at the view:");
-            console.log(viewFormat);
+
+            var privateMetadata = {
+                application: queryResult.HCApplication__c,
+                categoryGroupIdsMap: categoryGroupsNames,
+                categories: null,
+                description: null,
+                state: "categories"
+            };
+
+            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -55,24 +58,22 @@ async function handleCaseCreationModal(ack, body, client, view) {
         meta.application = stateValues.application.application_action.selected_option.value;
         meta.state = "categories";
         console.log(meta);
-        // var categoryGroups = await salesforceService.getCategoryGroup(queryResult.HCApplication__c);
-        // var groupsList = [];
-        // var groupNames = [];
-        // var categoriesNames = []
-        // for (const group of categoryGroups) {
-        //     groupsList.push(group.Id);
-        //     groupNames.push(group.Name);
-        // }
-        // var categories = await salesforceService.getCategories(groupsList);
-        // for (const category of categories) {
-        //     categoriesNames.push(category.Name);
-        // }
-        // await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, groupNames, categoriesNames) });
+
+        var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
+        var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
+        var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
+        meta.categoryGroupIdsMap = CategoryGroupsNames;
+        await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
     }
     if (metaState.state == "categories") {
         var meta = JSON.parse(currentView.private_metadata);
-        meta.categoryGroup = stateValues.category_group.category_group_action.selected_option.value;
-        meta.categories = stateValues.categories.categories_action.selected_option.value;
+        meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
+        meta.description = stateValues.description.description_action.value; //check if works properly
+        var groupIdToCategory = new Map(); // maps group Ids to the selected category values from the user's selection
+        for (const x of categoryGroupsNames.keys()) {
+            groupIdToCategory.set(x, stateValues.x.x + '_action'.selected_option.value);
+        }
+        meta.categories = groupIdToCategory;
         await ack();
         try {
             createHcCaseFromSlack(body, client, view, meta);
@@ -93,13 +94,14 @@ async function createHcCaseFromSlack(body, client, view, meta) {
     //     user: body.user.id,
     // });
     // var usersEmail = userInfo.user.name + "@salesforce.com";
-    var myNewCase = await salesforceService.createHcCase(
-        meta.application,
-        meta.categoryGroup,
-        meta.categories,
-        //usersEmail,
-    );
+    // var myNewCase = await salesforceService.createHcCase(
+    //     meta.application,
+    //     meta.categoryGroup,
+    //     meta.categories,
+    //     //usersEmail,
+    // );
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
+    console.log(meta);
     // var url = await salesforceService.getDomain();
     // url = url + "/" + myNewCase.Id;
 
