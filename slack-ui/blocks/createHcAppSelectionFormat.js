@@ -11,7 +11,7 @@ function createCaseAppSelectionFormat(channelId) {
         categories: null,
         subject: null,
         description: null,
-        state: "categories"
+        state: "application"
     };
 
     let view = {
