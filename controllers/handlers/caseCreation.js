@@ -1,18 +1,20 @@
 const salesforceService = require("../../services/salesforce.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
+
 /**
  * The function creates the initial modal for creating a new case
  */
 async function showCaseCreationModal(payload, client, channelId) {
     try {
         console.log("Welcome to the case creation modal!!");
+        console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         console.log('1. new case - HcApplication:')
 
         if (queryResult.HCApplication__c == null) {
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat();
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -27,9 +29,11 @@ async function showCaseCreationModal(payload, client, channelId) {
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
 
             var privateMetadata = {
+                slackChannel: channelId,
                 application: queryResult.HCApplication__c,
                 categoryGroupIdsMap: CategoryGroupsNames,
                 categories: null,
+                subject: null,
                 description: null,
                 state: "categories"
             };
@@ -45,6 +49,7 @@ async function showCaseCreationModal(payload, client, channelId) {
 
     } catch (error) {
         // mixpanelService.trackErrors(error, "showNewModal", usersEmail);
+        console.log(error);
     }
 }
 
@@ -65,10 +70,9 @@ async function handleCaseCreationModal(ack, body, client, view) {
     }
     if (metaState.state == "categories") {
         var meta = JSON.parse(currentView.private_metadata);
-        //meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
-        meta.description = stateValues.description.description_action.value; //check if works properly
+        meta.description = stateValues.description.description_action.value;
+        meta.subject = stateValues.subject.subject_action.value;
         var groupIdToCategory = {}; // maps group Ids to the selected category values from the user's selection
-
         for (var x in meta.categoryGroupIdsMap) {
             groupIdToCategory[x] = stateValues[x][x + '_action'].selected_option.value;
         }

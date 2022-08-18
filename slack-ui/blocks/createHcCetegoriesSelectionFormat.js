@@ -3,16 +3,8 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
 
     var optsGroupsAndCategories = []
 
-    //for (const x of categoryGroupsNames.keys()) {
     for (var x in categoryGroupsNames) {
         var opts = [];
-        // optsGroupsAndCategories.push({
-        //     type: "section",
-        //     text: {
-        //         type: "plain_text",
-        //         text: categoryGroupsNames.get(x),
-        //     },
-        // });
 
         for (const y of groupedCategories.get(x)) {
             opts.push({
@@ -30,7 +22,6 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
             label: {
                 type: "plain_text",
                 text: categoryGroupsNames[x],
-                //text: categoryGroupsNames.get(x),
             },
             element: {
                 action_id: x + "_action",
@@ -43,13 +34,28 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
             },
         });
     }
-
+    optsGroupsAndCategories.push({
+        type: "input",
+        block_id: "subject",
+        label: {
+            type: "plain_text",
+            text: "Subject"
+        },
+        element: {
+            type: "plain_text_input",
+            action_id: "subject_action",
+            placeholder: {
+                type: "plain_text",
+                text: "What do you need help with?"
+            }
+        }
+    });
     optsGroupsAndCategories.push({
         type: "input",
         block_id: "description",
         label: {
             type: "plain_text",
-            text: "Subject"
+            text: "Description"
         },
         element: {
             type: "plain_text_input",
