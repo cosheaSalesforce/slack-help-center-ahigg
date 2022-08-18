@@ -2,7 +2,7 @@ const salesforceService = require("../../services/salesforce.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
     const userEmail = `${username}@salesforce.com`;
-    const results = salesforceService.searchKnowledgeArticles(searchTerm, channelId);
+    const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId);
 
     //Creates blocks to display to the user
     var articleBlocks = [];
