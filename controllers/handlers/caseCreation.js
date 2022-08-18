@@ -96,7 +96,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
     var userInfo = await client.users.info({
         user: body.user.id,
     });
-    //var usersEmail = userInfo.user.name + "@salesforce.com";
+    var usersEmail = userInfo.user.name + "@salesforce.com"; //temporary email for testing
 
 
     var myNewCase = await salesforceService.createHcCase(
