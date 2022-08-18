@@ -48,7 +48,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         }
 
     } catch (error) {
-        // mixpanelService.trackErrors(error, "showNewModal", usersEmail);
+        /// mixpanelService.trackErrors(error, "showNewModal", usersEmail);
         console.log(error);
     }
 }
