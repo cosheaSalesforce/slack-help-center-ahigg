@@ -33,6 +33,7 @@ async function showCaseCreationModal(payload, client, channelId) {
                 description: null,
                 state: "categories"
             };
+            console.log(privateMetadata)
             var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
@@ -69,6 +70,8 @@ async function handleCaseCreationModal(ack, body, client, view) {
         //meta.categoryGroupIdsMap = stateValues.category_group.category_group_action.selected_option.value;
         meta.description = stateValues.description.description_action.value; //check if works properly
         var groupIdToCategory = new Map(); // maps group Ids to the selected category values from the user's selection
+        console.log(meta);
+        console.log("specifically the ids and names map:");
         console.log(meta.categoryGroupIdsMap);
         for (const x of meta.categoryGroupIdsMap.keys()) {
             groupIdToCategory.set(x, stateValues.x.x + '_action'.selected_option.value);
