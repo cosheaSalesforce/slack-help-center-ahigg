@@ -71,10 +71,11 @@ async function handleCaseCreationModal(ack, body, client, view) {
 
         console.log(stateValues);
         for (var x in meta.categoryGroupIdsMap) {
-            console.log(stateValues.x);
+            console.log(stateValues[x]);
+            console.log(stateValues[x][x + '_action']);
             // var idString = x + '_action';
             // console.log(idString);
-            groupIdToCategory[x] = stateValues.x.x + '_action'.selected_option.value;
+            groupIdToCategory[x] = stateValues[x][x + '_action'].selected_option.value;
         }
         meta.categories = groupIdToCategory;
         await ack();
