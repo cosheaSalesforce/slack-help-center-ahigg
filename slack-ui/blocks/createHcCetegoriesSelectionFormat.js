@@ -5,6 +5,7 @@ function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroup
         application: hcApp,
         categoryGroupIdsMap: categoryGroupsNames,
         categories: null,
+        description: null,
         state: "categories"
     };
 
@@ -12,13 +13,13 @@ function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroup
 
     for (const x of categoryGroupsNames.keys()) {
         var opts = [];
-        optsGroupsAndCategories.push({
-            type: "section",
-            text: {
-                type: "plain_text",
-                text: categoryGroupsNames.get(x),
-            },
-        });
+        // optsGroupsAndCategories.push({
+        //     type: "section",
+        //     text: {
+        //         type: "plain_text",
+        //         text: categoryGroupsNames.get(x),
+        //     },
+        // });
 
         for (const y of groupedCategories.get(x)) {
             opts.push({
@@ -35,14 +36,14 @@ function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroup
             block_id: x,
             label: {
                 type: "plain_text",
-                text: "Category",
+                text: categoryGroupsNames.get(x),
             },
             element: {
                 action_id: x + "_action",
                 type: "static_select",
                 placeholder: {
                     type: "plain_text",
-                    text: "Choose a Category",
+                    text: "Select an Option",
                 },
                 options: opts,
             },
@@ -54,7 +55,7 @@ function createCategoriesSelectionFormat(hcApp, groupedCategories, categoryGroup
         block_id: "description",
         label: {
             type: "plain_text",
-            text: "Label of input"
+            text: "Subject"
         },
         element: {
             type: "plain_text_input",
