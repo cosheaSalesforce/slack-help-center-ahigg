@@ -3,7 +3,9 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
 
     var optsGroupsAndCategories = []
 
-    for (const x of categoryGroupsNames.keys()) {
+    //for (const x of categoryGroupsNames.keys()) {
+    for (var x in Object.keys(categoryGroupsNames)) {
+        console.log(x);
         var opts = [];
         // optsGroupsAndCategories.push({
         //     type: "section",
@@ -28,7 +30,8 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
             block_id: x,
             label: {
                 type: "plain_text",
-                text: categoryGroupsNames.get(x),
+                text: categoryGroupsNames[x],
+                //text: categoryGroupsNames.get(x),
             },
             element: {
                 action_id: x + "_action",
