@@ -12,7 +12,6 @@ async function showCaseCreationModal(payload, client, channelId) {
         console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
-        console.log('1. new case - HcApplication:')
 
         if (queryResult.HCApplication__c == null) {
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId);
@@ -24,7 +23,6 @@ async function showCaseCreationModal(payload, client, channelId) {
             });
         } else {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
-            console.log('2. new case - HcCategoryGroup and Categories:')
 
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
@@ -59,7 +57,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
     var currentView = body.view;
     var metaState = JSON.parse(currentView.private_metadata);
     if (metaState.state == "application") {
-        console.log('2. new case - HcCategoryGroup and Categories:')
         var meta = JSON.parse(currentView.private_metadata);
         meta.application = stateValues.application.application_action.selected_option.value;
         meta.state = "categories";
@@ -111,7 +108,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         meta.description,
         userID, // for the Case Contact field
     );
-    console.log(client);
+
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
     await client.chat.postMessage({
         channel: meta.slackChannel,
