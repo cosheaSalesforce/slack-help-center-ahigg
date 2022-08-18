@@ -50,10 +50,6 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
             console.log(err);
             return null;
         }
-        else {
-            console.log(result);
-            return result;
-        }
     });
 }
 
