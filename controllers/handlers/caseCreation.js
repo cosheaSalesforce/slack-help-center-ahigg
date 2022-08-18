@@ -91,7 +91,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
  */
 async function createHcCaseFromSlack(body, client, view, meta) {
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
-    console.log(meta);
 
     let userID = body.user.id;
     var userInfo = await client.users.info({

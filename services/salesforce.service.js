@@ -23,7 +23,6 @@ async function checkAuth() {
 async function doLogin() {
     try {
         var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
-            console.log('Successfull login - hurray!');
             if (err) {
                 return null;
             }
