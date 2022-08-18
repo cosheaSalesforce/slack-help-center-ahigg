@@ -7,7 +7,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     //Creates blocks to display to the user
     var articleBlocks = [];
     results.forEach(article => {
-        blocks.push({
+        articleBlocks.push({
             type: "section",
             text: {
               type: "mrkdwn",
