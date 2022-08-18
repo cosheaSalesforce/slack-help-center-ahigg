@@ -4,10 +4,23 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     const userEmail = `${username}@salesforce.com`;
     const results = salesforceService.searchKnowledgeArticles(searchTerm, channelId);
 
+    //Creates blocks to display to the user
+    var articleBlocks = [];
+    for(article of results) {
+        blocks.push({
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: article.Title,
+            },
+          });
+    }
+    //Sends ephmeral message to the user
     await client.chat.postEphemeral({
         channel: channelId,
         user: userId,
         text: "Here's a list of your business cases!",
+        blocks: articleBlocks
       });
 
 }
