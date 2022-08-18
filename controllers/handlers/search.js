@@ -6,7 +6,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
 
     //Creates blocks to display to the user
     var articleBlocks = [];
-    for(article of results) {
+    results.forEach(article => {
         blocks.push({
             type: "section",
             text: {
@@ -14,7 +14,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
               text: article.Title,
             },
           });
-    }
+    });
     //Sends ephmeral message to the user
     await client.chat.postEphemeral({
         channel: channelId,
