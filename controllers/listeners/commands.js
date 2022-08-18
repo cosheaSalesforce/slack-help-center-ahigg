@@ -7,7 +7,7 @@ async function init(app) {
             console.log("search knowledge articles");
             console.log("payload");
             console.log(payload);
-            await search.knowledgeArticlesSearch(payload.text, payload.channel_id, payload.user_name, client);
+            await search.knowledgeArticlesSearch(payload.text, payload.channel_id, payload.user_name, payload.user_id, client);
         //   searchCase.searchBusinessCase(payload, client);
         } catch (error) {
           console.error(error);
