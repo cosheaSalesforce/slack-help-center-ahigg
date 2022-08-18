@@ -33,10 +33,7 @@ async function showCaseCreationModal(payload, client, channelId) {
                 description: null,
                 state: "categories"
             };
-            console.log('before modal creation:');
             var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
-            console.log('after modal creation:');
-            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
