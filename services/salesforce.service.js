@@ -34,6 +34,11 @@ async function doLogin() {
     return loggedIn;
 }
 
+async function getDomain() {
+    var details = await checkAuth();
+    return details.urls.custom_domain;
+}
+
 async function getSlackChannelAndHcApplication(channelId) {
     await checkAuth();
     return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
@@ -71,15 +76,18 @@ async function getGroupedCategories(HcApp) {
 }
 
 //Creates a new help-center case
-async function createHcCase(app, catGroup, Categories) {
-    //await checkAuth();
+async function createHcCase(channelId, application, catGroupAndOptionsIds, subject, description, userId) {
+    await checkAuth();
     var body = {
-        HcApplication: app,
-        HcCategoryGroup: catGroup,
-        HcCategories: Categories,
-        //email: email,.
+        channel: channelId,
+        hcApp: application,
+        msgSubject: subject,
+        msgDescription: description,
+        caseContact: userId,
+        categories: catGroupAndOptionsIds,
     };
 
+    console.log('Hurray, now to test the back-end side!');
     // // ---------- TESTING FRONT END, REMOVE FROM COMMENTS LATER ----------
     // const returnedCase = await conn.apex.post("/HelpCenterCase/", body, function (err, returnedBc) {
     //     if (err) {
@@ -94,7 +102,7 @@ async function createHcCase(app, catGroup, Categories) {
     //         return null;
     //     }
     // });
-    return returnedCase;
+    //return returnedCase;
 }
 
 async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
@@ -122,6 +130,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 
 module.exports = {
     doLogin,
+    getDomain,
     getSlackChannelAndHcApplication,
     getGroupedCategories,
     createHcCase,
