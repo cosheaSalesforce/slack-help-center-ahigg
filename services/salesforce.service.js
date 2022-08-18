@@ -50,6 +50,10 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
             console.log(err);
             return null;
         }
+        else {
+            console.log(result);
+            return result;
+        }
     });
 }
 
@@ -58,10 +62,6 @@ async function searchKnowledgeArticles(searchTerm, channelId) {
     return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
         if (err) {
             return null;
-        }
-        else {
-            console.log("insdie services");
-            console.log(result);
         }
     })
 
