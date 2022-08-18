@@ -33,7 +33,9 @@ async function showCaseCreationModal(payload, client, channelId) {
                 description: null,
                 state: "categories"
             };
-            console.log(privateMetadata)
+            console.log(privateMetadata);
+            console.log('testing metadata stringfied');
+            console.log(JSON.stringify(privateMetadata));
             var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
@@ -140,10 +142,12 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values 
  */
 function createMapGroupCategoryIdToName(categoriesObj) {
-    var CategoryGroupsNames = new Map();
+    //var CategoryGroupsNames = new Map();
+    var CategoryGroupsNames = {};
     for (var i = 0; i < categoriesObj.length; i++) {
         var catGroup = categoriesObj[i].categoryGroup;
-        CategoryGroupsNames.set(catGroup.Id, catGroup.Name);
+        CategoryGroupsNames[catGroup.Id] = catGroup.Name;
+        //CategoryGroupsNames.set(catGroup.Id, catGroup.Name);
     }
     return CategoryGroupsNames;
 }
