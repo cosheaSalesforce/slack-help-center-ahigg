@@ -1,4 +1,6 @@
+
 const search = require("../handlers/search");
+const caseCreationHandler = require("../handlers/caseCreation");
 
 async function init(app) {
     app.command("/search-help", async ({ ack, payload, client }) => {
@@ -13,8 +15,17 @@ async function init(app) {
           console.error(error);
         }
     });
-
+    
+    app.command("/newcase", async ({ ack, payload, client }) => {
+        await ack();
+        try {
+            caseCreationHandler.showCaseCreationModal(payload, client, payload.channel_id);
+        } catch (error) {
+            console.error(error);
+        }
+    });
 }
+
 module.exports = {
     init
 };

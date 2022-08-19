@@ -23,7 +23,6 @@ async function checkAuth() {
 async function doLogin() {
     try {
         var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
-            console.log('Successfull login - hurray!');
             if (err) {
                 return null;
             }
@@ -34,7 +33,79 @@ async function doLogin() {
     return loggedIn;
 }
 
-async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent) {
+
+async function getDomain() {
+    var details = await checkAuth();
+    return details.urls.custom_domain;
+}
+
+async function getSlackChannelAndHcApplication(channelId) {
+    await checkAuth();
+    return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
+        if (err) {
+            return err;
+        }
+    });
+}
+
+// async function getCategoryGroup(HcApp) {
+//     //await checkAuth();
+//     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
+//         if (err) {
+//             return err;
+//         }
+//     });
+// }
+// //hcsGroupedCategories
+// async function getCategories(categoryGroup) {
+//     //await checkAuth();
+//     return await conn.apex.get(`/categories/${categoryGroup}`, function (err, res) {
+//         if (err) {
+//             return err;
+//         }
+//     });
+// }
+
+async function getGroupedCategories(HcApp) {
+    await checkAuth();
+    return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
+        if (err) {
+            return err;
+        }
+    });
+}
+
+//Creates a new help-center case
+async function createHcCase(channelId, application, catGroupAndOptionsIds, subject, description, userId) {
+    await checkAuth();
+    var body = {
+        channel: channelId,
+        hcApp: application,
+        msgSubject: subject,
+        msgDescription: description,
+        caseContact: userId,
+        categories: catGroupAndOptionsIds,
+    };
+
+    console.log('Hurray, now to test the back-end side!');
+    // // ---------- TESTING FRONT END, REMOVE FROM COMMENTS LATER ----------
+    // const returnedCase = await conn.apex.post("/HelpCenterCase/", body, function (err, returnedBc) {
+    //     if (err) {
+    //         return null;
+    //     }
+    // });
+    // // ---------- END OF THE SECTION THAT NEEDS TO BE UN-COMMENTED ----------
+
+    // var bodyAuth = { bc: returnedCase };
+    // const result = await conn.apex.post("/BusinessCaseCalculatorAuthentication/", bodyAuth, function (err, result) {
+    //     if (err) {
+    //         return null;
+    //     }
+    // });
+    //return returnedCase;
+}
+
+async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
     await checkAuth();
     var body = {
         userEmail: userEmail,
@@ -57,6 +128,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
     });
 }
 
+
 async function searchKnowledgeArticles(searchTerm, channelId) {
     await checkAuth();
     return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
@@ -67,8 +139,15 @@ async function searchKnowledgeArticles(searchTerm, channelId) {
 
 }
 
+
 module.exports = {
     doLogin,
+    getDomain,
+    getSlackChannelAndHcApplication,
+    getGroupedCategories,
+    createHcCase,
     updateCaseStatus,
     searchKnowledgeArticles
-};
+}
+
+
