@@ -33,6 +33,7 @@ async function doLogin() {
     return loggedIn;
 }
 
+
 async function getDomain() {
     var details = await checkAuth();
     return details.urls.custom_domain;
@@ -111,7 +112,8 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
         statusToUpdate: statusToUpdate,
         channelId: channelId,
         messageTs: messageTs,
-        parentMessageTs: parentMessageTs
+        parentMessageTs: parentMessageTs,
+        messageContent: messageContent
     };
     console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
@@ -127,6 +129,17 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 }
 
 
+async function searchKnowledgeArticles(searchTerm, channelId) {
+    await checkAuth();
+    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
+        if (err) {
+            return null;
+        }
+    })
+
+}
+
+
 module.exports = {
     doLogin,
     getDomain,
@@ -134,6 +147,7 @@ module.exports = {
     getGroupedCategories,
     createHcCase,
     updateCaseStatus,
+    searchKnowledgeArticles
 }
 
 
