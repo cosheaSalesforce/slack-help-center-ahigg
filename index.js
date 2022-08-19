@@ -3,7 +3,8 @@ const actions = require('./controllers/listeners/actions');
 const events = require('./controllers/listeners/events');
 const commands = require('./controllers/listeners/commands');
 const views = require('./controllers/listeners/views');
-const routes = require('./controllers/listeners/routes')
+const routes = require('./controllers/listeners/routes');
+const workflows = require('./controllers/workflows/caseDeflection');
 
 const receiver = new ExpressReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -30,6 +31,8 @@ const app = new App({
         await app.start(process.env.PORT || 3000);
 
         console.log('⚡️ Bolt app is running!');
+        app.step(await workflows.caseCreationWorkflow());
+
     } catch (ex) {
         console.log(ex);
     }
