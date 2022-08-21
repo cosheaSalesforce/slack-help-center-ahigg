@@ -24,7 +24,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
 
         if (queryResult.HCApplication__c == null) {
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(queryResult.Id);
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -38,6 +38,7 @@ async function showCaseCreationModal(payload, client, channelId) {
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
 
             var privateMetadata = {
+                channelSlackId: channelId,
                 slackChannel: queryResult.Id,
                 application: queryResult.HCApplication__c,
                 categoryGroupIdsMap: CategoryGroupsNames,
@@ -118,7 +119,7 @@ async function postCaseCreationMesageToSlack(body, client, view, meta) {
 
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
     await client.chat.postMessage({
-        channel: meta.slackChannel,
+        channel: meta.channelSlackId,
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
     })
