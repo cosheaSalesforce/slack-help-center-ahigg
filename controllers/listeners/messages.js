@@ -3,7 +3,7 @@ const { subtype } = require('@slack/bolt');
 
 async function init(app) {
 
-    app.message(subtype('bot_message'), ({ event, logger }) => {
+    app.message('bot_message', ({ event, logger }) => {
         console.log('managed to listen to a bot_message event');
         await ack();
         try {
