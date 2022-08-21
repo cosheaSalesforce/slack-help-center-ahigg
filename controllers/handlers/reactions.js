@@ -6,6 +6,7 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
         const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
         const userEmail = await slackService.getUserEmailById(userId);
         const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
+        console.log(parentMessageTs);
         const messageContent = await slackService.getMessageContent(channelId, messageTs);
         const messageOwnerId = await slackService.getMessageOwner(channelId, messageTs);
         const messageOwnerEmail = await slackService.getUserEmailById(messageOwnerId);
