@@ -31,6 +31,8 @@ async function getParentMessageTs(channelId, ts) {
         const result = await app.client.conversations.history({
             channel: channelId,
             latest: ts,
+            "limit": 1,
+            "inclusive": true
         });
         if (result.messages.length > 0) {
             return result.messages[0].ts;
@@ -41,9 +43,31 @@ async function getParentMessageTs(channelId, ts) {
     }
 }
 
+async function getMessageContent(channelId, ts) {
+    try {
+        const app = await getAppInstance();
+        const result = await app.client.conversations.replies({
+            channel: channelId,
+            ts: ts,
+        });
+        
+        var messageContent = '';
+        for(let i in result.messages) {
+            if (result.messages[i].ts == ts) {
+                messageContent = result.messages[i].text;
+                return messageContent;
+            }
+        }
+        return messageContent;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     getAppInstance,
     getUserEmailById,
     getUserIdByEmail,
-    getParentMessageTs
+    getParentMessageTs,
+    getMessageContent
 }
