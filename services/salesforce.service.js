@@ -105,7 +105,7 @@ async function createHcCase(channelId, application, catGroupAndOptionsIds, subje
     //return returnedCase;
 }
 
-async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
+async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail) {
     await checkAuth();
     var body = {
         userEmail: userEmail,
@@ -113,7 +113,8 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
         channelId: channelId,
         messageTs: messageTs,
         parentMessageTs: parentMessageTs,
-        messageContent: messageContent
+        messageContent: messageContent,
+        messageOwnerEmail: messageOwnerEmail
     };
     console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
