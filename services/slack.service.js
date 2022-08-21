@@ -36,11 +36,11 @@ async function getParentMessageTs(channelId, ts) {
         });
         console.log(result.messages);
         console.log(result.messages.length);
-        if (result.messages.length == 1) {
-            return result.messages[0].ts;
+        if (result.messages[0].thread_ts != undefined) {
+            return result.messages[0].thread_ts;
         }
         else {
-            return result.messages[0].thread_ts;
+            return result.messages[0].ts;
         }
         // return result.messages[0].thread_ts;
         // if (result.messages.length > 0) {
