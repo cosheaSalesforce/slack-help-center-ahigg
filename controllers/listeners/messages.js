@@ -3,7 +3,7 @@ const { subtype } = require('@slack/bolt');
 
 async function init(app) {
 
-    app.message(subtype('bot_message'), ({ event, logger }) => {
+    app.message(subtype('bot_message'), async ({ event, logger }) => {
         console.log('managed to listen to a bot_message event');
         try {
             await caseCreationHandler.createHcCaseFromSlack(event, message);
