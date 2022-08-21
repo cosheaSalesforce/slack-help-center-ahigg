@@ -24,7 +24,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
 
         if (queryResult.HCApplication__c == null) {
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(queryResult.ChannelId__c);
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(queryResult.Id);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -38,7 +38,7 @@ async function showCaseCreationModal(payload, client, channelId) {
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
 
             var privateMetadata = {
-                slackChannel: queryResult.ChannelId__c,
+                slackChannel: queryResult.Id,
                 application: queryResult.HCApplication__c,
                 categoryGroupIdsMap: CategoryGroupsNames,
                 categories: null,
