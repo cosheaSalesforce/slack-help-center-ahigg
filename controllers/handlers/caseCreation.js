@@ -93,21 +93,10 @@ async function createHcCaseFromSlack(body, client, view, meta) {
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
 
     let userID = body.user.id;
-    var userInfo = await client.users.info({
-        user: body.user.id,
-    });
-    console.log(userID);
-    console.log(userInfo);
-
-
-    var myNewCase = await salesforceService.createHcCase(
-        meta.channelId,
-        meta.application,
-        meta.categories,
-        meta.subject,
-        meta.description,
-        userID, // for the Case Contact field
-    );
+    // var userInfo = await client.users.info({
+    //     user: body.user.id,
+    // });
+    var usersEmail = slackService.getUserEmailById(userID);
 
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
     await client.chat.postMessage({
@@ -116,23 +105,14 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         blocks: newCaseMsgBlock,
     })
 
-    // var url = await salesforceService.getDomain();
-    // url = url + "/" + myNewCase.Id;
-
-    // var logo = meta.calculator == "a0109000010yOBfAAM" ? ":salesforce: " : ":mulesoft-logo: ";
-    // var txt = logo + "<" + url + "|" + myNewCase.Business_Case_Name__c + ">";
-
-    // // Respond to action with an ephemeral message
-    // var ephermalBlock = ephermalMessageFormat.createEphermalMessageBlocks(url, txt, myNewCase.Id, myNewCase.Business_Case_Name__c);
-    // await client.chat.postEphemeral({
-    //     channel: userID,
-    //     user: userID,
-    //     text: "Your new Business Case has been created!",
-    //     blocks: ephermalBlock,
-    // });
-
-    //logging the creation of a new business case
-    //mixpanelService.trackNewBusinessCase(myNewCase.Business_Case_Name__c, usersEmail);
+    var myNewCase = await salesforceService.createHcCase(
+        meta.channelId,
+        meta.application,
+        meta.categories,
+        meta.subject,
+        meta.description,
+        usersEmail, // for the Case Contact field
+    );
 }
 
 
