@@ -28,9 +28,9 @@ async function getUserIdByEmail(userEmail) {
 async function getParentMessageTs(channelId, ts) {
     try {
         const app = await getAppInstance();
-        const result = await app.client.conversations.history({
+        const result = await app.client.conversations.replies({
             channel: channelId,
-            latest: ts
+            ts: ts
             // "limit": 1,
             // "inclusive": true
         });
