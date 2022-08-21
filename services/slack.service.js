@@ -48,9 +48,7 @@ async function getMessageOwner(channelId, ts) {
         const app = await getAppInstance();
         const result = await app.client.conversations.replies({
             channel: channelId,
-            latest: ts,
-            inclusive: true,
-            limit: 1
+            ts: ts
         });
         return result;
     } catch (error) {
