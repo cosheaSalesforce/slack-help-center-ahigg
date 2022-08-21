@@ -21,7 +21,6 @@ async function init(app) {
 
     app.event('bot_message', ({ event, logger }) => {
         console.log('managed to listen to a bot_message event');
-        await ack();
         try {
             caseCreationHandler.createHcCaseFromSlack(event, message);
         } catch (error) {
