@@ -3,6 +3,16 @@ const slackService = require("../../services/slack.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubmissionToChannelMsg");
+
+var caseToBeCreated = {
+    channelId: null,
+    application: null,
+    categories: null,
+    subject: null,
+    description: null,
+    usersEmail: null,
+    timeStamp: null,
+}
 /**
  * The function creates the initial modal for creating a new case
  */
@@ -70,14 +80,14 @@ async function handleCaseCreationModal(ack, body, client, view) {
         var meta = JSON.parse(currentView.private_metadata);
         meta.description = stateValues.description.description_action.value;
         meta.subject = stateValues.subject.subject_action.value;
-        var groupIdToCategory = {}; // maps group Ids to the selected category Ids from the user's selection
+        var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
         for (var x in meta.categoryGroupIdsMap) {
-            groupIdToCategory[x] = stateValues[x][x + '_action'].selected_option.value;
+            groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
         }
         meta.categories = groupIdToCategory;
         await ack();
         try {
-            createHcCaseFromSlack(body, client, view, meta);
+            postCaseCreationMesageToSlack(body, client, view, meta);
         } catch (error) {
             //mixpanelService.trackErrors(error, "showNewModal", usersEmail);
             console.error(error);
@@ -89,14 +99,20 @@ async function handleCaseCreationModal(ack, body, client, view) {
  * The function recieves the required details to create a help-center case, creates it and the notifies
  * the user that his case was created
  */
-async function createHcCaseFromSlack(body, client, view, meta) {
+async function postCaseCreationMesageToSlack(body, client, view, meta) {
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
+    console.log(meta);
 
     let userID = body.user.id;
-    // var userInfo = await client.users.info({
-    //     user: body.user.id,
-    // });
     var usersEmail = slackService.getUserEmailById(userID);
+
+    //populate the fields of the new case to be created after receiving the message's timestamp
+    caseToBeCreated.channelId = meta.channelId;
+    caseToBeCreated.application = meta.application;
+    caseToBeCreated.categories = meta.categories;
+    caseToBeCreated.subject = meta.subject;
+    caseToBeCreated.description = meta.description;
+    caseToBeCreated.usersEmail = usersEmail;
 
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
     await client.chat.postMessage({
@@ -105,18 +121,14 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         blocks: newCaseMsgBlock,
     })
 
-    var myNewCase = await salesforceService.createHcCase(
-        meta.channelId,
-        meta.application,
-        meta.categories,
-        meta.subject,
-        meta.description,
-        usersEmail, // for the Case Contact field
-    );
 }
 
-
-
+async function createHcCaseFromSlack(body, message) {
+    console.log('managed to read the message from the channel');
+    console.log(message);
+    console.log();
+    console.log(body);
+}
 
 /**
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
@@ -148,4 +160,5 @@ function createMapGroupCategoryIdToName(categoriesObj) {
 module.exports = {
     showCaseCreationModal,
     handleCaseCreationModal,
+    createHcCaseFromSlack,
 };
