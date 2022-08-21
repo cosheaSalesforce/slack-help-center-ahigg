@@ -1,12 +1,13 @@
 const caseCreationHandler = require("../handlers/caseCreation");
+const { subtype } = require('@slack/bolt');
 
 async function init(app) {
 
-    app.message('A new case', async ({ body, message, say }) => {
-        console.log('managed to listen to a message event');
+    app.message(subtype('bot_message'), ({ event, logger }) => {
+        console.log('managed to listen to a bot_message event');
         await ack();
         try {
-            caseCreationHandler.createHcCaseFromSlack(body, message);
+            caseCreationHandler.createHcCaseFromSlack(event, message);
         } catch (error) {
             console.error(error);
         }
