@@ -104,6 +104,9 @@ async function postCaseCreationMesageToSlack(body, client, view, meta) {
     console.log(meta);
 
     let userID = body.user.id;
+    var userInfo = await client.users.info({
+        user: body.user.id,
+    });
     var usersEmail = slackService.getUserEmailById(userID);
 
     //populate the fields of the new case to be created after receiving the message's timestamp
