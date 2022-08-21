@@ -101,7 +101,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
  */
 async function postCaseCreationMesageToSlack(body, client, view, meta) {
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
-    console.log(meta);
 
     let userID = body.user.id;
     var userInfo = await client.users.info({
@@ -133,7 +132,6 @@ async function createHcCaseFromSlack(timeStamp) {
     // console.log();
     // console.log(body);
 
-    console.log(caseToBeCreated);
     salesforceService.createHcCase(
         caseToBeCreated.channelId,
         caseToBeCreated.application,

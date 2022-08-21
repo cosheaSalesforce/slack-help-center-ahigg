@@ -91,7 +91,6 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
         caseOrigin: 'Slack',
     };
 
-    console.log(body);
     try {
         await conn.apex.post("/createCase/", body, function (err, result) {
             if (err) {
