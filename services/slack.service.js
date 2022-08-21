@@ -34,7 +34,7 @@ async function getParentMessageTs(channelId, ts) {
             // "limit": 1,
             // "inclusive": true
         });
-        return result;
+        return result.messages[0].thread_ts;
         // if (result.messages.length > 0) {
         //     return result.messages[0].ts;
         // }
