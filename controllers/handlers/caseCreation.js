@@ -97,7 +97,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         user: body.user.id,
     });
     console.log(userID);
-    console.log(userUnfo);
+    console.log(userInfo);
 
 
     var myNewCase = await salesforceService.createHcCase(
