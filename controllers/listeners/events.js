@@ -19,16 +19,6 @@ async function init(app) {
     //     console.log(event);
     // });
 
-    app.event('bot_message', ({ event, logger }) => {
-        console.log('managed to listen to a bot_message event');
-        try {
-            caseCreationHandler.createHcCaseFromSlack(event, message);
-        } catch (error) {
-            console.error(error);
-        }
-    });
-
-
 }
 module.exports = {
     init
