@@ -11,7 +11,7 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
         const messageOwnerId = await slackService.getMessageOwner(channelId, messageTs);
         const messageOwnerEmail = await slackService.getUserEmailById(messageOwnerId);
         console.log(messageOwnerEmail);
-        await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail);
+        // await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail);
     }
     else {
         console.log('Nothing happened');
