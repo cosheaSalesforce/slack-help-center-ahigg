@@ -144,7 +144,6 @@ async function createHcCaseFromSlack(timeStamp) {
         timeStamp,
     );
 
-
 }
 
 /**

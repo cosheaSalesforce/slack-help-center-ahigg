@@ -93,7 +93,7 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
 
     console.log(body);
     try {
-        await conn.apex.post("/c S/", body, function (err, result) {
+        await conn.apex.post("/createCase/", body, function (err, result) {
             if (err) {
                 console.log(err);
                 return null;
