@@ -34,7 +34,7 @@ async function getParentMessageTs(channelId, ts) {
             // "limit": 1,
             // "inclusive": true
         });
-        console.log(result);
+        console.log(result.messages);
         console.log(result.messages.length);
         if (result.messages.length == 1) {
             return result.messages[0].ts;
