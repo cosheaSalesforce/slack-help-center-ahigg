@@ -49,6 +49,8 @@ async function getMessageOwner(channelId, ts) {
         const result = await app.client.conversations.history({
             channel: channelId,
             latest: ts,
+            inclusive: true,
+            limit: 1
         });
         return result;
     } catch (error) {
