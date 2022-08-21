@@ -51,7 +51,7 @@ async function getMessageOwner(channelId, ts) {
             ts: ts
         });
         
-        return result.messages.user;
+        return result.messages[0].user;
     } catch (error) {
         console.error(error);
     }
