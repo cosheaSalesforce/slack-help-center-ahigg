@@ -123,14 +123,28 @@ async function postCaseCreationMesageToSlack(body, client, view, meta) {
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
     })
-
+    //Delete later, only in order to test case creation
+    createHcCaseFromSlack('1358877455.000010');
 }
 
-async function createHcCaseFromSlack(body, message) {
+async function createHcCaseFromSlack(timeStamp) {
     console.log('managed to read the message from the channel');
-    console.log(message);
-    console.log();
-    console.log(body);
+    // console.log(message);
+    // console.log();
+    // console.log(body);
+
+    console.log(caseToBeCreated);
+    salesforceService.createHcCase(
+        caseToBeCreated.channelId,
+        caseToBeCreated.application,
+        caseToBeCreated.categories,
+        caseToBeCreated.subject,
+        caseToBeCreated.description,
+        caseToBeCreated.usersEmail,
+        timeStamp,
+    );
+
+
 }
 
 /**

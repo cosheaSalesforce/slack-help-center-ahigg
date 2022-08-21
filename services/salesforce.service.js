@@ -76,33 +76,39 @@ async function getGroupedCategories(HcApp) {
 }
 
 //Creates a new help-center case
-async function createHcCase(channelId, application, catGroupAndOptionsIds, subject, description, userId) {
+async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp) {
+    console.log('Hurray, now to test the back-end side!');
+
     await checkAuth();
     var body = {
         channel: channelId,
         hcApp: application,
         msgSubject: subject,
         msgDescription: description,
-        caseContact: userId,
-        categories: catGroupAndOptionsIds,
+        categories: categoriesIds,
+        caseContactIdentifier: userEmail,
+        messageTimeStampIdentifier: timeStamp,
+        caseOrigin: 'Slack',
     };
 
-    console.log('Hurray, now to test the back-end side!');
-    // // ---------- TESTING FRONT END, REMOVE FROM COMMENTS LATER ----------
-    // const returnedCase = await conn.apex.post("/HelpCenterCase/", body, function (err, returnedBc) {
-    //     if (err) {
-    //         return null;
-    //     }
-    // });
-    // // ---------- END OF THE SECTION THAT NEEDS TO BE UN-COMMENTED ----------
+    console.log(body);
+    try {
+        await conn.apex.post("/c S/", body, function (err, result) {
+            if (err) {
+                console.log(err);
+                return null;
+            }
+            // else {
+            //     console.log(result);
+            //     return result;
+            // }
+        });
+    } catch (error) {
+        /// mixpanelService.trackErrors(error, "showNewModal", usersEmail);
+        console.log(error);
+    }
 
-    // var bodyAuth = { bc: returnedCase };
-    // const result = await conn.apex.post("/BusinessCaseCalculatorAuthentication/", bodyAuth, function (err, result) {
-    //     if (err) {
-    //         return null;
-    //     }
-    // });
-    //return returnedCase;
+
 }
 
 async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
@@ -131,7 +137,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 
 async function searchKnowledgeArticles(searchTerm, channelId) {
     await checkAuth();
-    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
+    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function (err, result) {
         if (err) {
             return null;
         }
