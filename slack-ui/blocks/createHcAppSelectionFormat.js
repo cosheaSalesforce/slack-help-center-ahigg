@@ -16,7 +16,6 @@ function createCaseAppSelectionFormat(slackId, channelId, allApps) {
 
     var opts = [];
     for (var i = 0; i < allApps.length; i++) {
-        console.log(allApps[i]);
         opts.push({
             text: {
                 type: "plain_text",
