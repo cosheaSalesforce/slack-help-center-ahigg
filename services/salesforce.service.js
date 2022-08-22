@@ -111,7 +111,8 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
 }
 
 async function getAllHcApplications() {
-    await conn.apex.get(`/hcApplications/`, function (err, res) {
+    await checkAuth();
+    return conn.apex.get(`/hcApplications/`, function (err, res) {
         if (err) {
             return err;
         }
