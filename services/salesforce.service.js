@@ -48,24 +48,6 @@ async function getSlackChannelAndHcApplication(channelId) {
     });
 }
 
-// async function getCategoryGroup(HcApp) {
-//     //await checkAuth();
-//     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
-//         if (err) {
-//             return err;
-//         }
-//     });
-// }
-// //hcsGroupedCategories
-// async function getCategories(categoryGroup) {
-//     //await checkAuth();
-//     return await conn.apex.get(`/categories/${categoryGroup}`, function (err, res) {
-//         if (err) {
-//             return err;
-//         }
-//     });
-// }
-
 async function getGroupedCategories(HcApp) {
     await checkAuth();
     return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {

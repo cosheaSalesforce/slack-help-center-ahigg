@@ -59,29 +59,6 @@ function createCaseAppSelectionFormat(slackId, channelId, allApps) {
                         text: "Choose an Application",
                     },
                     options: opts,
-                    // [
-                    //     {
-                    //         text: {
-                    //             type: "plain_text",
-                    //             text: "Demo Environment",
-                    //         },
-                    //         value: "a008N000000xOo9QAE",
-                    //     },
-                    //     {
-                    //         text: {
-                    //             type: "plain_text",
-                    //             text: "Innovation Box",
-                    //         },
-                    //         value: "a008N000000xOWeQAM",
-                    //     },
-                    //     {
-                    //         text: {
-                    //             type: "plain_text",
-                    //             text: "Solutions Central",
-                    //         },
-                    //         value: "a008N000000xORVQA2",
-                    //     },
-                    // ],
                 },
             },
         ],
