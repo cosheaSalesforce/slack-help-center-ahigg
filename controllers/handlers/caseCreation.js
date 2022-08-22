@@ -119,12 +119,13 @@ async function postCaseCreationMesageToSlack(body, client, view, meta) {
     caseToBeCreated.usersEmail = usersEmail;
 
     var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
-    await client.chat.postMessage({
+    var postedMessage = await client.chat.postMessage({
         channel: meta.channelSlackId,
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
     })
     //Delete later, only in order to test case creation
+    console.log(postedMessage);
     createHcCaseFromSlack('1358877455.000010');
 }
 
