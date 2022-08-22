@@ -124,9 +124,7 @@ async function postCaseCreationMesageToSlack(body, client, view, meta) {
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
     })
-    //Delete later, only in order to test case creation
-    console.log(postedMessage);
-    createHcCaseFromSlack('1358877455.000010');
+    createHcCaseFromSlack(postedMessage.ts);
 }
 
 async function createHcCaseFromSlack(timeStamp) {
