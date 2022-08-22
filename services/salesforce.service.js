@@ -108,8 +108,14 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
         /// mixpanelService.trackErrors(error, "showNewModal", usersEmail);
         console.log(error);
     }
+}
 
-
+async function getAllHcApplications() {
+    await conn.apex.get(`/hcApplications/`, function (err, res) {
+        if (err) {
+            return err;
+        }
+    });
 }
 
 async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
@@ -154,7 +160,8 @@ module.exports = {
     getGroupedCategories,
     createHcCase,
     updateCaseStatus,
-    searchKnowledgeArticles
+    searchKnowledgeArticles,
+    getAllHcApplications,
 }
 
 
