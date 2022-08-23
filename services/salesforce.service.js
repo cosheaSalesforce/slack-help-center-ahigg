@@ -58,7 +58,7 @@ async function getGroupedCategories(HcApp) {
 }
 
 //Creates a new help-center case
-async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp, createdFromWorkflow) {
+async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp) {
     console.log('Hurray, now to test the back-end side!');
 
     await checkAuth();
