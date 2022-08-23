@@ -31,22 +31,13 @@ async function getParentMessageTs(channelId, ts) {
         const result = await app.client.conversations.replies({
             channel: channelId,
             ts: ts
-            // "limit": 1,
-            // "inclusive": true
         });
-        console.log(result.messages);
-        console.log(result.messages.length);
         if (result.messages[0].thread_ts != undefined) {
             return result.messages[0].thread_ts;
         }
         else {
             return result.messages[0].ts;
         }
-        // return result.messages[0].thread_ts;
-        // if (result.messages.length > 0) {
-        //     return result.messages[0].ts;
-        // }
-        // return ts;
     } catch (error) {
         console.error(error);
     }
