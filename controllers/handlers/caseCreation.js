@@ -114,6 +114,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         meta.description,
         usersEmail,
         postedMessage.ts,
+        'Slack',
         true,
     );
 }
