@@ -18,11 +18,10 @@ async function checkAuth() {
         return identity;
     }
 }
-//'hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt'
 // Login to the BVD Org
 async function doLogin() {
     try {
-        var loggedIn = await conn.login('ikatz@hcslackdev.com', '6j2OMEkq6w2t' + 'BF2mHxT2oBafvopNef4B8Mgl', function (err, userInfo) {
+        var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
             if (err) {
                 return null;
             }
