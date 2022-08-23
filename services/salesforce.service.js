@@ -58,7 +58,7 @@ async function getGroupedCategories(HcApp) {
 }
 
 //Creates a new help-center case
-async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp) {
+async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp, createdFromWorkflow) {
     console.log('Hurray, now to test the back-end side!');
 
     await checkAuth();
@@ -71,6 +71,7 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
         caseContactIdentifier: userEmail,
         messageTimeStampIdentifier: timeStamp,
         caseOrigin: 'Slack',
+        caseCreatedViaSlackWorkflow: true,
     };
 
     //console.log(body);
