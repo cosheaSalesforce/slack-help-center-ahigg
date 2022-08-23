@@ -107,7 +107,6 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         text: "A new case has been submitted:",
         blocks: newCaseMsgBlock,
     })
-    createHcCaseFromSlack(postedMessage.ts);
     salesforceService.createHcCase(
         meta.slackChannel,
         meta.application,
