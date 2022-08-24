@@ -5,10 +5,16 @@ async function cacheChannelMessages() {
     // transform the data
     // save to json
 
-    console.log('cacheChannelMessages called.');
+    try {
+        console.log('cacheChannelMessages called.');
 
-    var channelMessages = await salesforce.getSlackChannelMessages();
-    console.log('channelMessages: ' , channelMessages);
+        var channelMessages = await salesforce.getSlackChannelMessages();
+        console.log('channelMessages: ' , channelMessages);
+    } catch(ex) {
+        console.log(ex);
+    }
+
+    
 
 }
 
