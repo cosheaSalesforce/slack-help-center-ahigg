@@ -9,9 +9,11 @@ async function cacheChannelMessages() {
         console.log('cacheChannelMessages called.');
 
         var channelMessages = await salesforce.getSlackChannelMessages();
-        console.log('channelMessages: ' , channelMessages);
-        console.log('channelMessages: ' , channelMessages.length);
-        console.log('channelMessages: ' , JSON.parse(channelMessages));
+        channelMessages = JSON.parse(channelMessages);
+
+        for(var i = 0; i < channelMessages.length; i++) {
+            console.log(channelMessages[i].channelId);
+        }
 
     } catch(ex) {
         console.log(ex);
