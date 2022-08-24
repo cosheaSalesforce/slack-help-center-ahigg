@@ -1,8 +1,8 @@
 // grab the Mixpanel factory
-//var Mixpanel = require('mixpanel');
+var Mixpanel = require('mixpanel');
 
 // create an instance of the mixpanel client
-//var mixpanel = Mixpanel.init(process.env.MIXPANEL_KEY);
+var mixpanel = Mixpanel.init(process.env.MIXPANEL_KEY);
 
 function trackWorkFlowClick(user) {
     mixpanel.track(
