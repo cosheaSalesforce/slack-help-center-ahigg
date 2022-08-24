@@ -11,6 +11,7 @@ async function cacheChannelMessages() {
         var channelMessages = await salesforce.getSlackChannelMessages();
         console.log('channelMessages: ' , channelMessages);
         console.log('channelMessages: ' , channelMessages.length);
+        console.log('channelMessages: ' , JSON.parse(channelMessages));
 
     } catch(ex) {
         console.log(ex);
