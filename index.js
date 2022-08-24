@@ -23,6 +23,7 @@ const app = new App({
 
     try {
         // Init for listeners
+        console.log(process.env.MIXPANEL_KEY);
         await actions.init(app);
         await events.init(app);
         await commands.init(app);
