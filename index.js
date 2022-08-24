@@ -5,6 +5,7 @@ const commands = require('./controllers/listeners/commands');
 const views = require('./controllers/listeners/views');
 const routes = require('./controllers/listeners/routes');
 const workflows = require('./controllers/workflows/caseDeflection');
+const cacher = require('./services/cache.service');
 
 const receiver = new ExpressReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -33,6 +34,8 @@ const app = new App({
         console.log('⚡️ Bolt app is running!');
 
         app.step(await workflows.caseCreationWorkflow());
+
+        cacher.cacheChannelMessages();
 
     } catch (ex) {
         console.log(ex);

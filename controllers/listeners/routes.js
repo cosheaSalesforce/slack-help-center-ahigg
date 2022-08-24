@@ -18,6 +18,18 @@ async function init(receiver, app) {
     });
 
 
+
+    receiver.router.post('/cache-messages', async (req, res) => {
+        try {
+            // TO:DO Add auth check
+
+            res.send({ test: 'test' });
+        } catch (error) {
+            res.send(error);
+        }
+    });
+
+
 }
 
 
