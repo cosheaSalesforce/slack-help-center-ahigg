@@ -55,7 +55,7 @@ async function caseCreationWorkflow() {
                 username: { value: username.value },
                 channelID: { value: channelID.value }
             };
-
+            console.log(inputs);
             const outputs = [
                 {
                     type: 'text',
