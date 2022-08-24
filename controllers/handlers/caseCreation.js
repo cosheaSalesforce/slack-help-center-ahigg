@@ -1,5 +1,6 @@
 const salesforceService = require("../../services/salesforce.service");
 const slackService = require("../../services/slack.service");
+const mixpanelService = require("../../services/mixpanel.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubmissionToChannelMsg");
@@ -9,6 +10,11 @@ const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubm
  */
 async function showCaseCreationModal(payload, client, channelId) {
     try {
+        console.log(payload);
+        let userID = payload.user.id;
+        var usersEmail = await slackService.getUserEmailById(userID);
+        //logging user's activation of the workflow
+        mixpanelService.trackNewCaseClick(usersEmail);
         console.log("Welcome to the case creation modal!!");
         console.log(channelId);
 

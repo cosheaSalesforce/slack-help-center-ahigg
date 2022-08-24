@@ -4,7 +4,7 @@ var Mixpanel = require('mixpanel');
 // create an instance of the mixpanel client
 var mixpanel = Mixpanel.init(process.env.MIXPANEL_KEY);
 
-function trackWorkFlowClick(businessCaseName, user) {
+function trackWorkFlowClick(user) {
     mixpanel.track(
         "HCS",
         {
@@ -16,7 +16,7 @@ function trackWorkFlowClick(businessCaseName, user) {
 
 function trackNewCaseClick(user) {
     mixpanel.track(
-        "BVD Slack",
+        "HCS",
         {
             "action": "case_creation_process_begins",
             "distinct_id": user,
