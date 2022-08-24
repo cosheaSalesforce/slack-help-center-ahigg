@@ -13,7 +13,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         console.log(payload);
         let userID = payload.user.id;
         var usersEmail = await slackService.getUserEmailById(userID);
-        //logging user's activation of the workflow
+        //logging user's request to create a case
         mixpanelService.trackNewCaseClick(usersEmail);
         console.log("Welcome to the case creation modal!!");
         console.log(channelId);
@@ -121,6 +121,9 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         usersEmail,
         postedMessage.ts,
     );
+
+    //logging user's case submission action
+    mixpanelService.trackCaseSubmission(usersEmail, meta.subject);
 }
 
 /**
