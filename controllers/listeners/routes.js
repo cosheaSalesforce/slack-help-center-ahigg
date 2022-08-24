@@ -1,5 +1,8 @@
 const express = require("express");
 const messenger = require("../handlers/messenger");
+const reactions = require("../handlers/reactions");
+
+const { handleReactionToMessage } = require("../handlers/reactions");
 
 async function init(receiver, app) {
     receiver.router.use(express.json());
@@ -17,7 +20,20 @@ async function init(receiver, app) {
         }
     });
 
+    receiver.router.post('/slack-emoji-update', async(req, res) => {
+        try {
+            //TODO: Add auth
+            console.log("router");
+            console.log(req.body);
+            reactions.addReactionToMessage(app, req.body);
 
+            res.send({status: '200'});
+
+        }
+        catch (error) {
+        res.send(error);
+        }
+    })
 }
 
 

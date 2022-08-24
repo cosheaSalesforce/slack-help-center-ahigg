@@ -18,6 +18,11 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
     }
 }
 
+async function addReactionToMessage() {
+    
+}
+
 module.exports = {
-    handleReactionToMessage
+    handleReactionToMessage,
+    addReactionToMessage
 }
