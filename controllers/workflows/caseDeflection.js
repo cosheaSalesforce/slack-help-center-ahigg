@@ -59,7 +59,7 @@ async function caseCreationWorkflow() {
             console.log(inputs);
             var errors = deflectFromWorkflowHandler.checkWorkflowVariables(username.value, channelID.value);
             if (Object.entries(errors).length > 0) {
-                await ack({
+                await update({
                     response_action: 'errors',
                     errors: errors
                 });
