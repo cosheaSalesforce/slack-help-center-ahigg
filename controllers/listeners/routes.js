@@ -27,7 +27,7 @@ async function init(receiver, app) {
             console.log(req.body);
             reactions.addReactionToMessage(app, req.body);
 
-            res.send({status: '200'});
+            res.status(200).send({test: 'test'});
 
         }
         catch (error) {
