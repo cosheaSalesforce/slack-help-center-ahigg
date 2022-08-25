@@ -20,8 +20,27 @@ async function postDeflectionMessage(userEmail, channelId) {
     mixpanelService.trackWorkFlowClick(userEmail);
 }
 
+function checkWorkflowVariables(userEmail, channelId) {
+    const errors = {};
+    if (!userEmail.includes("user.email")) {
+        errors['user_name'] = 'Please enter a valid email address';
+    }
+    if (!channelId.includes("channel")) {
+        errors['user_name'] = 'Please enter a valid channel ID';
+    }
+    if (Object.entries(errors).length > 0) {
+        ack({
+            response_action: 'errors',
+            errors: errors
+        });
+    } else {
+        ack(); // close this modal - or also possible to set `response_action: 'clear'`
+    }
+}
+
 
 
 module.exports = {
     postDeflectionMessage,
+    checkWorkflowVariables
 };
