@@ -45,7 +45,7 @@ async function caseCreationWorkflow() {
             await configure({ blocks });
         },
         save: async ({ ack, step, view, update }) => {
-            //await ack();
+            await ack();
 
             const { values } = view.state;
             const username = values.user_name.username;
