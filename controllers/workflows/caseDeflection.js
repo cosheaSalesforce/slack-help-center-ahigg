@@ -57,7 +57,7 @@ async function caseCreationWorkflow() {
             };
             //------------- START OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER -------------
             console.log(inputs);
-            deflectFromWorkflowHandler.checkWorkflowVariables(username.value, channelID.value);
+            await deflectFromWorkflowHandler.checkWorkflowVariables(ack, username.value, channelID.value);
             //------------- END OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER ---------------
             const outputs = [
                 {
