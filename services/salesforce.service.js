@@ -136,6 +136,17 @@ async function searchKnowledgeArticles(searchTerm, channelId) {
 }
 
 
+
+async function getSlackChannelMessages() {
+    await checkAuth();
+    return await conn.apex.get(`/SlackChannelMessages`, function(err, result) {
+        if (err) {
+            return null;
+        }
+    });
+} 
+
+
 module.exports = {
     doLogin,
     getDomain,
@@ -145,6 +156,7 @@ module.exports = {
     updateCaseStatus,
     searchKnowledgeArticles,
     getAllHcApplications,
+    getSlackChannelMessages
 }
 
 
