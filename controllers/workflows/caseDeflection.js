@@ -46,7 +46,7 @@ async function caseCreationWorkflow() {
         },
         save: async ({ ack, step, view, update }) => {
             //await ack();
-
+            console.log("are we hitting the endpoint?");
             const { values } = view.state;
             const username = values.user_name.username;
             const channelID = values.channel_id.channel;
@@ -65,7 +65,7 @@ async function caseCreationWorkflow() {
                 });
             }
             else {
-                await ack(); // close this modal - or also possible to set `response_action: 'clear'`
+                await ack(); // if there are no errors, ack to the server side as usual
             }
             //------------- END OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER ---------------
             const outputs = [
