@@ -45,7 +45,7 @@ async function caseCreationWorkflow() {
             await configure({ blocks });
         },
         save: async ({ ack, step, view, update }) => {
-            await ack();
+            //await ack();
 
             const { values } = view.state;
             const username = values.user_name.username;
@@ -57,7 +57,15 @@ async function caseCreationWorkflow() {
             };
             //------------- START OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER -------------
             console.log(inputs);
-            await deflectFromWorkflowHandler.checkWorkflowVariables(ack, username.value, channelID.value);
+            var errors = deflectFromWorkflowHandler.checkWorkflowVariables(username.value, channelID.value);
+            if (Object.entries(errors).length > 0) {
+                await ack({
+                    response_action: 'errors',
+                    errors: errors
+                });
+            } else {
+                await ack(); // close this modal - or also possible to set `response_action: 'clear'`
+            }
             //------------- END OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER ---------------
             const outputs = [
                 {
