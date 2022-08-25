@@ -1,20 +1,27 @@
 const salesforceService = require("../../services/salesforce.service");
 const slackService = require("../../services/slack.service");
+const mixpanelService = require("../../services/mixpanel.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubmissionToChannelMsg");
+
 /**
  * The function creates the initial modal for creating a new case
  */
 async function showCaseCreationModal(payload, client, channelId) {
     try {
+        let userID = payload.user.id;
+        var usersEmail = await slackService.getUserEmailById(userID);
+        //logging user's request to create a case
+        mixpanelService.trackNewCaseClick(usersEmail);
         console.log("Welcome to the case creation modal!!");
         console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
 
         if (queryResult.HCApplication__c == null) {
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId);
+            var allHcApplications = await salesforceService.getAllHcApplications();
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, allHcApplications);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -28,7 +35,8 @@ async function showCaseCreationModal(payload, client, channelId) {
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
 
             var privateMetadata = {
-                slackChannel: channelId,
+                channelSlackId: channelId,
+                slackChannel: queryResult.Id,
                 application: queryResult.HCApplication__c,
                 categoryGroupIdsMap: CategoryGroupsNames,
                 categories: null,
@@ -70,9 +78,9 @@ async function handleCaseCreationModal(ack, body, client, view) {
         var meta = JSON.parse(currentView.private_metadata);
         meta.description = stateValues.description.description_action.value;
         meta.subject = stateValues.subject.subject_action.value;
-        var groupIdToCategory = {}; // maps group Ids to the selected category Ids from the user's selection
+        var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
         for (var x in meta.categoryGroupIdsMap) {
-            groupIdToCategory[x] = stateValues[x][x + '_action'].selected_option.value;
+            groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
         }
         meta.categories = groupIdToCategory;
         await ack();
@@ -91,51 +99,31 @@ async function handleCaseCreationModal(ack, body, client, view) {
  */
 async function createHcCaseFromSlack(body, client, view, meta) {
     console.log('successfully reached the end of the front-end side for creating a case, hurray!');
-
     let userID = body.user.id;
     var userInfo = await client.users.info({
         user: body.user.id,
     });
-    var usersEmail = userInfo.user.name + "@salesforce.com"; //temporary email for testing
+    var usersEmail = await slackService.getUserEmailById(userID);
 
-
-    var myNewCase = await salesforceService.createHcCase(
-        meta.channelId,
+    var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
+    var postedMessage = await client.chat.postMessage({
+        channel: meta.channelSlackId,
+        text: "A new case has been submitted:",
+        blocks: newCaseMsgBlock,
+    })
+    salesforceService.createHcCase(
+        meta.slackChannel,
         meta.application,
         meta.categories,
         meta.subject,
         meta.description,
-        userID, // for the Case Contact field
+        usersEmail,
+        postedMessage.ts,
     );
 
-    var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
-    await client.chat.postMessage({
-        channel: meta.slackChannel,
-        text: "A new case has been submitted:",
-        blocks: newCaseMsgBlock,
-    })
-
-    // var url = await salesforceService.getDomain();
-    // url = url + "/" + myNewCase.Id;
-
-    // var logo = meta.calculator == "a0109000010yOBfAAM" ? ":salesforce: " : ":mulesoft-logo: ";
-    // var txt = logo + "<" + url + "|" + myNewCase.Business_Case_Name__c + ">";
-
-    // // Respond to action with an ephemeral message
-    // var ephermalBlock = ephermalMessageFormat.createEphermalMessageBlocks(url, txt, myNewCase.Id, myNewCase.Business_Case_Name__c);
-    // await client.chat.postEphemeral({
-    //     channel: userID,
-    //     user: userID,
-    //     text: "Your new Business Case has been created!",
-    //     blocks: ephermalBlock,
-    // });
-
-    //logging the creation of a new business case
-    //mixpanelService.trackNewBusinessCase(myNewCase.Business_Case_Name__c, usersEmail);
+    //logging user's case submission action
+    mixpanelService.trackCaseSubmission(usersEmail, meta.subject);
 }
-
-
-
 
 /**
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
