@@ -11,11 +11,19 @@ async function cacheChannelMessages() {
            jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
         }
 
-        fs.writeFile('./json/channelMessages.json', JSON.stringify(jsonObj), 'utf8', (err, data) => {
-            if(err) {
-                console.log(err);
+
+        var location = './json/channelMessages.json';
+        fs.exists(location, function(exists) {
+            if(!exists) {
+                console.log('Error, file does not exist: ' + location);
+                return;
             }
-            return;
+            fs.writeFile(location, JSON.stringify(jsonObj), 'utf8', (err, data) => {
+                if(err) {
+                    console.log(err);
+                }
+                return;
+            });
         });
     } catch(ex) {
         console.log(ex);

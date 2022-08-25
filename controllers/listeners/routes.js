@@ -1,5 +1,6 @@
 const express = require("express");
 const messenger = require("../handlers/messenger");
+const cacher = require('../../services/cache.service');
 
 async function init(receiver, app) {
     receiver.router.use(express.json());
@@ -10,8 +11,8 @@ async function init(receiver, app) {
             // TO:DO Add auth check
 
             messenger.postMessages(app, req.body);
-
             res.send({ test: 'test' });
+
         } catch (error) {
             res.send(error);
         }
@@ -23,7 +24,9 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
+            cacher.cacheChannelMessages();
             res.send({ test: 'test' });
+            
         } catch (error) {
             res.send(error);
         }
