@@ -63,9 +63,10 @@ async function caseCreationWorkflow() {
                     response_action: 'errors',
                     errors: errors
                 });
-            } else {
-                await ack(); // close this modal - or also possible to set `response_action: 'clear'`
             }
+            // else {
+            //     await ack(); // close this modal - or also possible to set `response_action: 'clear'`
+            // }
             //------------- END OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER ---------------
             const outputs = [
                 {
