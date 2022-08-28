@@ -131,13 +131,30 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 
 
 async function searchKnowledgeArticles(searchTerm, channelId) {
+    //TODO: Add handling speical chars
+    var searchTermEncoded = encodeURIComponent(getFixedSearchTerm(searchTerm));
     await checkAuth();
-    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function(err, result) {
+    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTermEncoded}/${channelId}/`, function(err, result) {
         if (err) {
             return null;
         }
     })
 
+}
+
+function getFixedSearchTerm(param) {
+    var result = param, replacements = [["-", "\\-"], ["[", "\\["], ["]", "\\]"], ["?", "\\?"],
+    ["&", "\\&"], ["|", "\\|"], ["!", "\\!"], ["{", "\\{"],
+    ["}", "\\}"], ["(", "\\("], [")", "\\)"], ["^", "\\^"],
+    ["~", "\\~"], ["*", "\\*"], [":", "\\:"], ["'", "\\'"],
+    ["+", "\\+"],],
+        r;
+    while (
+        (r = replacements.shift()) &&
+        (result = String.prototype.replace.apply(result, r))
+    ) { }
+    // result = "*" + result + "*"
+    return result;
 }
 
 
