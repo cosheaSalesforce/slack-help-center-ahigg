@@ -3,7 +3,7 @@ const search = require("../handlers/search");
 const caseCreationHandler = require("../handlers/caseCreation");
 
 async function init(app) {
-    app.command("/search-help", async ({ ack, payload, client }) => {
+    app.command("/search-help1", async ({ ack, payload, client }) => {
         await ack();
         try {
             console.log("search knowledge articles");
