@@ -133,6 +133,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 async function searchKnowledgeArticles(searchTerm, channelId) {
     //TODO: Add handling speical chars
     var searchTermEncoded = encodeURIComponent(getFixedSearchTerm(searchTerm));
+    console.log(searchTermEncoded);
     await checkAuth();
     return await conn.apex.get(`/SearchKnowledgeArticles/${searchTermEncoded}/${channelId}/`, function(err, result) {
         if (err) {
