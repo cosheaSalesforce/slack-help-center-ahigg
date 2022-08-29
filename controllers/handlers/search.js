@@ -2,23 +2,21 @@ const salesforceService = require("../../services/salesforce.service");
 const mixpanelService = require("../../services/mixpanel.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
-  const userEmail = `${username}@salesforce.com`;
-  const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId);
-  console.log(results);
-
-  //logging user's search term
-  mixpanelService.trackUserSearch(userEmail, searchTerm);
-
-  //TODO: Spreate to another file
-  //Creates blocks to display to the user
-  var articleBlocks = [];
-  results.forEach(article => {
-    articleBlocks.push({
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: article.Title,
-      },
+    const userEmail = `${username}@salesforce.com`;
+    const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
+    console.log(results);
+    
+    //TODO: Spreate to another file
+    //Creates blocks to display to the user
+    var articleBlocks = [];
+    results.forEach(article => {
+        articleBlocks.push({
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: article.Title,
+            },
+          });
     });
   });
 
