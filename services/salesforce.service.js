@@ -136,7 +136,7 @@ async function searchKnowledgeArticles(searchTerm, channelId) {
     console.log(searchTermEncoded);
     console.log(channelId);
     await checkAuth();
-    return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}`, function(err, result) {
+    return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}&amount=${10}`, function(err, result) {
         if (err) {
             return null;
         }
