@@ -1,4 +1,5 @@
 const salesforceService = require("../../services/salesforce.service");
+const mixpanelService = require("../../services/mixpanel.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
     const userEmail = `${username}@salesforce.com`;
@@ -17,18 +18,18 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
             },
           });
     });
-    
-    //Sends ephmeral message to the user
-    await client.chat.postEphemeral({
-        channel: channelId,
-        user: userId,
-        text: "Here's a list of your business cases!",
-        blocks: articleBlocks
-      });
+  });
+
+  //Sends ephmeral message to the user
+  await client.chat.postEphemeral({
+    channel: channelId,
+    user: userId,
+    text: "Here's a list of your business cases!",
+    blocks: articleBlocks
+  });
 
 }
 
 module.exports = {
-    knowledgeArticlesSearch
-  };
-  
+  knowledgeArticlesSearch
+};

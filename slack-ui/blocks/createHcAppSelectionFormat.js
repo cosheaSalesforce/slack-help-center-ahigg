@@ -1,9 +1,10 @@
 const { Channel } = require("jsforce");
 
 // creates a case menu format to select HcAppication for a view and return it
-function createCaseAppSelectionFormat(channelId) {
+function createCaseAppSelectionFormat(slackId, channelId, allApps) {
     // Provide some initial values to this private_metadata object
     var valuesObj = {
+        channelSlackId: slackId,
         slackChannel: channelId,
         application: null,
         categoryGroupIdsMap: null,
@@ -12,6 +13,18 @@ function createCaseAppSelectionFormat(channelId) {
         description: null,
         state: "application"
     };
+
+    var opts = [];
+    for (var i = 0; i < allApps.length; i++) {
+        opts.push({
+            text: {
+                type: "plain_text",
+                text: allApps[i].Name,
+                emoji: true,
+            },
+            value: allApps[i].Id,
+        })
+    }
 
     let view = {
         type: "modal",
@@ -45,29 +58,7 @@ function createCaseAppSelectionFormat(channelId) {
                         type: "plain_text",
                         text: "Choose an Application",
                     },
-                    options: [
-                        {
-                            text: {
-                                type: "plain_text",
-                                text: "Demo Environment",
-                            },
-                            value: "a008N000000xOo9QAE",
-                        },
-                        {
-                            text: {
-                                type: "plain_text",
-                                text: "Innovation Box",
-                            },
-                            value: "a008N000000xOWeQAM",
-                        },
-                        {
-                            text: {
-                                type: "plain_text",
-                                text: "Solutions Central",
-                            },
-                            value: "a008N000000xORVQA2",
-                        },
-                    ],
+                    options: opts,
                 },
             },
         ],
