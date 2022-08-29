@@ -2,7 +2,7 @@ const salesforceService = require("../../services/salesforce.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
     const userEmail = `${username}@salesforce.com`;
-    const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId);
+    const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
     console.log(results);
     
     //TODO: Spreate to another file
