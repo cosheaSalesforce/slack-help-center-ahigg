@@ -21,7 +21,7 @@ async function postDeflectionMessage(userEmail, channelId) {
     //     console.log(data);
     // });
 
-    console.log(channelMessages.channelIdSub);
+    console.log(channelMessages);
 
     var slackPost = {
         channelId: channelIdSub,
