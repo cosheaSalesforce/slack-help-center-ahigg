@@ -26,7 +26,7 @@ async function postDeflectionMessage(userEmail, channelId) {
     var slackPost = {
         channelId: channelIdSub,
         threadId: null,
-        messageContent: channelMessages.channelIdSub,
+        messageContent: channelMessages[channelIdSub],
         userEmail: userEmail,
         isEphermal: true,
         showNewCase: true,
