@@ -18,7 +18,7 @@ async function postDeflectionMessage(userEmail, channelId) {
             console.error(err);
             return
         }
-        //console.log(data);
+        console.log(data);
     });
 
     console.log(message);
