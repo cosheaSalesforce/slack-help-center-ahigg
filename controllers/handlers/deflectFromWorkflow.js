@@ -1,4 +1,6 @@
-const deflectCaseEphemeralFormat = require("../../slack-ui/blocks/deflectCaseEphemeralFormat");
+const fs = require('fs');
+
+//const deflectCaseEphemeralFormat = require("../../slack-ui/blocks/deflectCaseEphemeralFormat");
 const slackService = require("../../services/slack.service");
 const mixpanelService = require("../../services/mixpanel.service");
 const channelMessages = require("../../json/channelMessages");
@@ -7,12 +9,22 @@ const messengerHandler = require(("./messenger"));
 async function postDeflectionMessage(userEmail, channelId) {
 
     var channelIdSub = channelId.substring(2, channelId.length - 1);
-    var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
     var app = await slackService.getAppInstance();
+    //var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
     //var userId = await slackService.getUserIdByEmail(userEmail)
 
+    var message = fs.readFile('./json/channelMessages.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return
+        }
+        //console.log(data);
+    });
+
+    console.log(message);
+
     var slackPost = {
-        channelId: channelId,
+        channelId: channelIdSub,
         threadId: null,
         messageContent: channelMessages[channelId],
         userEmail: userEmail,
