@@ -1,5 +1,3 @@
-
-//const deflectCaseEphemeralFormat = require("../../slack-ui/blocks/deflectCaseEphemeralFormat");
 const slackService = require("../../services/slack.service");
 const mixpanelService = require("../../services/mixpanel.service");
 const channelMessages = require("../../json/channelMessages.json");
@@ -9,8 +7,6 @@ async function postDeflectionMessage(userEmail, channelId) {
 
     var channelIdSub = channelId.substring(2, channelId.length - 1);
     var app = await slackService.getAppInstance();
-    //var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
-    //var userId = await slackService.getUserIdByEmail(userEmail)
 
     var slackPost = {
         channelId: channelIdSub,
@@ -25,14 +21,6 @@ async function postDeflectionMessage(userEmail, channelId) {
     arrayPosts.push(slackPost);
 
     messengerHandler.postMessages(app, arrayPosts);
-
-
-    // await app.client.chat.postEphemeral({
-    //     channel: channelIdSub,
-    //     user: userId,
-    //     text: "Before you create a case, check out this helpful information!",
-    //     blocks: block,
-    // });
 
     //logging user's activation of the workflow
     mixpanelService.trackWorkFlowClick(userEmail);
