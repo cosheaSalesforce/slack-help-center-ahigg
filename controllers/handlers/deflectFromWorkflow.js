@@ -3,7 +3,7 @@ const fs = require('fs');
 //const deflectCaseEphemeralFormat = require("../../slack-ui/blocks/deflectCaseEphemeralFormat");
 const slackService = require("../../services/slack.service");
 const mixpanelService = require("../../services/mixpanel.service");
-const channelMessages = require("../../json/channelMessages");
+const channelMessages = require("../../json/channelMessages.json");
 const messengerHandler = require(("./messenger"));
 
 async function postDeflectionMessage(userEmail, channelId) {
