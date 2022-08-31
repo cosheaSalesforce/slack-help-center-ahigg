@@ -101,7 +101,7 @@ async function getAllHcApplications() {
     });
 }
 
-async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs) {
+async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail) {
     await checkAuth();
     var body = {
         userEmail: userEmail,
@@ -109,7 +109,8 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
         channelId: channelId,
         messageTs: messageTs,
         parentMessageTs: parentMessageTs,
-        messageContent: messageContent
+        messageContent: messageContent,
+        messageOwnerEmail: messageOwnerEmail
     };
     console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
@@ -125,14 +126,33 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 }
 
 
-async function searchKnowledgeArticles(searchTerm, channelId) {
+async function searchKnowledgeArticles(searchTerm, channelId, amount) {
+    //TODO: Add handling speical chars
+    var searchTermEncoded = encodeURIComponent(getFixedSearchTerm(searchTerm));
+    console.log(searchTermEncoded);
+    console.log(channelId);
     await checkAuth();
-    return await conn.apex.get(`/SearchKnowledgeArticles/${searchTerm}/${channelId}/`, function (err, result) {
+    return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}&amount=${amount}`, function(err, result) {
         if (err) {
             return null;
         }
     })
 
+}
+
+function getFixedSearchTerm(param) {
+    var result = param, replacements = [["-", "\\-"], ["[", "\\["], ["]", "\\]"], ["?", "\\?"],
+    ["&", "\\&"], ["|", "\\|"], ["!", "\\!"], ["{", "\\{"],
+    ["}", "\\}"], ["(", "\\("], [")", "\\)"], ["^", "\\^"],
+    ["~", "\\~"], ["*", "\\*"], [":", "\\:"], ["'", "\\'"],
+    ["+", "\\+"],],
+        r;
+    while (
+        (r = replacements.shift()) &&
+        (result = String.prototype.replace.apply(result, r))
+    ) { }
+    // result = "*" + result + "*"
+    return result;
 }
 
 

@@ -28,19 +28,34 @@ async function getUserIdByEmail(userEmail) {
 async function getParentMessageTs(channelId, ts) {
     try {
         const app = await getAppInstance();
-        const result = await app.client.conversations.history({
+        const result = await app.client.conversations.replies({
             channel: channelId,
-            latest: ts,
-            "limit": 1,
-            "inclusive": true
+            ts: ts
         });
-        if (result.messages.length > 0) {
+        if (result.messages[0].thread_ts != undefined) {
+            return result.messages[0].thread_ts;
+        }
+        else {
             return result.messages[0].ts;
         }
-        return ts;
     } catch (error) {
         console.error(error);
     }
+}
+
+async function getMessageOwner(channelId, ts) {
+    try {
+        const app = await getAppInstance();
+        const result = await app.client.conversations.replies({
+            channel: channelId,
+            ts: ts
+        });
+        
+        return result.messages[0].user;
+    } catch (error) {
+        console.error(error);
+    }
+
 }
 
 async function getMessageContent(channelId, ts) {
@@ -50,7 +65,7 @@ async function getMessageContent(channelId, ts) {
             channel: channelId,
             ts: ts,
         });
-        
+
         var messageContent = '';
         for(let i in result.messages) {
             if (result.messages[i].ts == ts) {
@@ -64,10 +79,19 @@ async function getMessageContent(channelId, ts) {
     }
 }
 
+async function getBotId() {
+    const app = await getAppInstance();
+    const botInfo = await app.client.bots.info();
+    return botInfo.bot.id;
+
+}
+
 module.exports = {
     getAppInstance,
     getUserEmailById,
     getUserIdByEmail,
     getParentMessageTs,
-    getMessageContent
+    getMessageContent,
+    getMessageOwner,
+    getBotId
 }
