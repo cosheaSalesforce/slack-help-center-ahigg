@@ -60,6 +60,7 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
         element: {
             type: "plain_text_input",
             action_id: "description_action",
+            multiline: true,
             placeholder: {
                 type: "plain_text",
                 text: "Please describe in details what you need help with.."
