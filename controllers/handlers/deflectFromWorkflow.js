@@ -13,20 +13,20 @@ async function postDeflectionMessage(userEmail, channelId) {
     //var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
     //var userId = await slackService.getUserIdByEmail(userEmail)
 
-    var message = fs.readFile('./json/channelMessages.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return
-        }
-        console.log(data);
-    });
+    // var message = fs.readFile('./json/channelMessages.json', 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.error(err);
+    //         return
+    //     }
+    //     console.log(data);
+    // });
 
-    console.log(message);
+    console.log(channelMessages.channelIdSub);
 
     var slackPost = {
         channelId: channelIdSub,
         threadId: null,
-        messageContent: channelMessages[channelId],
+        messageContent: channelMessages.channelIdSub,
         userEmail: userEmail,
         isEphermal: true,
         showNewCase: true,
