@@ -1,4 +1,3 @@
-const fs = require('fs');
 
 //const deflectCaseEphemeralFormat = require("../../slack-ui/blocks/deflectCaseEphemeralFormat");
 const slackService = require("../../services/slack.service");
@@ -13,16 +12,6 @@ async function postDeflectionMessage(userEmail, channelId) {
     //var block = await deflectCaseEphemeralFormat.createDeflectionFormat(channelIdSub);
     //var userId = await slackService.getUserIdByEmail(userEmail)
 
-    // var message = fs.readFile('./json/channelMessages.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return
-    //     }
-    //     console.log(data);
-    // });
-
-    console.log(channelMessages);
-
     var slackPost = {
         channelId: channelIdSub,
         threadId: null,
@@ -34,6 +23,8 @@ async function postDeflectionMessage(userEmail, channelId) {
     console.log(slackPost);
     var arrayPosts = [];
     arrayPosts.push(slackPost);
+
+    messengerHandler.postMessages(app, arrayPosts);
 
 
     // await app.client.chat.postEphemeral({
