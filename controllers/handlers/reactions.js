@@ -36,6 +36,7 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
 }
 
 async function addReactionToMessage(app, reqBody) {
+    
     console.log('adding a reaction');
     try {
         app.client.reactions.add({
@@ -45,6 +46,7 @@ async function addReactionToMessage(app, reqBody) {
         })
     } catch(error) {
         console.error(error);
+        return
     }
 }
 
