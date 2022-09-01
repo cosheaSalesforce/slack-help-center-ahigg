@@ -90,7 +90,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
             try {
                 createHcCaseFromSlack(body, client, view, meta);
             } catch (error) {
-                //mixpanelService.trackErrors(error, "showNewModal", usersEmail);
                 console.error(error);
             }
         }
