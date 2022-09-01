@@ -2,6 +2,7 @@ const slackService = require("../../services/slack.service");
 const salesforceService = require("../../services/salesforce.service");
 
 async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
+    slackService.getBotId();
     if (reaction == 'registered' || reaction == 'check') {
         if(userId == slackService.getBotId()) {
             console.log("Bot");
