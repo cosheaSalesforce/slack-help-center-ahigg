@@ -14,8 +14,6 @@ async function showCaseCreationModal(payload, client, channelId) {
         var usersEmail = await slackService.getUserEmailById(userID);
         //logging user's request to create a case
         mixpanelService.trackNewCaseClick(usersEmail);
-        console.log("Welcome to the case creation modal!!");
-        console.log(channelId);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
 
@@ -60,6 +58,10 @@ async function showCaseCreationModal(payload, client, channelId) {
     }
 }
 
+/**
+ * The function dynamically changes the case creation's modal depending on the given
+ * information that is provided from the user, and returns the updated view to the user
+ */
 async function handleCaseCreationModal(ack, body, client, view) {
     try {
         var stateValues = body.view.state.values;
@@ -99,34 +101,37 @@ async function handleCaseCreationModal(ack, body, client, view) {
 
 /**
  * The function recieves the required details to create a help-center case, creates it and the notifies
- * the user that his case was created
+ * the user that a case was created
  */
 async function createHcCaseFromSlack(body, client, view, meta) {
-    console.log('successfully reached the end of the front-end side for creating a case, hurray!');
-    let userID = body.user.id;
-    var userInfo = await client.users.info({
-        user: body.user.id,
-    });
-    var usersEmail = await slackService.getUserEmailById(userID);
+    try {
+        let userID = body.user.id;
+        var userInfo = await client.users.info({
+            user: body.user.id,
+        });
+        var usersEmail = await slackService.getUserEmailById(userID);
 
-    var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
-    var postedMessage = await client.chat.postMessage({
-        channel: meta.channelSlackId,
-        text: "A new case has been submitted:",
-        blocks: newCaseMsgBlock,
-    })
-    salesforceService.createHcCase(
-        meta.slackChannel,
-        meta.application,
-        meta.categories,
-        meta.subject,
-        meta.description,
-        usersEmail,
-        postedMessage.ts,
-    );
+        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
+        var postedMessage = await client.chat.postMessage({
+            channel: meta.channelSlackId,
+            text: "A new case has been submitted:",
+            blocks: newCaseMsgBlock,
+        })
+        salesforceService.createHcCase(
+            meta.slackChannel,
+            meta.application,
+            meta.categories,
+            meta.subject,
+            meta.description,
+            usersEmail,
+            postedMessage.ts,
+        );
+        //logging user's case submission action
+        mixpanelService.trackCaseSubmission(usersEmail, meta.subject);
 
-    //logging user's case submission action
-    mixpanelService.trackCaseSubmission(usersEmail, meta.subject);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 /**
