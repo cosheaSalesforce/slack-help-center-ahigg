@@ -35,8 +35,8 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
             console.log('Nothing happened');
         }
     } catch(error) {
-        console.error(error);
-        return
+        console.log(error);
+        return;
     }
 }
 
@@ -50,7 +50,7 @@ async function addReactionToMessage(app, reqBody) {
             timestamp: reqBody[0].messageTs
         })
     } catch(error) {
-        console.error(error);
+        console.log(error);
         return
     }
 }
