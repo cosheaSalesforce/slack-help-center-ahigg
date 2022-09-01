@@ -11,8 +11,6 @@ const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubm
 async function showCaseCreationModal(payload, client, channelId) {
     try {
         var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
-        console.log(userID);
-        //let userID = payload.user.id;
         var usersEmail = await slackService.getUserEmailById(userID);
         //logging user's request to create a case
         mixpanelService.trackNewCaseClick(usersEmail);
