@@ -91,6 +91,7 @@ async function getMessageContent(channelId, ts) {
 async function getBotId() {
     const app = await getAppInstance();
     const botInfo = await app.client.bots.info();
+    console.log(botInfo);
     return botInfo.bot.id;
 
 }
