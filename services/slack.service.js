@@ -59,7 +59,7 @@ async function getMessageOwner(channelId, ts) {
             channel: channelId,
             ts: ts
         });
-        
+
         return result.messages[0].user;
     } catch (error) {
         console.error(error);
@@ -76,7 +76,7 @@ async function getMessageContent(channelId, ts) {
         });
 
         var messageContent = '';
-        for(let i in result.messages) {
+        for (let i in result.messages) {
             if (result.messages[i].ts == ts) {
                 messageContent = result.messages[i].text;
                 return messageContent;
@@ -88,13 +88,13 @@ async function getMessageContent(channelId, ts) {
     }
 }
 
+
 async function getBotId() {
     const app = await getAppInstance();
     console.log(app.client);
-    // const botInfo = await app.client.bots.info();
-    // console.log(app.client);
-    // return botInfo.bot.id;
-
+    const botInfo = await app.client.bots.info();
+    console.log(app.client);
+    return botInfo.bot.id;
 }
 
 module.exports = {
@@ -104,5 +104,5 @@ module.exports = {
     getParentMessageTs,
     getMessageContent,
     getMessageOwner,
-    getBotId
+    //getBotId
 }
