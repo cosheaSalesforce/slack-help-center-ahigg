@@ -3,10 +3,10 @@ const salesforceService = require("../../services/salesforce.service");
 
 async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
     if (reaction == 'registered' || reaction == 'check') {
-        if(userId == slackService.getBotId()) {
-            console.log(userId);
-            return;
-        }
+        // if(userId == slackService.getBotId()) {
+        //     console.log(userId);
+        //     return;
+        // }
         const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
         const userEmail = await slackService.getUserEmailById(userId);
         const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
@@ -30,7 +30,7 @@ async function addReactionToMessage(app, reqBody) {
         timestamp: reqBody[0].messageTs
     })
 
-    
+
 }
 
 module.exports = {

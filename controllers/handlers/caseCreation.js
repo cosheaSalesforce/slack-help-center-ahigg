@@ -56,40 +56,44 @@ async function showCaseCreationModal(payload, client, channelId) {
 
     } catch (error) {
         /// mixpanelService.trackErrors(error, "showNewModal", usersEmail);
-        console.log(error);
+        console.error(error);
     }
 }
 
 async function handleCaseCreationModal(ack, body, client, view) {
-    var stateValues = body.view.state.values;
-    var currentView = body.view;
-    var metaState = JSON.parse(currentView.private_metadata);
-    if (metaState.state == "application") {
-        var meta = JSON.parse(currentView.private_metadata);
-        meta.application = stateValues.application.application_action.selected_option.value;
-        meta.state = "categories";
-        var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
-        var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
-        var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-        meta.categoryGroupIdsMap = CategoryGroupsNames;
-        await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
-    }
-    if (metaState.state == "categories") {
-        var meta = JSON.parse(currentView.private_metadata);
-        meta.description = stateValues.description.description_action.value;
-        meta.subject = stateValues.subject.subject_action.value;
-        var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
-        for (var x in meta.categoryGroupIdsMap) {
-            groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
+    try {
+        var stateValues = body.view.state.values;
+        var currentView = body.view;
+        var metaState = JSON.parse(currentView.private_metadata);
+        if (metaState.state == "application") {
+            var meta = JSON.parse(currentView.private_metadata);
+            meta.application = stateValues.application.application_action.selected_option.value;
+            meta.state = "categories";
+            var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
+            var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
+            var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
+            meta.categoryGroupIdsMap = CategoryGroupsNames;
+            await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
         }
-        meta.categories = groupIdToCategory;
-        await ack();
-        try {
-            createHcCaseFromSlack(body, client, view, meta);
-        } catch (error) {
-            //mixpanelService.trackErrors(error, "showNewModal", usersEmail);
-            console.error(error);
+        if (metaState.state == "categories") {
+            var meta = JSON.parse(currentView.private_metadata);
+            meta.description = stateValues.description.description_action.value;
+            meta.subject = stateValues.subject.subject_action.value;
+            var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
+            for (var x in meta.categoryGroupIdsMap) {
+                groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
+            }
+            meta.categories = groupIdToCategory;
+            await ack();
+            try {
+                createHcCaseFromSlack(body, client, view, meta);
+            } catch (error) {
+                //mixpanelService.trackErrors(error, "showNewModal", usersEmail);
+                console.error(error);
+            }
         }
+    } catch (error) {
+        console.error(error);
     }
 }
 
