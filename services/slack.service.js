@@ -88,12 +88,12 @@ async function getMessageContent(channelId, ts) {
     }
 }
 
-// async function getBotId() {
-//     const app = await getAppInstance();
-//     const botInfo = await app.client.bots.info();
-//     return botInfo.bot.id;
+async function getBotId() {
+    const app = await getAppInstance();
+    const botInfo = await app.client.bots.info();
+    return botInfo.bot.id;
 
-// }
+}
 
 module.exports = {
     getAppInstance,
@@ -101,5 +101,6 @@ module.exports = {
     getUserIdByEmail,
     getParentMessageTs,
     getMessageContent,
-    getMessageOwner
+    getMessageOwner,
+    getBotId
 }
