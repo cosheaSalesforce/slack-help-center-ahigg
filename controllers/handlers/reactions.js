@@ -8,30 +8,35 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
     //     ts: messageTs
     // }));
 
-    slackService.getBotId();
-    if (reaction == 'registered' || reaction == 'check') {
-        // if(userId == slackService.getBotId()) {
-        //     console.log("Bot");
-        //     console.log(userId);
-        //     return;
-        // }
-        const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
-        const userEmail = await slackService.getUserEmailById(userId);
-        if(userEmail == null) {
-            return
+    // slackService.getBotId();
+    try {
+        if (reaction == 'registered' || reaction == 'check') {
+            // if(userId == slackService.getBotId()) {
+            //     console.log("Bot");
+            //     console.log(userId);
+            //     return;
+            // }
+            const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
+            const userEmail = await slackService.getUserEmailById(userId);
+            if(userEmail == null) {
+                return
+            }
+            const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
+            console.log(parentMessageTs);
+            const messageContent = await slackService.getMessageContent(channelId, messageTs);
+            const messageOwnerId = await slackService.getMessageOwner(channelId, messageTs);
+            const messageOwnerEmail = await slackService.getUserEmailById(messageOwnerId);
+            if(messageOwnerEmail == null) {
+                return
+            }
+            await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail);
         }
-        const parentMessageTs = await slackService.getParentMessageTs(channelId, messageTs);
-        console.log(parentMessageTs);
-        const messageContent = await slackService.getMessageContent(channelId, messageTs);
-        const messageOwnerId = await slackService.getMessageOwner(channelId, messageTs);
-        const messageOwnerEmail = await slackService.getUserEmailById(messageOwnerId);
-        if(messageOwnerEmail == null) {
-            return
+        else {
+            console.log('Nothing happened');
         }
-        await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail);
-    }
-    else {
-        console.log('Nothing happened');
+    } catch(error) {
+        console.error(error);
+        return
     }
 }
 
