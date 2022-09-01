@@ -37,6 +37,7 @@ async function init(receiver, app) {
 
     receiver.router.post('/slack-emoji-update', async(req, res) => {
         try {
+            
             //TODO: Add auth
             console.log("router");
             console.log(req.body);

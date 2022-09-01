@@ -8,21 +8,30 @@ async function getAppInstance() {
 }
 
 async function getUserEmailById(userId) {
-    const app = await getAppInstance();
-    userInfo = await app.client.users.info({
-        user: userId
-
-    });
-    userRealName = userInfo.user.name;
-    return `${userRealName}@salesforce.com`
+    try {
+        const app = await getAppInstance();
+        userInfo = await app.client.users.info({
+            user: userId
+        });
+        userRealName = userInfo.user.name;
+        return `${userRealName}@salesforce.com`
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
 async function getUserIdByEmail(userEmail) {
-    const app = await getAppInstance();
-    userInfo = await app.client.users.lookupByEmail({
-        email: userEmail
-    });
-    return userInfo.user.id;
+    try {
+        const app = await getAppInstance();
+        userInfo = await app.client.users.lookupByEmail({
+            email: userEmail
+        });
+        return userInfo.user.id;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
 async function getParentMessageTs(channelId, ts) {
@@ -79,12 +88,14 @@ async function getMessageContent(channelId, ts) {
     }
 }
 
-// async function getBotId() {
-//     const app = await getAppInstance();
-//     const botInfo = await app.client.bots.info();
-//     return botInfo.bot.id;
 
-// }
+async function getBotId() {
+    const app = await getAppInstance();
+    console.log(app.client);
+    const botInfo = await app.client.bots.info();
+    console.log(app.client);
+    return botInfo.bot.id;
+}
 
 module.exports = {
     getAppInstance,
