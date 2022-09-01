@@ -16,6 +16,7 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
             //     console.log(userId);
             //     return;
             // }
+            console.log("hila was here");
             const statusToUpdate = (reaction == 'registered') ? 'Working' : 'Closed';
             const userEmail = await slackService.getUserEmailById(userId);
             if(userEmail == null) {
