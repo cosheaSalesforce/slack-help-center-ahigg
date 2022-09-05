@@ -44,6 +44,7 @@ async function cacheChannelMessages() {
         // for(var key in jsonObj) {
         //     await client.set(key, jsonObj[key]);
         // }
+        await client.set('coshea', 'testing!');
         console.log('KEYS HAVE BEEN SET');
 
     } catch(ex) {
