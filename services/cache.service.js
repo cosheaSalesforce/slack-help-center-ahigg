@@ -41,9 +41,9 @@ async function cacheChannelMessages() {
         client.on('error', (err) => console.log('Redis Client Error', err));
 
         await client.connect();
-        for(var key in jsonObj) {
-            await client.set(key, jsonObj[key]);
-        }
+        // for(var key in jsonObj) {
+        //     await client.set(key, jsonObj[key]);
+        // }
         console.log('KEYS HAVE BEEN SET');
 
     } catch(ex) {
