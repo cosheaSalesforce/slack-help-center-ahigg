@@ -47,6 +47,11 @@ async function cacheChannelMessages() {
         await client.set('coshea', 'testing!');
         console.log('KEYS HAVE BEEN SET');
 
+
+
+        var tmp = await client.get('coshea');
+        console.log('tmp: ' + tmp);
+
     } catch(ex) {
         console.log(ex);
         return;
