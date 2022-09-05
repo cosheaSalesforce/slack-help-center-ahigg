@@ -11,11 +11,11 @@ async function cacheChannelMessages() {
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
-        // const client = redis.createClient({ url: process.env.REDIS_URL });
-        client.on('error', (err) => console.log('Redis Client Error', err));
+        // client.on('error', (err) => console.log('Redis Client Error', err));
 
         if(!(client.connected)) {
             await client.connect();
+            client.on('error', (err) => console.log('Redis Client Error', err));
         }
         for(var i = 0; i < channelMessages.length; i++) {
             await client.set(
@@ -34,6 +34,7 @@ async function cacheChannelMessages() {
 async function getChannelMessage(channelId) {
     if(!(client.connected)) {
         await client.connect();
+        client.on('error', (err) => console.log('Redis Client Error', err));
     }
     var tmp = await client.get(channelId);
     return tmp;
