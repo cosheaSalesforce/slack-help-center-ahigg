@@ -18,7 +18,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
             },
           });
     });
-  });
+
 
   //Sends ephmeral message to the user
   await client.chat.postEphemeral({
