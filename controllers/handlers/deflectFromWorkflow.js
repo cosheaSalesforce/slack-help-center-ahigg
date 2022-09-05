@@ -12,13 +12,13 @@ async function postDeflectionMessage(userEmail, channelId) {
         var channelIdSub = channelId.substring(2, channelId.length - 1);
         var app = await slackService.getAppInstance();
 
-        console.log('channelIdSub: ' + channelIdSub);
-        console.log('channelMessages[channelIdSub]: ' + channelMessages[channelIdSub]);
+        console.log('channelIdSub: ' + channelId);
+        console.log('channelMessages[channelIdSub]: ' + channelMessages[channelId]);
 
         var slackPost = {
-            channelId: channelIdSub,
+            channelId: channelId,
             threadId: null,
-            messageContent: channelMessages[channelIdSub],
+            messageContent: channelMessages[channelId],
             userEmail: userEmail,
             isEphermal: true,
             showNewCase: true,
