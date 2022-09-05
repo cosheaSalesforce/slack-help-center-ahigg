@@ -10,6 +10,7 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
     // }));
 
     // slackService.getBotId();
+    console.log("handling reactions");
     try {
         if (reaction == 'registered' || reaction == 'check') {
             // if(userId == slackService.getBotId()) {
