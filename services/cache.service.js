@@ -10,10 +10,10 @@ async function cacheChannelMessages() {
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
-        var jsonObj = {};
-        for(var i = 0; i < channelMessages.length; i++) {
-           jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
-        }
+        // var jsonObj = {};
+        // for(var i = 0; i < channelMessages.length; i++) {
+        //    jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
+        // }
 
         console.log('jsonObj: ' , jsonObj);
 
@@ -41,16 +41,10 @@ async function cacheChannelMessages() {
         client.on('error', (err) => console.log('Redis Client Error', err));
 
         await client.connect();
-        // for(var key in jsonObj) {
-        //     await client.set(key, jsonObj[key]);
-        // }
-        await client.set('coshea', 'testing!');
+        for(var i = 0; i < channelMessages.length; i++) {
+            await client.set(channelMessages[i].channelId, channelMessages[i].messageContent);
+        }
         console.log('KEYS HAVE BEEN SET');
-
-
-
-        var tmp = await client.get('coshea');
-        console.log('tmp: ' + tmp);
 
     } catch(ex) {
         console.log(ex);
