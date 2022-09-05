@@ -3,6 +3,7 @@ const fs = require('fs');
 
 async function cacheChannelMessages() {
     try {
+        console.log('cacheChannelMessages called.')
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
@@ -10,6 +11,8 @@ async function cacheChannelMessages() {
         for(var i = 0; i < channelMessages.length; i++) {
            jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
         }
+
+        console.log('jsonObj: ' , jsonObj);
 
 
         var location = './json/channelMessages.json';
