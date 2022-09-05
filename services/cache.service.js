@@ -25,6 +25,7 @@ async function cacheChannelMessages() {
                 if(err) {
                     console.log(err);
                 }
+                console.log('Updated channelMessages.json');
                 return;
             });
         });
