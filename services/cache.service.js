@@ -15,7 +15,7 @@ async function cacheChannelMessages() {
         //    jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
         // }
 
-        console.log('jsonObj: ' , jsonObj);
+        // console.log('jsonObj: ' , jsonObj);
 
 
         // var location = './json/channelMessages.json';
