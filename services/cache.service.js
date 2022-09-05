@@ -5,6 +5,13 @@ const redis = require("redis");
 const client = redis.createClient({ url: process.env.REDIS_URL });
 
 
+
+async function initRedisClient() {
+    await client.connect();
+    client.on('error', (err) => console.log('Redis Client Error', err));
+}
+
+
 async function cacheChannelMessages() {
     try {
         console.log('cacheChannelMessages called.');
@@ -18,8 +25,8 @@ async function cacheChannelMessages() {
         //     client.on('error', (err) => console.log('Redis Client Error', err));
         // }
 
-        await client.connect();
-        client.on('error', (err) => console.log('Redis Client Error', err));
+        // await client.connect();
+        // client.on('error', (err) => console.log('Redis Client Error', err));
 
         for(var i = 0; i < channelMessages.length; i++) {
             await client.set(
@@ -45,6 +52,7 @@ async function getChannelMessage(channelId) {
 }
 
 module.exports = {
+    initRedisClient,
     cacheChannelMessages,
     getChannelMessage
 }
