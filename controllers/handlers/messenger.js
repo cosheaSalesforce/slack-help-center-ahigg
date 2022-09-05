@@ -8,55 +8,55 @@
 // }
 
 async function postMessages(app, slackPosts) {
-   
 
-    for( var i = 0; i < slackPosts.length; i++) {
+
+    for (var i = 0; i < slackPosts.length; i++) {
         var slackPost = slackPosts[i];
         var blocks = [];
 
         // Post to User?
-        if(slackPost.userEmail) {
+        if (slackPost.userEmail) {
             try {
                 var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
                 blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
-            } catch(ex) {
-                console.log('Error finding User: ' , ex);
+            } catch (ex) {
+                console.log('Error finding User: ', ex);
             }
         }
 
         // var content = slackPost.messageContent.replace("\\n","\n");
-        var content = replaceAll(slackPost.messageContent, "\\n","\n");
-   
+        var content = replaceAll(slackPost.messageContent, "\\n", "\n");
+
 
         // blocks.push(getTextBlock(slackPost.messageContent));
         blocks.push(getTextBlock(content));
 
-        if(slackPost.showNewCase) {
-            blocks.push(getButtonBlock());
+        if (slackPost.showNewCase) {
+            blocks.push(getButtonBlock(slackPost.channelId));
         }
 
         try {
-            var payload = { };
+            var payload = {};
             payload.channel = slackPost.channelId;
             payload.blocks = blocks;
 
-            if(slackPost.threadId != null) {
+            if (slackPost.threadId != null) {
                 payload.thread_ts = slackPost.threadId;
             }
 
-            if(slackPost.isEphermal != null && slackPost.userEmail != null) {
+            if (slackPost.isEphermal != null && slackPost.userEmail != null) {
                 var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
                 payload.user = user.user.id;
             }
 
             var postMessageResponse;
-            if(slackPost.isEphermal) {
+            if (slackPost.isEphermal) {
                 postMessageResponse = await app.client.chat.postEphemeral(payload);
             } else {
                 postMessageResponse = await app.client.chat.postMessage(payload);
             }
-        } catch(ex) {
-            console.log('EXCEPTION: ' , ex);
+        } catch (ex) {
+            console.log('EXCEPTION: ', ex);
         }
     }
 }
@@ -80,7 +80,7 @@ function getTextBlock(text) {
     };
 }
 
-function getButtonBlock() {
+function getButtonBlock(channelId) {
     return {
         "type": "section",
         "text": {
@@ -95,7 +95,7 @@ function getButtonBlock() {
                 "emoji": true
             },
             "action_id": "createNewCase",
-            "value": "coshea test!"
+            "value": channelId,
         }
     };
 }

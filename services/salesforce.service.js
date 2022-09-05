@@ -1,5 +1,3 @@
-// const mixpanelService = require("./mixpanel.service");
-//
 var jsforce = require("jsforce");
 const { ContextMissingPropertyError } = require("@slack/bolt");
 require("dotenv").config();
@@ -22,6 +20,8 @@ async function checkAuth() {
 async function doLogin() {
     try {
         var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
+        // var loggedIn = await conn.login('hbenyosef@hcslackdev.com', 'churro22' + 'g5k6BaZGWLKl51cBjsC1z7ea', function (err, userInfo) {
+
             if (err) {
                 return null;
             }
@@ -31,34 +31,43 @@ async function doLogin() {
     }
     return loggedIn;
 }
-
-
-async function getDomain() {
-    var details = await checkAuth();
-    return details.urls.custom_domain;
-}
-
+/**
+ * The function receives a slack channel's slack ID and returns a SlackChannel object that matches the given ID
+ */
 async function getSlackChannelAndHcApplication(channelId) {
     await checkAuth();
-    return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
-        if (err) {
-            return err;
-        }
-    });
+    try {
+        return await conn.apex.get(`/slackChannels/${channelId}`, function (err, res) {
+            if (err) {
+                return err;
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
+/**
+ * The function receives HcApplication's ID and returns an object which holds
+ * all the category options, as well as the category group's name, that match the given application
+ */
 async function getGroupedCategories(HcApp) {
     await checkAuth();
-    return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
-        if (err) {
-            return err;
-        }
-    });
+    try {
+        return await conn.apex.get(`/hcsGroupedCategories/${HcApp}`, function (err, res) {
+            if (err) {
+                return err;
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-//Creates a new help-center case
+/**
+ * The function receives the required data to create a new HC-Case
+ */
 async function createHcCase(channelId, application, categoriesIds, subject, description, userEmail, timeStamp) {
-    console.log('Hurray, now to test the back-end side!');
 
     await checkAuth();
     var body = {
@@ -73,7 +82,6 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
         caseCreatedViaSlackWorkflow: true,
     };
 
-    //console.log(body);
     try {
         await conn.apex.post("/createCase/", body, function (err, result) {
             console.log(result);
@@ -81,24 +89,27 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
                 console.log(err);
                 return null;
             }
-            // else {
-            //     console.log(result);
-            //     return result;
-            // }
         });
     } catch (error) {
         /// mixpanelService.trackErrors(error, "showNewModal", usersEmail);
-        console.log(error);
+        console.error(error);
     }
 }
 
+/**
+ * The fucntion returns all the existing HcApplications from the org
+ */
 async function getAllHcApplications() {
     await checkAuth();
-    return conn.apex.get(`/hcApplications/`, function (err, res) {
-        if (err) {
-            return err;
-        }
-    });
+    try {
+        return conn.apex.get(`/hcApplications/`, function (err, res) {
+            if (err) {
+                return err;
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail) {
@@ -132,7 +143,7 @@ async function searchKnowledgeArticles(searchTerm, channelId, amount) {
     console.log(searchTermEncoded);
     console.log(channelId);
     await checkAuth();
-    return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}&amount=${amount}`, function(err, result) {
+    return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}&amount=${amount}`, function (err, result) {
         if (err) {
             return null;
         }
@@ -159,17 +170,16 @@ function getFixedSearchTerm(param) {
 
 async function getSlackChannelMessages() {
     await checkAuth();
-    return await conn.apex.get(`/SlackChannelMessages`, function(err, result) {
+    return await conn.apex.get(`/SlackChannelMessages`, function (err, result) {
         if (err) {
             return null;
         }
     });
-} 
+}
 
 
 module.exports = {
     doLogin,
-    getDomain,
     getSlackChannelAndHcApplication,
     getGroupedCategories,
     createHcCase,
