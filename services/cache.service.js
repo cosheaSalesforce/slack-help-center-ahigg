@@ -42,7 +42,10 @@ async function cacheChannelMessages() {
 
         await client.connect();
         for(var i = 0; i < channelMessages.length; i++) {
-            await client.set(channelMessages[i].channelId, channelMessages[i].messageContent);
+            await client.set(
+                String(channelMessages[i].channelId), 
+                String(channelMessages[i].messageContent)
+            );
         }
         console.log('KEYS HAVE BEEN SET');
 
