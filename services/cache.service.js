@@ -13,10 +13,14 @@ async function cacheChannelMessages() {
 
         // client.on('error', (err) => console.log('Redis Client Error', err));
 
-        if(!(client.connected)) {
-            await client.connect();
-            client.on('error', (err) => console.log('Redis Client Error', err));
-        }
+        // if(!(client.connected)) {
+        //     await client.connect();
+        //     client.on('error', (err) => console.log('Redis Client Error', err));
+        // }
+
+        await client.connect();
+        client.on('error', (err) => console.log('Redis Client Error', err));
+
         for(var i = 0; i < channelMessages.length; i++) {
             await client.set(
                 String(channelMessages[i].channelId), 
