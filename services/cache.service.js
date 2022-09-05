@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function cacheChannelMessages() {
     try {
-        console.log('cacheChannelMessages called.')
+        console.log('cacheChannelMessages called.');
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
@@ -25,7 +25,7 @@ async function cacheChannelMessages() {
                 if(err) {
                     console.log(err);
                 }
-                console.log('Updated channelMessages.json');
+                console.log('Updated channelMessages.json: ' , data);
                 return;
             });
         });
