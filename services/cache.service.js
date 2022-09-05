@@ -36,10 +36,10 @@ async function cacheChannelMessages() {
 
 
 async function getChannelMessage(channelId) {
-    if(!(client.connected)) {
-        await client.connect();
-        client.on('error', (err) => console.log('Redis Client Error', err));
-    }
+    // if(!(client.connected)) {
+    //     await client.connect();
+    //     client.on('error', (err) => console.log('Redis Client Error', err));
+    // }
     var tmp = await client.get(channelId);
     return tmp;
 }
