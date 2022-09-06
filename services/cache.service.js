@@ -1,39 +1,47 @@
 const salesforce = require("./salesforce.service");
 const fs = require('fs');
 
+const redis = require("redis");
+const client = redis.createClient({ url: process.env.REDIS_URL });
+
+
+async function initRedisClient() {
+    await client.connect();
+    client.on('error', (err) => console.log('Redis Client Error', err));
+}
+
+
 async function cacheChannelMessages() {
     try {
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
-        var jsonObj = {};
         for(var i = 0; i < channelMessages.length; i++) {
-           jsonObj[channelMessages[i].channelId] = channelMessages[i].messageContent;
+            await client.set(
+                String(channelMessages[i].channelId), 
+                String(channelMessages[i].messageContent)
+            );
         }
-
-
-        var location = './json/channelMessages.json';
-        fs.exists(location, function(exists) {
-            if(!exists) {
-                console.log('Error, file does not exist: ' + location);
-                return;
-            }
-            fs.writeFile(location, JSON.stringify(jsonObj), 'utf8', (err, data) => {
-                if(err) {
-                    console.log(err);
-                }
-                return;
-            });
-        });
     } catch(ex) {
         console.log(ex);
         return;
     }
-
-    
-
 }
 
+
+async function getChannelMessage(channelId) {
+    try {
+        var tmp = await client.get(channelId);
+        return tmp;
+    } catch(ex) {
+        console.log(ex);
+        return null;
+    }
+}
+
+
 module.exports = {
-    cacheChannelMessages
+    initRedisClient,
+    cacheChannelMessages,
+    getChannelMessage
 }

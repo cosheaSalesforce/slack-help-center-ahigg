@@ -1,6 +1,7 @@
 const slackService = require("../../services/slack.service");
+const cacher = require("../../services/cache.service");
 const mixpanelService = require("../../services/mixpanel.service");
-const channelMessages = require("../../json/channelMessages.json");
+// const channelMessages = require("../../json/channelMessages.json");
 const messengerHandler = require(("./messenger"));
 
 /**
@@ -11,11 +12,12 @@ async function postDeflectionMessage(userEmail, channelId) {
     try {
         var channelIdSub = channelId.substring(2, channelId.length - 1);
         var app = await slackService.getAppInstance();
+        var theMessage = await cacher.getChannelMessage(channelIdSub);
 
         var slackPost = {
             channelId: channelIdSub,
             threadId: null,
-            messageContent: channelMessages[channelIdSub],
+            messageContent: theMessage,
             userEmail: userEmail,
             isEphermal: true,
             showNewCase: true,

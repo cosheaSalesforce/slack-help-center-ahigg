@@ -38,6 +38,7 @@ const app = new App({
 
         app.step(await workflows.caseCreationWorkflow());
 
+        await cacher.initRedisClient();
         cacher.cacheChannelMessages();
 
     } catch (ex) {
