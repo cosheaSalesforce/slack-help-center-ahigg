@@ -5,7 +5,6 @@ const redis = require("redis");
 const client = redis.createClient({ url: process.env.REDIS_URL });
 
 
-
 async function initRedisClient() {
     await client.connect();
     client.on('error', (err) => console.log('Redis Client Error', err));
@@ -14,19 +13,8 @@ async function initRedisClient() {
 
 async function cacheChannelMessages() {
     try {
-        console.log('cacheChannelMessages called.');
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
-
-        // client.on('error', (err) => console.log('Redis Client Error', err));
-
-        // if(!(client.connected)) {
-        //     await client.connect();
-        //     client.on('error', (err) => console.log('Redis Client Error', err));
-        // }
-
-        // await client.connect();
-        // client.on('error', (err) => console.log('Redis Client Error', err));
 
         for(var i = 0; i < channelMessages.length; i++) {
             await client.set(
@@ -41,15 +29,16 @@ async function cacheChannelMessages() {
 }
 
 
-
 async function getChannelMessage(channelId) {
-    // if(!(client.connected)) {
-    //     await client.connect();
-    //     client.on('error', (err) => console.log('Redis Client Error', err));
-    // }
-    var tmp = await client.get(channelId);
-    return tmp;
+    try {
+        var tmp = await client.get(channelId);
+        return tmp;
+    } catch(ex) {
+        console.log(ex);
+        return null;
+    }
 }
+
 
 module.exports = {
     initRedisClient,
