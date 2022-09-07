@@ -8,37 +8,32 @@ function createNewCaseMsgFormat(userName, appName, subject, description) {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: "A new case has been submitted:"
+                text: subject,
             }
         },
         {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: 'Created by: ' + userName,
+                text: description,
             }
+        },
+        {
+            type: "context",
+            elements: [
+                {
+                    "type": "mrkdwn",
+                    "text": "Last 6 Months • SDO • Access Request"
+                }
+            ]
         },
         {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: 'Related Application: ' + appName,
+                text: "<@U02JC7UB9FY>"
             }
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: 'Case Subject: ' + subject,
-            }
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: 'Related Application: ' + description,
-            }
-        },
+        }
     ];
 
     return block;
