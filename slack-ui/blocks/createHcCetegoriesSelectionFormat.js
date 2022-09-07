@@ -2,8 +2,7 @@
 function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
     var optsGroupsAndCategories = []
-    console.log(typeof (groupedCategories));
-    console.log(groupedCategories.length)
+    console.log(Object.keys(myObj).length)
 
     for (var x in categoryGroupsNames) {
         var opts = [];
