@@ -2,18 +2,19 @@
 function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
     var optsGroupsAndCategories = []
+    console.log(categoryGroupsNames);
 
     for (var x in categoryGroupsNames) {
         var opts = [];
 
-        for (const y of groupedCategories[y]) {
+        for (var y = 0; y < groupedCategories.length; y++) {
             opts.push({
                 text: {
                     type: "plain_text",
-                    text: y.Name,
+                    text: groupedCategories[y].Name,
                     emoji: true,
                 },
-                value: y.Id,
+                value: groupedCategories[y].Id,
             })
         }
         optsGroupsAndCategories.push({
