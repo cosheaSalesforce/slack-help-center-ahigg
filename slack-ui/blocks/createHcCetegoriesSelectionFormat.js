@@ -8,14 +8,16 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
         var opts = [];
 
         for (var y in groupedCategories) {
-            opts.push({
-                text: {
-                    type: "plain_text",
-                    text: groupedCategories[y][0].Name,
-                    emoji: true,
-                },
-                value: groupedCategories[y][0].Id,
-            })
+            for (var j = 0; j < groupedCategories[y].length; j++) {
+                opts.push({
+                    text: {
+                        type: "plain_text",
+                        text: groupedCategories[y][j].Name,
+                        emoji: true,
+                    },
+                    value: groupedCategories[y][j].Id,
+                })
+            }
         }
         optsGroupsAndCategories.push({
             type: "input",
