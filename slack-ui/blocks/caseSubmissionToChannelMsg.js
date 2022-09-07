@@ -8,7 +8,7 @@ function createNewCaseMsgFormat(userID, categories, subject, description) {
     for (const category in categories.values()) {
         text = text + category.Name + " • ";
     }
-    var categoriesNames = text.substring(0, text.length - 2);
+    const categoriesNames = text.substring(0, text.length - 2);
 
 
     var block = [

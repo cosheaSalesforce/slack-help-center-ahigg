@@ -80,6 +80,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
         }
         if (metaState.state == "categories") {
+            console.log(meta.groupedCategories);
             var meta = JSON.parse(currentView.private_metadata);
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
