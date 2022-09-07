@@ -4,6 +4,7 @@
 function createNewCaseMsgFormat(userID, categories, subject, description) {
 
     var text = "";
+    console.log(categories);
     for (const category in categories.values()) {
         text = text + category.Name + " • ";
     }
