@@ -84,13 +84,15 @@ async function handleCaseCreationModal(ack, body, client, view) {
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
+            var categoriesToPresentOnChannel = []
             for (var x in meta.categoryGroupIdsMap) {
                 groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
+                categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
             }
             meta.categories = groupIdToCategory;
             await ack();
             try {
-                createHcCaseFromSlack(body, client, view, meta);
+                createHcCaseFromSlack(body, client, view, meta, categoriesToPresentOnChannel);
             } catch (error) {
                 console.error(error);
             }
@@ -104,7 +106,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
  * The function recieves the required details to create a help-center case, creates it and the notifies
  * the user that a case was created
  */
-async function createHcCaseFromSlack(body, client, view, meta) {
+async function createHcCaseFromSlack(body, client, view, meta, categoriesToPresentOnChannel) {
     try {
         let userID = body.user.id;
         var userInfo = await client.users.info({
@@ -112,7 +114,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         });
         var usersEmail = await slackService.getUserEmailById(userID);
 
-        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, meta.groupedCategories, meta.subject, meta.description);
+        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.groupedCategories, meta.subject, meta.description);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",

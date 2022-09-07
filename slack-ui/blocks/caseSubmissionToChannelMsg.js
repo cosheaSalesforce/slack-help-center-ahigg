@@ -1,12 +1,13 @@
 /**
  *  * Creates a message format that lets the channel know a new case was submmited.
  */
-function createNewCaseMsgFormat(userID, categories, subject, description) {
+function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
 
     var text = "";
     for (var x in categories) {
         for (var i = 0; i < categories[x].length; i++) {
-            text = text + categories[x][i].Name + " • ";
+            if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
+                text = text + categories[x][i].Name + " • ";
         }
     }
 
