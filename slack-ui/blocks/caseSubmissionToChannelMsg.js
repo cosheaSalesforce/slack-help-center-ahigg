@@ -19,7 +19,7 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: subject,
+                text: "*" + subject + "*",
             }
         },
         {
