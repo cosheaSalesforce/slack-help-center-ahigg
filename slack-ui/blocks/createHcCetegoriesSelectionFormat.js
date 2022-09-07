@@ -3,6 +3,7 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
 
     var optsGroupsAndCategories = []
     console.log(categoryGroupsNames);
+    console.log(groupedCategories);
 
     for (var x in categoryGroupsNames) {
         var opts = [];
