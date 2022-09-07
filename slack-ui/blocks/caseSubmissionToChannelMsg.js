@@ -4,10 +4,12 @@
 function createNewCaseMsgFormat(userID, categories, subject, description) {
 
     var text = "";
-    console.log(categories);
-    for (const category in categories.values()) {
-        text = text + category.Name + " • ";
+    for (var x in categories) {
+        for (var i = 0; i < categories[x].length; i++) {
+            text = text + categories[x][i].Name + " • ";
+        }
     }
+
     const categoriesNames = text.substring(0, text.length - 2);
 
 
