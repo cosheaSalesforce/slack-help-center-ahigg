@@ -1,7 +1,14 @@
 /**
  *  * Creates a message format that lets the channel know a new case was submmited.
  */
-function createNewCaseMsgFormat(userName, appName, subject, description) {
+function createNewCaseMsgFormat(userID, categories, subject, description) {
+
+    var text = "";
+    for (const category in categories.values()) {
+        text = text + category.Name + " • ";
+    }
+    var categoriesNames = text.substring(0, text.length - 2);
+
 
     var block = [
         {
@@ -23,7 +30,7 @@ function createNewCaseMsgFormat(userName, appName, subject, description) {
             elements: [
                 {
                     "type": "mrkdwn",
-                    "text": "Last 6 Months • SDO • Access Request"
+                    "text": categoriesNames,
                 }
             ]
         },
@@ -31,7 +38,7 @@ function createNewCaseMsgFormat(userName, appName, subject, description) {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: "<@U02JC7UB9FY>"
+                text: "<@" + userID + ">",
             }
         }
     ];

@@ -37,6 +37,7 @@ async function showCaseCreationModal(payload, client, channelId) {
                 slackChannel: queryResult.Id,
                 application: queryResult.HCApplication__c,
                 categoryGroupIdsMap: CategoryGroupsNames,
+                groupedCategories: GroupedCategories,
                 categories: null,
                 subject: null,
                 description: null,
@@ -75,6 +76,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
             var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
             meta.categoryGroupIdsMap = CategoryGroupsNames;
+            meta.groupedCategories = GroupedCategories;
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
         }
         if (metaState.state == "categories") {
@@ -110,7 +112,7 @@ async function createHcCaseFromSlack(body, client, view, meta) {
         });
         var usersEmail = await slackService.getUserEmailById(userID);
 
-        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userInfo.user.name, meta.application, meta.subject, meta.description);
+        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, meta.groupedCategories, meta.subject, meta.description);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",
@@ -150,12 +152,10 @@ function createMapCategoryGroupAndCategories(categoriesObj) {
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values 
  */
 function createMapGroupCategoryIdToName(categoriesObj) {
-    //var CategoryGroupsNames = new Map();
     var CategoryGroupsNames = {};
     for (var i = 0; i < categoriesObj.length; i++) {
         var catGroup = categoriesObj[i].categoryGroup;
         CategoryGroupsNames[catGroup.Id] = catGroup.Name;
-        //CategoryGroupsNames.set(catGroup.Id, catGroup.Name);
     }
     return CategoryGroupsNames;
 }
