@@ -2,12 +2,11 @@
 function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
     var optsGroupsAndCategories = []
-    console.log(Object.keys(groupedCategories).length)
 
     for (var x in categoryGroupsNames) {
         var opts = [];
 
-        for (var y = 0; y < Object.keys(groupedCategories).length; y++) {
+        for (var y in groupedCategories) {
             opts.push({
                 text: {
                     type: "plain_text",
