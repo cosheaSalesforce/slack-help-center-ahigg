@@ -16,7 +16,7 @@ async function caseCreationWorkflow() {
                         action_id: 'username',
                         placeholder: {
                             type: 'plain_text',
-                            text: `This is a \&gt;\ test`,
+                            text: `This is a → test`,
                         },
                     },
                     label: {
@@ -32,7 +32,7 @@ async function caseCreationWorkflow() {
                         action_id: 'channel',
                         placeholder: {
                             type: 'plain_text',
-                            text: `This is a \&gt;\ test`,
+                            text: `This is a → test`,
                         },
                     },
                     label: {
