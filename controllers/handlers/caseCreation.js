@@ -81,7 +81,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
         }
         if (metaState.state == "categories") {
             var meta = JSON.parse(currentView.private_metadata);
-            console.log(meta.groupedCategories);
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
@@ -140,11 +139,11 @@ async function createHcCaseFromSlack(body, client, view, meta) {
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
  */
 function createMapCategoryGroupAndCategories(categoriesObj) {
-    var GroupedCategories = new Map();
+    var GroupedCategories = {}
     for (const x of categoriesObj) {
         var catGroup = x.categoryGroup;
         var catGroupCategories = x.groupCategories;
-        GroupedCategories.set(catGroup.Id, catGroupCategories);
+        GroupedCategories[catGroup.Id] = catGroupCategories;
     }
     return GroupedCategories;
 }
