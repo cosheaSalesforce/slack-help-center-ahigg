@@ -29,10 +29,10 @@ async function caseCreationWorkflow() {
                     block_id: 'channel_id',
                     element: {
                         type: 'plain_text_input',
-                        action_id: '"Insert a variable" > "Channel where workflow started"',
+                        action_id: 'channel',
                         placeholder: {
                             type: 'plain_text',
-                            text: 'Add a channel ID',
+                            text: '"Insert a variable" > "Channel where workflow started"',
                         },
                     },
                     label: {
