@@ -16,7 +16,7 @@ async function caseCreationWorkflow() {
                         action_id: 'username',
                         placeholder: {
                             type: 'plain_text',
-                            text: '"Insert a variable" > "Person who clicked.." > "Email" option.',
+                            text: '"Insert a variable"' + '>' + '"Person who clicked.."' + '>' + '"Email" option.',
                         },
                     },
                     label: {
