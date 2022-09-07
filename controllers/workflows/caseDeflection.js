@@ -16,7 +16,7 @@ async function caseCreationWorkflow() {
                         action_id: 'username',
                         placeholder: {
                             type: 'plain_text',
-                            text: '"Insert a variable" :arrow_right: "Person who clicked.." :arrow_right: "Email" option.',
+                            text: '"Insert a variable"' + String.fromCharCode(76) + '"Person who clicked.." :arrow_right: "Email" option.',
                         },
                     },
                     label: {
