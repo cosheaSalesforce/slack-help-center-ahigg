@@ -6,7 +6,7 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
     for (var x in categoryGroupsNames) {
         var opts = [];
 
-        for (var y = 0; y < groupedCategories.length; y++) {
+        for (var y = 0; y < groupedCategories.length(); y++) {
             opts.push({
                 text: {
                     type: "plain_text",
