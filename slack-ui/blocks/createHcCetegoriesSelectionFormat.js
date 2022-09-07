@@ -1,13 +1,12 @@
 // creates a case menu format to select Category-Group and Categories for a view and return it
 function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
-    var optsGroupsAndCategories = []
     console.log(groupedCategories);
 
     for (var x in categoryGroupsNames) {
         var opts = [];
 
-        for (const y of groupedCategories) {
+        for (var y in groupedCategories) {
             opts.push({
                 text: {
                     type: "plain_text",
