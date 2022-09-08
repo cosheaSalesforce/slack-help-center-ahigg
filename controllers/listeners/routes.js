@@ -39,8 +39,6 @@ async function init(receiver, app) {
         try {
             
             //TODO: Add auth
-            console.log("router");
-            console.log(req.body);
             reactions.addReactionToMessage(app, req.body);
 
             res.status(200).send({'test': 'test'});
