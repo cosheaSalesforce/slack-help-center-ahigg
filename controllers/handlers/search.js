@@ -23,7 +23,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     channel: channelId,
     user: userId,
     text: "Here's a list of your business cases!",
-    blocks: createArticlesBlockHandler.createArticlesMsgFormat(null, null, null, null)
+    blocks: articleBlocks
   });
 
 }
