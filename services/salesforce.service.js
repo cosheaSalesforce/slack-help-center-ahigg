@@ -20,8 +20,6 @@ async function checkAuth() {
 async function doLogin() {
     try {
         var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
-        // var loggedIn = await conn.login('hbenyosef@hcslackdev.com', 'churro22' + 'g5k6BaZGWLKl51cBjsC1z7ea', function (err, userInfo) {
-
             if (err) {
                 return null;
             }
