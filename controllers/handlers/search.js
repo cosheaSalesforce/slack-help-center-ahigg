@@ -15,22 +15,16 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     var link = url + "/" + results.Id;
     var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate);
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
-    await client.chat.postEphemeral({
-      channel: channelId,
-      user: userId,
-      text: "Here's a list of your business cases!",
-      blocks: block
-    });
     articleBlocks.push(block);
   });
-
-  // //Sends ephmeral message to the user
-  // await client.chat.postEphemeral({
-  //   channel: channelId,
-  //   user: userId,
-  //   text: "Here's a list of your business cases!",
-  //   blocks: articleBlocks
-  // });
+  console.log(articleBlocks);
+  //Sends ephmeral message to the user
+  await client.chat.postEphemeral({
+    channel: channelId,
+    user: userId,
+    text: "Here's a list of your business cases!",
+    blocks: createArticlesBlockHandler.createArticlesMsgFormat(null, null, null, null)
+  });
 
 }
 
