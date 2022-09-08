@@ -1,5 +1,5 @@
 //The function receives information regarding a single knowledge article, creates a block for a search result and returns to the caller
-async function createArticlesMsgFormat(title, author, lastModified, link) {
+function createArticlesMsgFormat(title, author, lastModified, link) {
     var linkText = "<" + link + "|" + title + ">";
     var contextTest = author + " • " + lastModified;
 
