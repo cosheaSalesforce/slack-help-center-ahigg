@@ -26,7 +26,7 @@ async function createArticlesMsgFormat(title, author, lastModified, link) {
             elements: [
                 {
                     type: "mrkdwn",
-                    text: contextTest
+                    text: "contextTest"
                 }
             ]
         },
