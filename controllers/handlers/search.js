@@ -11,10 +11,9 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
 
   //Creates blocks to display to the user
   var articleBlocks = [];
-  results.forEach(article => {
-    console.log(article);
+  await results.forEach(article => {
     var link = url + "/" + results.Id;
-    var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate);
+    var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate, article.LastModifiedDate);
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks.push(block);
   });
