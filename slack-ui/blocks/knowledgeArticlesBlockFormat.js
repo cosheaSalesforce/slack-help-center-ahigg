@@ -8,7 +8,7 @@ function createArticlesMsgFormat(title, author, lastModified, link) {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: "<www.google.com|The link titles will look like this Itai>"
+                text: linkText
             },
             accessory: {
                 type: "button",
@@ -18,7 +18,7 @@ function createArticlesMsgFormat(title, author, lastModified, link) {
                     emoji: true
                 },
                 value: "click_me_123",
-                url: "https://google.com",
+                url: link,
                 action_id: "button-action"
             }
         },
@@ -27,7 +27,7 @@ function createArticlesMsgFormat(title, author, lastModified, link) {
             elements: [
                 {
                     type: "mrkdwn",
-                    text: "contextTest"
+                    text: contextTest
                 }
             ]
         },

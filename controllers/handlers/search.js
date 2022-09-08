@@ -17,7 +17,6 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks = articleBlocks.concat(block);
   });
-  console.log(articleBlocks);
   //Sends ephmeral message to the user
   await client.chat.postEphemeral({
     channel: channelId,
@@ -59,7 +58,7 @@ function getLastModifiedDateAsString(createdDate, lastModifiedDate) {
     if (x == 0) { x = 1; }
     retVal = x >= 2 ? x + ' Minutes Ago' : x + ' Minute Ago';
   }
-  return (createdDate == lastModifiedDate) ? 'Created ' + retVal : 'Updated ' + retVal;
+  return retVal
 }
 
 module.exports = {
