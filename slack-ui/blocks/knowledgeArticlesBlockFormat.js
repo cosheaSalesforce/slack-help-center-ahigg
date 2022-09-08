@@ -13,7 +13,7 @@ async function createArticlesMsgFormat(title, author, lastModified, link) {
                 type: "button",
                 text: {
                     type: "plain_text",
-                    "text": "Open",
+                    text: "Open",
                     emoji: true
                 },
                 value: "click_me_123",

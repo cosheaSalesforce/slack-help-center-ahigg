@@ -5,7 +5,6 @@ const createArticlesBlockHandler = require("..//..//slack-ui/blocks/knowledgeArt
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
   const userEmail = `${username}@salesforce.com`;
   const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
-  console.log(results);
 
   var url = await salesforceService.getDomain();
   url = url + "/" + results.Id;
