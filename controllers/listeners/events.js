@@ -11,6 +11,14 @@ async function init(app) {
 
     });
 
+    app.event('message', async ({ event, client, context }) => {
+        //console.log("catch message");
+        console.log(event);
+    });
+
+
+
+
 }
 module.exports = {
     init
