@@ -15,7 +15,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     var link = url + "/" + results.Id;
     var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate, article.LastModifiedDate);
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
-    articleBlocks.push(block);
+    articleBlocks = articleBlocks.concat(block);
   });
   console.log(articleBlocks);
   //Sends ephmeral message to the user
