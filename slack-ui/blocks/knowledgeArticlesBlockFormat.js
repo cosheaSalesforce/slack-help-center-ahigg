@@ -2,6 +2,7 @@
 async function createArticlesMsgFormat(title, author, lastModified, link) {
     var linkText = "<" + link + "|" + title + ">";
     var contextTest = author + " • " + lastModified;
+
     var blocks = [
         {
             type: "section",
