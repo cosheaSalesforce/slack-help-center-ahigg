@@ -6,13 +6,13 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
   const userEmail = `${username}@salesforce.com`;
   const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
 
-  var url = await salesforceService.getDomain();
+  var url = process.env.SITE_URL + '/help/s/article/';
   console.log(url)
 
   //Creates blocks to display to the user
   var articleBlocks = [];
   await results.forEach(article => {
-    var link = url + "/" + article.UrlName;
+    var link = url + article.UrlName;
     var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate, article.LastModifiedDate);
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks = articleBlocks.concat(block);
