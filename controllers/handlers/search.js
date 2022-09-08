@@ -7,12 +7,12 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
   const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
 
   var url = await salesforceService.getDomain();
-  url = url + "/" + results.Id;
+  console.log(url)
 
   //Creates blocks to display to the user
   var articleBlocks = [];
   await results.forEach(article => {
-    var link = url + "/" + results.Id;
+    var link = url + "/" + article.Id;
     var lastModifiedDate = getLastModifiedDateAsString(article.LastModifiedDate, article.LastModifiedDate);
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks = articleBlocks.concat(block);
@@ -25,6 +25,8 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     blocks: articleBlocks
   });
 
+  //logging the search by the user with Mixpanel
+  mixpanelService.trackUserSearch(userEmail, searchTerm);
 }
 
 /**

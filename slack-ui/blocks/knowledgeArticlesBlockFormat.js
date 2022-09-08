@@ -19,7 +19,7 @@ function createArticlesMsgFormat(title, author, lastModified, link) {
                 },
                 value: "click_me_123",
                 url: link,
-                action_id: "button-action"
+                action_id: "button-ack"
             }
         },
         {
