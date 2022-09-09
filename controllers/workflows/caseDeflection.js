@@ -16,7 +16,7 @@ async function caseCreationWorkflow() {
                         action_id: 'username',
                         placeholder: {
                             type: 'plain_text',
-                            text: 'Add a username',
+                            text: '“Insert a variable” ➜ “Person who clicked..” ➜ “Email” option.',
                         },
                     },
                     label: {
@@ -32,7 +32,7 @@ async function caseCreationWorkflow() {
                         action_id: 'channel',
                         placeholder: {
                             type: 'plain_text',
-                            text: 'Add a channel ID',
+                            text: '“Insert a variable” ➜ “Person who clicked..” ➜ “Email” option.',
                         },
                     },
                     label: {

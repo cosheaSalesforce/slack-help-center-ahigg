@@ -32,6 +32,7 @@ async function cacheChannelMessages() {
 async function getChannelMessage(channelId) {
     try {
         var tmp = await client.get(channelId);
+        console.log('tmp: ' , tmp);
         return tmp;
     } catch(ex) {
         console.log(ex);
