@@ -32,12 +32,12 @@ async function caseCreationWorkflow() {
                         action_id: 'channel',
                         placeholder: {
                             type: 'plain_text',
-                            text: '“Insert a variable” ➜ “Person who clicked..” ➜ “Email” option.',
+                            text: '"Insert a variable" ➜ "Channel where workflow started"',
                         },
                     },
                     label: {
                         type: 'plain_text',
-                        text: 'channel ID',
+                        text: 'Channel ID',
                     },
                 },
             ];
@@ -46,7 +46,6 @@ async function caseCreationWorkflow() {
         },
         save: async ({ ack, step, view, update }) => {
             await ack();
-            console.log("are we hitting the endpoint?");
             const { values } = view.state;
             const username = values.user_name.username;
             const channelID = values.channel_id.channel;
@@ -55,19 +54,6 @@ async function caseCreationWorkflow() {
                 username: { value: username.value },
                 channelID: { value: channelID.value }
             };
-            //------------- START OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER -------------
-            // console.log(inputs);
-            // var errors = deflectFromWorkflowHandler.checkWorkflowVariables(username.value, channelID.value);
-            // if (Object.entries(errors).length > 0) {
-            //     await ack({
-            //         response_action: 'errors',
-            //         errors: errors
-            //     });
-            // }
-            // else {
-            //     await ack(); // if there are no errors, ack to the server side as usual
-            // }
-            //------------- END OF SECTION: TEST VALUES THAT WERE ENTERED BY THE USER ---------------
             const outputs = [
                 {
                     type: 'text',
