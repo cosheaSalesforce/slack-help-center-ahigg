@@ -7,7 +7,6 @@ async function init(app) {
         await ack();
         try {
             await search.knowledgeArticlesSearch(payload.text, payload.channel_id, payload.user_name, payload.user_id, client);
-            //   searchCase.searchBusinessCase(payload, client);
         } catch (error) {
             console.error(error);
         }
