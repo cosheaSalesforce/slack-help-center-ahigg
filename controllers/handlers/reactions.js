@@ -28,17 +28,16 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
 
 async function addReactionToMessage(app, reqBody) {
     console.log('adding a reaction');
-    try {
-        for(var i = 0; i < reqBody.length; i++) {
+    for(var i = 0; i < reqBody.length; i++) {
+        try {
             await app.client.reactions.add({
                 channel: reqBody[i].channelId,
                 name: reqBody[i].emoji,
                 timestamp: reqBody[i].messageTs
             });
+        } catch(error) {
+            console.error(error);
         }
-    } catch(error) {
-        console.error(error);
-        return
     }
 }
 
