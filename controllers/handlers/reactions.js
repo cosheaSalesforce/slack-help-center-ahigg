@@ -46,11 +46,19 @@ async function handleReactionToMessage(client, userId, reaction, channelId, mess
 async function addReactionToMessage(app, reqBody) {
     console.log('adding a reaction');
     try {
-        await app.client.reactions.add({
-            channel: reqBody[0].channelId,
-            name: reqBody[0].emoji,
-            timestamp: reqBody[0].messageTs
-        })
+        // await app.client.reactions.add({
+        //     channel: reqBody[0].channelId,
+        //     name: reqBody[0].emoji,
+        //     timestamp: reqBody[0].messageTs
+        // });
+
+        for(var i = 0; i < reqBody.length; i++) {
+            await app.client.reactions.add({
+                channel: reqBody[i].channelId,
+                name: reqBody[i].emoji,
+                timestamp: reqBody[i].messageTs
+            });
+        }
     } catch(error) {
         console.error(error);
         return
