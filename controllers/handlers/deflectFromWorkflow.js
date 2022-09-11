@@ -14,6 +14,11 @@ async function postDeflectionMessage(userEmail, channelId) {
         var app = await slackService.getAppInstance();
         var theMessage = await cacher.getChannelMessage(channelIdSub);
 
+        if(theMessage == null || theMessage == undefined) {
+            return;
+        }
+
+
         var slackPost = {
             channelId: channelIdSub,
             threadId: null,

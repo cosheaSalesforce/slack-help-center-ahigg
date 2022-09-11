@@ -11,31 +11,32 @@ async function postMessages(app, slackPosts) {
 
 
     for (var i = 0; i < slackPosts.length; i++) {
-        var slackPost = slackPosts[i];
-        var blocks = [];
-
-        // Post to User?
-        if (slackPost.userEmail) {
-            try {
-                var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
-                blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
-            } catch (ex) {
-                console.log('Error finding User: ', ex);
-            }
-        }
-
-        // var content = slackPost.messageContent.replace("\\n","\n");
-        var content = replaceAll(slackPost.messageContent, "\\n", "\n");
-
-
-        // blocks.push(getTextBlock(slackPost.messageContent));
-        blocks.push(getTextBlock(content));
-
-        if (slackPost.showNewCase) {
-            blocks.push(getButtonBlock(slackPost.channelId));
-        }
-
         try {
+            var slackPost = slackPosts[i];
+            var blocks = [];
+            
+            // Post to User?
+            if (slackPost.userEmail) {
+                try {
+                    var user = await app.client.users.lookupByEmail({ email: slackPost.userEmail });
+                    blocks.push(getTextBlock('Hey <@' + user.user.id + '>,'));
+                } catch (ex) {
+                    console.log('Error finding User: ', ex);
+                }
+            }
+        
+            // var content = slackPost.messageContent.replace("\\n","\n");
+            var content = replaceAll(slackPost.messageContent, "\\n", "\n");
+        
+        
+            // blocks.push(getTextBlock(slackPost.messageContent));
+            blocks.push(getTextBlock(content));
+        
+            if (slackPost.showNewCase) {
+                blocks.push(getButtonBlock(slackPost.channelId));
+            }
+
+        
             var payload = {};
             payload.channel = slackPost.channelId;
             payload.blocks = blocks;

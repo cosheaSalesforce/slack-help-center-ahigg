@@ -29,6 +29,12 @@ async function doLogin() {
     }
     return loggedIn;
 }
+
+async function getDomain() {
+    var details = await checkAuth();
+    return details.urls.custom_domain;
+}
+
 /**
  * The function receives a slack channel's slack ID and returns a SlackChannel object that matches the given ID
  */
@@ -138,8 +144,6 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
 async function searchKnowledgeArticles(searchTerm, channelId, amount) {
     //TODO: Add handling speical chars
     var searchTermEncoded = encodeURIComponent(getFixedSearchTerm(searchTerm));
-    console.log(searchTermEncoded);
-    console.log(channelId);
     await checkAuth();
     return await conn.apex.get(`/SearchKnowledgeArticles?searchQuery=${searchTermEncoded}&channelId=${channelId}&amount=${amount}`, function (err, result) {
         if (err) {
@@ -178,6 +182,7 @@ async function getSlackChannelMessages() {
 
 module.exports = {
     doLogin,
+    getDomain,
     getSlackChannelAndHcApplication,
     getGroupedCategories,
     createHcCase,

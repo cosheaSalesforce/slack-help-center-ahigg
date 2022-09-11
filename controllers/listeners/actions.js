@@ -11,6 +11,10 @@ async function init(app) {
         }
     });
 
+    app.action("button-ack", async ({ ack, body, client, payload, say }) => {
+        await ack();
+    });
+
 }
 module.exports = {
     init

@@ -1,44 +1,50 @@
 /**
  *  * Creates a message format that lets the channel know a new case was submmited.
  */
-function createNewCaseMsgFormat(userName, appName, subject, description) {
+function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
+
+    var text = "";
+    for (var x in categories) {
+        for (var i = 0; i < categories[x].length; i++) {
+            if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
+                text = text + categories[x][i].Name + " • ";
+        }
+    }
+
+    const categoriesNames = text.substring(0, text.length - 2);
+
 
     var block = [
         {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: "A new case has been submitted:"
+                text: "*" + subject + "*",
             }
         },
         {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: 'Created by: ' + userName,
+                text: description,
             }
+        },
+        {
+            type: "context",
+            elements: [
+                {
+                    "type": "mrkdwn",
+                    "text": categoriesNames,
+                }
+            ]
         },
         {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: 'Related Application: ' + appName,
+                text: "<@" + userID + ">",
             }
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: 'Case Subject: ' + subject,
-            }
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: 'Related Application: ' + description,
-            }
-        },
+        }
     ];
 
     return block;
