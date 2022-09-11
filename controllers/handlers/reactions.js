@@ -33,10 +33,9 @@ async function addReactionToMessage(app, reqBody) {
                 name: reqBody[i].emoji,
                 timestamp: reqBody[i].messageTs
             });
+        } catch(error) {
+            console.error(error);
         }
-    } catch(error) {
-        console.error(error);
-        return
     }
 }
 
