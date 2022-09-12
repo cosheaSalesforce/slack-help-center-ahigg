@@ -19,10 +19,12 @@ async function checkAuth() {
 // Login to the BVD Org
 async function doLogin() {
     try {
-        var loggedIn = await conn.login('hcslack@hcslackcs.com	', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
+        var loggedIn = await conn.login('hcslack@hcslackcs.com', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
             if (err) {
+                console.log("error");
                 return null;
             }
+            console.log("succsued");
         });
     } catch (ex) {
         return false;
