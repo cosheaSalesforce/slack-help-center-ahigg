@@ -19,9 +19,8 @@ async function checkAuth() {
 // Login to the BVD Org
 async function doLogin() {
     try {
-        //snpLmmI3ukRImoM1VKV9C5NO
         // var loggedIn = await conn.login('hcslack@hcslackcs.com', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
-        var loggedIn = await conn.login('hbenyosef@hcslackcs.com', 'churro22' + 'snpLmmI3ukRImoM1VKV9C5NO', function (err, userInfo) {
+        var loggedIn = await conn.login('hbenyosef@qscale.staging.hcslackcs', 'churro22' + 'snpLmmI3ukRImoM1VKV9C5NO', function (err, userInfo) {
 
             if (err) {
                 console.log("error");
