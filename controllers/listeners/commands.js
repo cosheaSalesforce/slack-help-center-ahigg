@@ -3,7 +3,7 @@ const search = require("../handlers/search");
 const caseCreationHandler = require("../handlers/caseCreation");
 
 async function init(app) {
-    app.command("/search-help", async ({ ack, payload, client }) => {
+    app.command("/search-help1", async ({ ack, payload, client }) => {
         await ack();
         try {
             await search.knowledgeArticlesSearch(payload.text, payload.channel_id, payload.user_name, payload.user_id, client);
@@ -12,7 +12,7 @@ async function init(app) {
         }
     });
 
-    app.command("/newcase", async ({ ack, payload, client }) => {
+    app.command("/newcase1", async ({ ack, payload, client }) => {
         await ack();
         try {
             caseCreationHandler.showCaseCreationModal(payload, client, payload.channel_id);
