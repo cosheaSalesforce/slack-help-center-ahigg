@@ -16,10 +16,11 @@ async function showCaseCreationModal(payload, client, channelId) {
         mixpanelService.trackNewCaseClick(usersEmail);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
-
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
+            console.log(allHcApplications);
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, allHcApplications);
+            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
