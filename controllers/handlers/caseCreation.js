@@ -73,6 +73,8 @@ async function handleCaseCreationModal(ack, body, client, view) {
         console.log(stateValues);
         var currentView = body.view;
         var metaState = JSON.parse(currentView.private_metadata);
+        console.log("metaState");
+        console.log(metaState);
         if (metaState.state == "application") {
             var meta = JSON.parse(currentView.private_metadata);
             meta.application = stateValues.application.application_action.selected_option.value;
