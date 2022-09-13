@@ -89,7 +89,11 @@ async function handleCaseCreationModal(ack, body, client, view) {
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
         }
         if (metaState.state == "categories") {
+            console.log("categoreis");
             var meta = JSON.parse(currentView.private_metadata);
+            console.log(meta);
+            console.log("stateValues");
+            console.log(stateValues);
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
