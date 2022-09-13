@@ -66,6 +66,7 @@ async function showCaseCreationModal(payload, client, channelId) {
  */
 async function handleCaseCreationModal(ack, body, client, view) {
     try {
+        console.log("creating a modal");
         var stateValues = body.view.state.values;
         var currentView = body.view;
         var metaState = JSON.parse(currentView.private_metadata);
