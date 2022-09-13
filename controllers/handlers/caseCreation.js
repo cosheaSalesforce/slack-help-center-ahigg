@@ -78,6 +78,8 @@ async function handleCaseCreationModal(ack, body, client, view) {
         if (metaState.state == "application") {
             var meta = JSON.parse(currentView.private_metadata);
             meta.application = stateValues.application.application_action.selected_option.value;
+            console.log("meta applications")
+            console.log(meta.application);
             meta.state = "categories";
             var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
             var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
