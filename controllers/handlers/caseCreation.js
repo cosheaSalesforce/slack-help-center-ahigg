@@ -18,9 +18,7 @@ async function showCaseCreationModal(payload, client, channelId) {
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
-            console.log(allHcApplications);
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, allHcApplications);
-            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -66,19 +64,11 @@ async function showCaseCreationModal(payload, client, channelId) {
  */
 async function handleCaseCreationModal(ack, body, client, view) {
     try {
-        console.log("creating a modal");
-        console.log("body");
-        console.log(body);
         var stateValues = body.view.state.values;
-        console.log(stateValues);
         var currentView = body.view;
         var metaState = JSON.parse(currentView.private_metadata);
-        console.log("metaState");
-        console.log(metaState);
         if (metaState.state == "application") {
-            console.log("application");
             var meta = JSON.parse(currentView.private_metadata);
-            console.log(meta);
             meta.application = stateValues.application.application_action.selected_option.value;
             meta.state = "categories";
             var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
@@ -89,11 +79,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
         }
         if (metaState.state == "categories") {
-            console.log("categoreis");
             var meta = JSON.parse(currentView.private_metadata);
-            console.log(meta);
-            console.log("stateValues");
-            console.log(stateValues);
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
