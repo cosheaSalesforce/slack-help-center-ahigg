@@ -80,7 +80,7 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
         },
         submit: {
             type: "plain_text",
-            text: "Next",
+            text: "Submit",
             emoji: true,
         },
         close: {

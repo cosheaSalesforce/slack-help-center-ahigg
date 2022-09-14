@@ -16,11 +16,12 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks = articleBlocks.concat(block);
   });
+
   //Sends ephmeral message to the user
   await client.chat.postEphemeral({
     channel: channelId,
     user: userId,
-    text: "Here's a list of your business cases!",
+    text: "Here's a list of relevant knowledge articles!",
     blocks: articleBlocks
   });
 
