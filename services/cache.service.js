@@ -17,6 +17,7 @@ async function cacheChannelMessages() {
         channelMessages = JSON.parse(channelMessages);
 
         for(var i = 0; i < channelMessages.length; i++) {
+            console.log(channelMessages[i]);
             await client.set(
                 String(channelMessages[i].channelId), 
                 String(channelMessages[i].messageContent)
@@ -32,6 +33,7 @@ async function cacheChannelMessages() {
 async function getChannelMessage(channelId) {
     try {
         var tmp = await client.get(channelId);
+        // var tmp = await client.get("C041C6G6LR4");
         console.log('tmp: ' , tmp);
         return tmp;
     } catch(ex) {
