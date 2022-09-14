@@ -5,7 +5,6 @@ const createArticlesBlockHandler = require("..//..//slack-ui/blocks/knowledgeArt
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
   const userEmail = `${username}@salesforce.com`;
   const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
-  console.log(results);
   var url = process.env.SITE_URL + '/help/s/article/';
 
   //Creates blocks to display to the user
