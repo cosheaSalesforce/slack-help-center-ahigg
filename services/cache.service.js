@@ -17,7 +17,6 @@ async function cacheChannelMessages() {
         channelMessages = JSON.parse(channelMessages);
 
         for(var i = 0; i < channelMessages.length; i++) {
-            console.log(channelMessages[i]);
             await client.set(
                 String(channelMessages[i].channelId), 
                 String(channelMessages[i].messageContent)
