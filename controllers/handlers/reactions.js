@@ -18,6 +18,7 @@ async function handleReactionToMessage(userId, reaction, channelId, messageTs) {
             if (messageOwnerEmail == null) {
                 return
             }
+            console.log(userEmail);
             await salesforceService.updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs, parentMessageTs, messageContent, messageOwnerEmail);
         }
     } catch (error) {
