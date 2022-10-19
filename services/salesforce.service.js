@@ -134,6 +134,7 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
             return null;
         }
         else {
+            console.log(result);
             return result;
         }
     });
