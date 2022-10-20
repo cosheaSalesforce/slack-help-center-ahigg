@@ -15,7 +15,7 @@ async function init(app) {
     app.command("/newcase", async ({ ack, payload, client }) => {
         await ack();
         try {
-            caseCreationHandler.showCaseCreationModal(payload, client, payload.channel_id);
+            caseCreationHandler.showCaseCreationModal(client, payload, payload.channel_id);
         } catch (error) {
             console.error(error);
         }
