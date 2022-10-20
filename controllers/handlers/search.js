@@ -29,6 +29,37 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
   mixpanelService.trackUserSearch(userEmail, searchTerm);
 }
 
+
+async function searchRelevantCases(client, payload, channelId) {
+  try {
+    var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
+    var userEmail = await slackService.getUserEmailById(userID);
+    var cases = await salesforceService.searchUsersCases(userEmail);
+    //**** CREATE A LIST VIEW FOR THE CASES
+    var caseBlocks = [];
+    await cases.forEach(singleCase => {
+      console.log(singleCase);
+      var url;
+      if (singleCase.Origin == "Slack") {
+        url = process.env.SLACK_URL + '/' + singleCase.SlackChannel__r.ChannelId__c + '/p' + singleCase.SlackThreadIdentifier__c.replace('.', '');
+      } else {
+        url = HELP_CENTER_URL;
+      }
+      var block = createArticlesBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
+      caseBlocks = articleBlocks.concat(block);
+    });
+
+    await client.chat.postEphemeral({
+      channel: channelId,
+      user: payload.user_id,
+      text: "Here's a list of your cases:",
+      blocks: caseBlocks
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 /**
  * The function returns when was the business case last created/updated 
  */
@@ -64,5 +95,6 @@ function getLastModifiedDateAsString(createdDate, lastModifiedDate) {
 }
 
 module.exports = {
-  knowledgeArticlesSearch
+  knowledgeArticlesSearch,
+  searchRelevantCases
 };

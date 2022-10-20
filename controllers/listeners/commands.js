@@ -20,6 +20,15 @@ async function init(app) {
             console.error(error);
         }
     });
+
+    app.command("/getcases", async ({ ack, payload, client }) => {
+        await ack();
+        try {
+            search.searchRelevantCases(payload, client, payload.channel_id);
+        } catch (error) {
+            console.error(error);
+        }
+    });
 }
 
 module.exports = {
