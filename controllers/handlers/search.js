@@ -32,9 +32,11 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
 
 async function searchRelevantCases(client, payload, channelId) {
   try {
+    console.log("entered the function within the handlers");
     var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
     var userEmail = await slackService.getUserEmailById(userID);
     var cases = await salesforceService.searchUsersCases(userEmail);
+    console.log("retrieved the cases from the org");
     //**** CREATE A LIST VIEW FOR THE CASES
     var caseBlocks = [];
     await cases.forEach(singleCase => {

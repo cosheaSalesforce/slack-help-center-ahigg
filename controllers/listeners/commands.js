@@ -24,6 +24,7 @@ async function init(app) {
     app.command("/getcases", async ({ ack, payload, client }) => {
         await ack();
         try {
+            console.log("entered the getcases command line");
             search.searchRelevantCases(payload, client, payload.channel_id);
         } catch (error) {
             console.error(error);
