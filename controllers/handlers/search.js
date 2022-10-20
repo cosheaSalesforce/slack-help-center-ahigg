@@ -32,6 +32,7 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
 async function searchRelevantCases(client, payload, channelId) {
   try {
     console.log("entered the function within the handlers");
+    console.log(payload);
     var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
     var userEmail = await slackService.getUserEmailById(userID);
     var cases = await salesforceService.searchUsersCases(userEmail);
