@@ -33,18 +33,16 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
 
 async function searchRelevantCases(client, payload, channelId) {
   try {
-    console.log("entered the function within the handlers");
     var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
     var userEmail = await slackService.getUserEmailById(userID);
-    console.log("successfully logged " + userEmail);
     var cases = await salesforceService.searchUsersCases(userEmail);
-    console.log("retrieved the cases from the org");
-    //**** CREATE A LIST VIEW FOR THE CASES
+
     var caseBlocks = [];
     await cases.forEach(singleCase => {
       console.log(singleCase);
       var url;
       if (singleCase.Origin == "Slack") {
+        //*** ASK COLM WHAT TO DO IF A CASE HAS NO SLACK CHANNEL RELATED
         url = process.env.SLACK_URL + '/' + singleCase.SlackChannel__r.ChannelId__c + '/p' + singleCase.SlackThreadIdentifier__c.replace('.', '');
       } else {
         url = HELP_CENTER_URL;
