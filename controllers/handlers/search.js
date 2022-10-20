@@ -1,6 +1,7 @@
 const salesforceService = require("../../services/salesforce.service");
 const mixpanelService = require("../../services/mixpanel.service");
 const createArticlesBlockHandler = require("..//..//slack-ui/blocks/knowledgeArticlesBlockFormat");
+const caseSearchBlockHandler = require("..//..//slack-ui/blocks/caseSearchBlock");
 const slackService = require("../../services/slack.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
@@ -48,7 +49,7 @@ async function searchRelevantCases(client, payload, channelId) {
       } else {
         url = HELP_CENTER_URL;
       }
-      var block = createArticlesBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
+      var block = caseSearchBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
       caseBlocks = articleBlocks.concat(block);
     });
 
