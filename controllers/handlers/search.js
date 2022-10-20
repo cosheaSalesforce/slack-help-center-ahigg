@@ -50,7 +50,7 @@ async function searchRelevantCases(client, payload, channelId) {
         url = HELP_CENTER_URL;
       }
       var block = caseSearchBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
-      caseBlocks = articleBlocks.concat(block);
+      caseBlocks = caseBlocks.concat(block);
     });
 
     await client.chat.postEphemeral({
