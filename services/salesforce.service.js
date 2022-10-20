@@ -154,7 +154,7 @@ async function searchKnowledgeArticles(searchTerm, channelId, amount) {
 
 async function searchUsersCases(userEmail) {
     await checkAuth();
-    return await conn.apex.get(`/userEmail=${userEmail}`, function (err, result) {
+    return await conn.apex.get(`/SearchUserCases/userEmail=${userEmail}`, function (err, result) {
         if (err) {
             return null;
         }
