@@ -1,6 +1,7 @@
 const salesforceService = require("../../services/salesforce.service");
 const mixpanelService = require("../../services/mixpanel.service");
 const createArticlesBlockHandler = require("..//..//slack-ui/blocks/knowledgeArticlesBlockFormat");
+const slackService = require("../../services/slack.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
   const userEmail = `${username}@salesforce.com`;
