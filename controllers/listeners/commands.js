@@ -21,7 +21,7 @@ async function init(app) {
         }
     });
 
-    app.command("/getcases", async ({ ack, payload, client }) => {
+    app.command("/get-user-cases", async ({ ack, payload, client }) => {
         await ack();
         try {
             console.log("entered the getcases command line");
