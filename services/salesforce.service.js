@@ -21,12 +21,10 @@ async function doLogin() {
     try {
         // var loggedIn = await conn.login('hcslack@hcslackcs.com', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
         var loggedIn = await conn.login('hcslack@hcslackuat.com', 'dsfhsdj#%jfkdRi53796jty@gjkfg' + 'u3GcnzZTsidftl9n2MVveuJNo', function (err, userInfo) {
-
             if (err) {
                 console.log("error");
                 return null;
             }
-            console.log("succsued");
         });
     } catch (ex) {
         return false;
@@ -92,7 +90,6 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
 
     try {
         await conn.apex.post("/createCase/", body, function (err, result) {
-            console.log(result);
             if (err) {
                 console.log(err);
                 return null;
@@ -131,7 +128,6 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
         messageContent: messageContent,
         messageOwnerEmail: messageOwnerEmail
     };
-    console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
         if (err) {
             console.log(err);
