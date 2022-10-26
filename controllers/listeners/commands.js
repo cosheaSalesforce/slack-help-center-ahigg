@@ -15,7 +15,17 @@ async function init(app) {
     app.command("/newcase", async ({ ack, payload, client }) => {
         await ack();
         try {
-            caseCreationHandler.showCaseCreationModal(payload, client, payload.channel_id);
+            caseCreationHandler.showCaseCreationModal(client, payload, payload.channel_id);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    app.command("/get-user-cases", async ({ ack, payload, client }) => {
+        await ack();
+        try {
+            console.log("entered the getcases command line");
+            search.searchRelevantCases(client, payload, payload.channel_id);
         } catch (error) {
             console.error(error);
         }

@@ -19,8 +19,10 @@ async function checkAuth() {
 // Login to the BVD Org
 async function doLogin() {
     try {
-        var loggedIn = await conn.login('hcslack@hcslackdev.com', 'Ye08tPGXYnYa' + 'cbTVDApgwrgXoyCzn4377yBmt', function (err, userInfo) {
+        // var loggedIn = await conn.login('hcslack@hcslackcs.com', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
+        var loggedIn = await conn.login('hcslack@hcslackuat.com', 'dsfhsdj#%jfkdRi53796jty@gjkfg' + 'u3GcnzZTsidftl9n2MVveuJNo', function (err, userInfo) {
             if (err) {
+                console.log("error");
                 return null;
             }
         });
@@ -88,7 +90,6 @@ async function createHcCase(channelId, application, categoriesIds, subject, desc
 
     try {
         await conn.apex.post("/createCase/", body, function (err, result) {
-            console.log(result);
             if (err) {
                 console.log(err);
                 return null;
@@ -127,7 +128,6 @@ async function updateCaseStatus(userEmail, statusToUpdate, channelId, messageTs,
         messageContent: messageContent,
         messageOwnerEmail: messageOwnerEmail
     };
-    console.log(body);
     await conn.apex.post("/UpdateCaseStatus/", body, function (err, result) {
         if (err) {
             console.log(err);
@@ -150,7 +150,15 @@ async function searchKnowledgeArticles(searchTerm, channelId, amount) {
             return null;
         }
     })
+}
 
+async function searchUsersCases(userEmail) {
+    await checkAuth();
+    return await conn.apex.get(`/SearchUserCases?userEmail=${userEmail}`, function (err, result) {
+        if (err) {
+            return null;
+        }
+    })
 }
 
 function getFixedSearchTerm(param) {
@@ -189,7 +197,8 @@ module.exports = {
     updateCaseStatus,
     searchKnowledgeArticles,
     getAllHcApplications,
-    getSlackChannelMessages
+    getSlackChannelMessages,
+    searchUsersCases
 }
 
 

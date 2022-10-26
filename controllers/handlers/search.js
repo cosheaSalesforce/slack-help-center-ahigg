@@ -1,6 +1,8 @@
 const salesforceService = require("../../services/salesforce.service");
 const mixpanelService = require("../../services/mixpanel.service");
 const createArticlesBlockHandler = require("..//..//slack-ui/blocks/knowledgeArticlesBlockFormat");
+const caseSearchBlockHandler = require("..//..//slack-ui/blocks/caseSearchBlock");
+const slackService = require("../../services/slack.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
   const userEmail = `${username}@salesforce.com`;
@@ -15,16 +17,49 @@ async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, 
     var block = createArticlesBlockHandler.createArticlesMsgFormat(article.Title, article.ArticleCreatedBy.Name, lastModifiedDate, link);
     articleBlocks = articleBlocks.concat(block);
   });
+
   //Sends ephmeral message to the user
   await client.chat.postEphemeral({
     channel: channelId,
     user: userId,
-    text: "Here's a list of your business cases!",
+    text: "Here's a list of relevant knowledge articles!",
     blocks: articleBlocks
   });
 
   //logging the search by the user with Mixpanel
   mixpanelService.trackUserSearch(userEmail, searchTerm);
+}
+
+
+async function searchRelevantCases(client, payload, channelId) {
+  try {
+    var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
+    var userEmail = await slackService.getUserEmailById(userID);
+    var cases = await salesforceService.searchUsersCases(userEmail);
+
+    var caseBlocks = [];
+    await cases.forEach(singleCase => {
+      console.log(singleCase);
+      var url;
+      if (singleCase.Origin == "Slack") {
+        //*** ASK COLM WHAT TO DO IF A CASE HAS NO SLACK CHANNEL RELATED
+        url = process.env.SLACK_URL + '/' + singleCase.SlackChannel__r.ChannelId__c + '/p' + singleCase.SlackThreadIdentifier__c.replace('.', '');
+      } else {
+        url = HELP_CENTER_URL;
+      }
+      var block = caseSearchBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
+      caseBlocks = caseBlocks.concat(block);
+    });
+
+    await client.chat.postEphemeral({
+      channel: channelId,
+      user: payload.user_id,
+      text: "Here's a list of your cases:",
+      blocks: caseBlocks
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 /**
@@ -62,5 +97,6 @@ function getLastModifiedDateAsString(createdDate, lastModifiedDate) {
 }
 
 module.exports = {
-  knowledgeArticlesSearch
+  knowledgeArticlesSearch,
+  searchRelevantCases
 };

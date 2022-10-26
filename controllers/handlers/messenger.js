@@ -8,7 +8,7 @@
 // }
 
 async function postMessages(app, slackPosts) {
-
+    // console.log('postMessages called.');
 
     for (var i = 0; i < slackPosts.length; i++) {
         try {
