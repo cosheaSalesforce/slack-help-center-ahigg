@@ -10,8 +10,9 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 text = text + categories[x][i].Name + " • ";
         }
     }
-
-    const categoriesNames = text.substring(0, text.length - 2);
+    if(text.length != 0) {
+        const categoriesNames = text.substring(0, text.length - 2);
+    }
     console.log(categoriesNames);
 
     var block = [
@@ -47,8 +48,6 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
         }
     ];
     console.log(block);
-    console.log(userID);
-
     return block;
 }
 
