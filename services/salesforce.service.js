@@ -150,7 +150,15 @@ async function searchKnowledgeArticles(searchTerm, channelId, amount) {
             return null;
         }
     })
+}
 
+async function searchUsersCases(userEmail) {
+    await checkAuth();
+    return await conn.apex.get(`/SearchUserCases?userEmail=${userEmail}`, function (err, result) {
+        if (err) {
+            return null;
+        }
+    })
 }
 
 function getFixedSearchTerm(param) {
@@ -189,7 +197,8 @@ module.exports = {
     updateCaseStatus,
     searchKnowledgeArticles,
     getAllHcApplications,
-    getSlackChannelMessages
+    getSlackChannelMessages,
+    searchUsersCases
 }
 
 

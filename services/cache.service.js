@@ -16,14 +16,14 @@ async function cacheChannelMessages() {
         var channelMessages = await salesforce.getSlackChannelMessages();
         channelMessages = JSON.parse(channelMessages);
 
-        for(var i = 0; i < channelMessages.length; i++) {
-            // console.log(channelMessages[i]);
+        for (var i = 0; i < channelMessages.length; i++) {
+            //// console.log(channelMessages[i]);
             await client.set(
-                String(channelMessages[i].channelId), 
+                String(channelMessages[i].channelId),
                 String(channelMessages[i].messageContent)
             );
         }
-    } catch(ex) {
+    } catch (ex) {
         console.log(ex);
         return;
     }
@@ -34,9 +34,9 @@ async function getChannelMessage(channelId) {
     try {
         var tmp = await client.get(channelId);
         // var tmp = await client.get("C041C6G6LR4");
-        console.log('tmp: ' , tmp);
+        console.log('tmp: ', tmp);
         return tmp;
-    } catch(ex) {
+    } catch (ex) {
         console.log(ex);
         return null;
     }
