@@ -13,7 +13,7 @@ async function init(app) {
         }
     });
 
-    app.command("/newcase", async ({ ack, payload, client }) => {
+    app.command("/newcase2", async ({ ack, payload, client }) => {
         await ack();
         try {
             caseCreationHandler.showCaseCreationModal(client, payload, payload.channel_id);
@@ -22,7 +22,7 @@ async function init(app) {
         }
     });
 
-    app.command("/get-user-cases", async ({ ack, payload, client }) => {
+    app.command("/get-user-cases2", async ({ ack, payload, client }) => {
         await ack();
         try {
             console.log("entered the getcases command line");
