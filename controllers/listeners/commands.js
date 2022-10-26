@@ -6,6 +6,7 @@ async function init(app) {
     app.command("/search-help", async ({ ack, payload, client }) => {
         await ack();
         try {
+            console.log("calling search");
             await search.knowledgeArticlesSearch(payload.text, payload.channel_id, payload.user_name, payload.user_id, client);
         } catch (error) {
             console.error(error);
