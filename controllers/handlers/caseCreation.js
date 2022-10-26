@@ -8,7 +8,7 @@ const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubm
 /**
  * The function creates the initial modal for creating a new case
  */
-async function showCaseCreationModal(payload, client, channelId) {
+async function showCaseCreationModal(client, payload, channelId) {
     try {
         var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
         var usersEmail = await slackService.getUserEmailById(userID);
