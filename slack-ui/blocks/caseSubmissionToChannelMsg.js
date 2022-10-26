@@ -10,11 +10,12 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 text = text + categories[x][i].Name + " • ";
         }
     }
+    const categoriesNames = "";
     if(text.length != 0) {
-        const categoriesNames = text.substring(0, text.length - 2);
+        categoriesNames = text.substring(0, text.length - 2);
     }
+    
     console.log(categoriesNames);
-
     var block = [
         {
             type: "section",
