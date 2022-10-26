@@ -3,19 +3,17 @@
  */
 function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
 
-    var text = "";
+    var text = " ";
     for (var x in categories) {
         for (var i = 0; i < categories[x].length; i++) {
             if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
                 text = text + categories[x][i].Name + " • ";
         }
     }
-    const categoriesNames = "Testttt";
+    const categoriesNames = " ";
     if(text.length != 0) {
         categoriesNames = text.substring(0, text.length - 2);
     }
-
-    console.log(categoriesNames);
     var block = [
         {
             type: "section",
@@ -48,7 +46,6 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
             }
         }
     ];
-    console.log(block);
     return block;
 }
 
