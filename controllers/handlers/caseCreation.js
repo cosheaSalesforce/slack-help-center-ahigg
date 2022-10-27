@@ -8,7 +8,7 @@ const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubm
 /**
  * The function creates the initial modal for creating a new case
  */
-async function showCaseCreationModal(payload, client, channelId) {
+async function showCaseCreationModal(client, payload, channelId) {
     try {
         var userID = (payload['user_id']) ? payload['user_id'] : ((payload['user']['id']) ? payload['user']['id'] : null);
         var usersEmail = await slackService.getUserEmailById(userID);
@@ -114,6 +114,7 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
         var usersEmail = await slackService.getUserEmailById(userID);
 
         var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.groupedCategories, meta.subject, meta.description);
+        console.log(newCaseMsgBlock);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",

@@ -6,8 +6,11 @@ const slackService = require("../../services/slack.service");
 
 async function knowledgeArticlesSearch(searchTerm, channelId, username, userId, client) {
   const userEmail = `${username}@salesforce.com`;
+  console.log(userEmail);
   const results = await salesforceService.searchKnowledgeArticles(searchTerm, channelId, 10);
+  console.log(results);
   var url = process.env.SITE_URL + '/help/s/article/';
+  console.log(url);
 
   //Creates blocks to display to the user
   var articleBlocks = [];
