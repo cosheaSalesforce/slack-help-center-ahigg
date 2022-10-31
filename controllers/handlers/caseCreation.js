@@ -18,13 +18,49 @@ async function showCaseCreationModal(payload, client, channelId) {
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, allHcApplications);
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, organizeAppsNamesList(allHcApplications));
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
                 // View payload
                 view: viewFormat,
             });
+        }
+        // If there's no parent app for the current application, search for child apps of the current app
+        else if (queryResult.HCApplication__r.Parent_Application__c == null) {
+            var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
+            // if there are no child apps, continue as usual
+            if (childApplications == null) {
+                var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
+                var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
+                var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
+                var privateMetadata = {
+                    channelSlackId: channelId,
+                    slackChannel: queryResult.Id,
+                    application: queryResult.HCApplication__c,
+                    categoryGroupIdsMap: CategoryGroupsNames,
+                    groupedCategories: GroupedCategories,
+                    categories: null,
+                    subject: null,
+                    description: null,
+                    state: "categories"
+                };
+                var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
+                const result = await client.views.open({
+                    // Pass a valid trigger_id within 3 seconds of receiving it
+                    trigger_id: payload.trigger_id,
+                    // View payload
+                    view: viewFormat,
+                });
+            } else {
+                var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, childApplications);
+                const result = await client.views.open({
+                    // Pass a valid trigger_id within 3 seconds of receiving it
+                    trigger_id: payload.trigger_id,
+                    // View payload
+                    view: viewFormat,
+                });
+            }
         } else {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
 
@@ -161,6 +197,25 @@ function createMapGroupCategoryIdToName(categoriesObj) {
     return CategoryGroupsNames;
 }
 
+/**
+ * The function receives a list of HC applications, concats the parent app's name to the child's app on the child object and returns the modified list
+ */
+function organizeAppsNamesList(queryResult) {
+    var parentNames = [];
+    var editedResults = [];
+    for (var i = 0; i < queryResult.length; i++) {
+        if (queryResult[i].Parent_Application__c != null) {
+            queryResult[i].Name = queryResult[i].Name + " - " + queryResult[i].Parent_Application__r.Name;
+            parentNames.push(queryResult[i].Parent_Application__r.Name);
+        }
+    }
+    for (var i = 0; i < queryResult.length; i++) {
+        if (!parentNames.contains(queryResult[i].Name)) {
+            editedResults.push(queryResult[i]);
+        }
+    }
+    return editedResults;
+}
 module.exports = {
     showCaseCreationModal,
     handleCaseCreationModal,
