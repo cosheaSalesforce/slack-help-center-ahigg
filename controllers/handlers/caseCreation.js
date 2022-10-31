@@ -201,6 +201,7 @@ function createMapGroupCategoryIdToName(categoriesObj) {
  * The function receives a list of HC applications, concats the parent app's name to the child's app on the child object and returns the modified list
  */
 function organizeAppsNamesList(queryResult) {
+    console.log("entered the 'organizeAppsNamesList' function");
     var parentNames = [];
     var editedResults = [];
     for (var i = 0; i < queryResult.length; i++) {
@@ -209,11 +210,13 @@ function organizeAppsNamesList(queryResult) {
             parentNames.push(queryResult[i].Parent_Application__r.Name);
         }
     }
+    console.log("passed the first loop");
     for (var i = 0; i < queryResult.length; i++) {
         if (!parentNames.includes(queryResult[i].Name)) {
             editedResults.push(queryResult[i]);
         }
     }
+    console.log("Finished the function");
     return editedResults;
 }
 module.exports = {
