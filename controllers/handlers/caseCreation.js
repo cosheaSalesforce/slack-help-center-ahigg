@@ -17,7 +17,6 @@ async function showCaseCreationModal(client, payload, channelId) {
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
         if (queryResult.HCApplication__c == null) {
-            console.log("Entered the section where a channel has no connected app");
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
             console.log(appsForPresentation);
@@ -121,6 +120,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             var meta = JSON.parse(currentView.private_metadata);
             meta.description = stateValues.description.description_action.value;
             meta.subject = stateValues.subject.subject_action.value;
+            console.log(meta.application);
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
             var categoriesToPresentOnChannel = []
             for (var x in meta.categoryGroupIdsMap) {
@@ -205,22 +205,19 @@ function createMapGroupCategoryIdToName(categoriesObj) {
  * The function receives a list of HC applications, concats the parent app's name to the child's app on the child object and returns the modified list
  */
 function organizeAppsNamesList(queryResult) {
-    console.log("entered the 'organizeAppsNamesList' function");
     var parentNames = [];
     var editedResults = [];
     for (var i = 0; i < queryResult.length; i++) {
         if (queryResult[i].Parent_Application__c != null) {
-            queryResult[i].Name = queryResult[i].Name + " - " + queryResult[i].Parent_Application__r.Name;
+            queryResult[i].Name = queryResult[i].Parent_Application__r.Name + " - " + queryResult[i].Name;
             parentNames.push(queryResult[i].Parent_Application__r.Name);
         }
     }
-    console.log("passed the first loop");
     for (var i = 0; i < queryResult.length; i++) {
         if (!parentNames.includes(queryResult[i].Name)) {
             editedResults.push(queryResult[i]);
         }
     }
-    console.log("Finished the function");
     return editedResults;
 }
 module.exports = {
