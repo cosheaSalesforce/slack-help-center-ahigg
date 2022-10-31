@@ -16,9 +16,6 @@ async function showCaseCreationModal(client, payload, channelId) {
         mixpanelService.trackNewCaseClick(usersEmail);
 
         var queryResult = await salesforceService.getSlackChannelAndHcApplication(channelId);
-        console.log(undefined == null);
-        console.log(queryResult.HCApplication__r);
-        console.log(queryResult.HCApplication__r?.Parent_Application__c)
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
