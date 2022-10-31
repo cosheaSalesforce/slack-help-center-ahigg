@@ -19,7 +19,6 @@ async function showCaseCreationModal(client, payload, channelId) {
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
-            console.log(appsForPresentation);
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, appsForPresentation);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
@@ -153,7 +152,6 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
         var usersEmail = await slackService.getUserEmailById(userID);
 
         var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.groupedCategories, meta.subject, meta.description);
-        console.log(newCaseMsgBlock);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",
