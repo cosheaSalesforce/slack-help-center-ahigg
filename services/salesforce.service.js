@@ -20,7 +20,8 @@ async function checkAuth() {
 async function doLogin() {
     try {
         // var loggedIn = await conn.login('hcslack@hcslackcs.com', 'cjkdfs^#kfd0ldSfbndsbf3@gd' + 'nIpIYGGyB1xJucpF5BAza705x', function (err, userInfo) {
-        var loggedIn = await conn.login('hcslack@hcslackuat.com', 'dsfhsdj#%jfkdRi53796jty@gjkfg' + 'u3GcnzZTsidftl9n2MVveuJNo', function (err, userInfo) {
+        // var loggedIn = await conn.login('hcslack@hcslackuat.com', 'dsfhsdj#%jfkdRi53796jty@gjkfg' + 'u3GcnzZTsidftl9n2MVveuJNo', function (err, userInfo) {
+        var loggedIn = await conn.login('hcslack@q-identity.prod.hcv2deploy', 'FgkjsdgS343Geka!&' + 'fkyQ3aDGqP2oItdBkU01kGE5', function (err, userInfo) {
             if (err) {
                 console.log("error");
                 return null;

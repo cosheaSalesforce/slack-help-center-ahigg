@@ -10,42 +10,66 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 text = text + categories[x][i].Name + " • ";
         }
     }
-
+ 
     const categoriesNames = text.substring(0, text.length - 2);
-
-
-    var block = [
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: "*" + subject + "*",
-            }
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: description,
-            }
-        },
-        {
-            type: "context",
-            elements: [
-                {
-                    "type": "mrkdwn",
-                    "text": categoriesNames,
+    if(categoriesNames.length <= 0) {
+        var block = [
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: "*" + subject + "*",
                 }
-            ]
-        },
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: "<@" + userID + ">",
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: description,
+                }
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: "<@" + userID + ">",
+                }
             }
-        }
-    ];
+        ];
+    } else {
+        var block = [
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: "*" + subject + "*",
+                }
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: description,
+                }
+            },
+            {
+                type: "context",
+                elements: [
+                    {
+                        "type": "mrkdwn",
+                        "text": categoriesNames,
+                    }
+                ]
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: "<@" + userID + ">",
+                }
+            }
+        ];
+    }
 
     return block;
 }
