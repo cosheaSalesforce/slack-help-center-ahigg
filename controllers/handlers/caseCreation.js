@@ -210,7 +210,7 @@ function organizeAppsNamesList(queryResult) {
         }
     }
     for (var i = 0; i < queryResult.length; i++) {
-        if (!parentNames.contains(queryResult[i].Name)) {
+        if (!parentNames.includes(queryResult[i].Name)) {
             editedResults.push(queryResult[i]);
         }
     }
