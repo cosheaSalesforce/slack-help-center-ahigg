@@ -29,7 +29,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             });
         }
         // If there's no parent app for the current application, search for child apps of the current app
-        else if (queryResult.HCApplication__r.Parent_Application__c == null) {
+        else if (queryResult.HCApplication__r?.Parent_Application__c == null) {
             var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
             // if there are no child apps, continue as usual
             if (childApplications == null) {
