@@ -19,7 +19,10 @@ async function showCaseCreationModal(client, payload, channelId) {
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
+            console.log(allHcApplications);
+            console.log();
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, appsForPresentation);
+            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
