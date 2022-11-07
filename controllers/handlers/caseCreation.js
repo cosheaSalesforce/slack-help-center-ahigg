@@ -36,7 +36,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             console.log(childApplications);
             console.log();
             // if there are no child apps, continue as usual
-            if (childApplications == null) {
+            if (childApplications == null | childApplications.length == 0) {
                 var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
                 var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
                 var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
