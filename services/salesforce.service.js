@@ -39,6 +39,23 @@ async function getDomain() {
 }
 
 /**
+ * The function receives a help-center's app ID and returns a list of the app's child apps
+ */
+async function getChildApplications(parentAppId) {
+    await checkAuth();
+    try {
+        return await conn.apex.get(`/hcChildApplications/${parentAppId}`, function (err, res) {
+            if (err) {
+                return err;
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+/**
  * The function receives a slack channel's slack ID and returns a SlackChannel object that matches the given ID
  */
 async function getSlackChannelAndHcApplication(channelId) {
@@ -199,7 +216,8 @@ module.exports = {
     searchKnowledgeArticles,
     getAllHcApplications,
     getSlackChannelMessages,
-    searchUsersCases
+    searchUsersCases,
+    getChildApplications
 }
 
 
