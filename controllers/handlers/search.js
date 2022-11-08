@@ -45,10 +45,9 @@ async function searchRelevantCases(client, payload, channelId) {
       console.log(singleCase);
       var url;
       if (singleCase.Origin == "Slack") {
-        //*** ASK COLM WHAT TO DO IF A CASE HAS NO SLACK CHANNEL RELATED
         url = process.env.SLACK_URL + '/' + singleCase.SlackChannel__r.ChannelId__c + '/p' + singleCase.SlackThreadIdentifier__c.replace('.', '');
       } else {
-        url = HELP_CENTER_URL;
+        url = process.env.HELP_CENTER_URL;
       }
       var block = caseSearchBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
       caseBlocks = caseBlocks.concat(block);
