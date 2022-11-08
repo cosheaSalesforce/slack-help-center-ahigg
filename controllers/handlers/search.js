@@ -42,12 +42,11 @@ async function searchRelevantCases(client, payload, channelId) {
 
     var caseBlocks = [];
     await cases.forEach(singleCase => {
-      console.log(singleCase);
       var url;
       if (singleCase.Origin == "Slack") {
         url = process.env.SLACK_URL + '/' + singleCase.SlackChannel__r.ChannelId__c + '/p' + singleCase.SlackThreadIdentifier__c.replace('.', '');
       } else {
-        url = process.env.HELP_CENTER_URL;
+        url = process.env.HELP_CENTER_URL + '/' + singleCase.Id;
       }
       var block = caseSearchBlockHandler.createCaseSearchFormat(singleCase.Subject, singleCase.Origin, singleCase.SlackChannel__c, url);
       caseBlocks = caseBlocks.concat(block);
