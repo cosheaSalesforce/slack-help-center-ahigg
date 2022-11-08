@@ -20,6 +20,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, appsForPresentation);
+            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -31,7 +32,7 @@ async function showCaseCreationModal(client, payload, channelId) {
         else if (queryResult.HCApplication__r?.Parent_Application__c == null) {
             var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
             // if there are no child apps, continue as usual
-            if (childApplications == null) {
+            if (childApplications == null | childApplications.length == 0) {
                 var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
                 var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
                 var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
