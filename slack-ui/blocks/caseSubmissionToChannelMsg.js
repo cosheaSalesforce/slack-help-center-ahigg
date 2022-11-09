@@ -10,22 +10,23 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 text = text + categories[x][i].Name + " • ";
         }
     }
- 
+
     const categoriesNames = text.substring(0, text.length - 2);
-    if(categoriesNames.length <= 0) {
+    if (categoriesNames.length <= 0) {
         var block = [
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: "*" + subject + "*",
+                    text: "*" + ((subject) ? subject : '') + "*",
                 }
             },
+
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: description,
+                    text: (description) ? description : '',
                 }
             },
             {
@@ -42,14 +43,14 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: "*" + subject + "*",
+                    text: "*" + ((subject) ? subject : '') + "*",
                 }
             },
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: description,
+                    text: (description) ? description : '',
                 }
             },
             {
