@@ -1,3 +1,5 @@
+const { Metadata } = require("jsforce");
+
 // creates a case menu format to select Category-Group and Categories for a view and return it
 function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
 
@@ -35,39 +37,43 @@ function createCategoriesSelectionFormat(privateMetadata, groupedCategories, cat
             },
         });
     }
-    optsGroupsAndCategories.push({
-        type: "input",
-        block_id: "subject",
-        label: {
-            type: "plain_text",
-            text: "Subject"
-        },
-        element: {
-            type: "plain_text_input",
-            action_id: "subject_action",
-            placeholder: {
+    if (privateMetadata.isSubject[privateMetadata.application]) {
+        optsGroupsAndCategories.push({
+            type: "input",
+            block_id: "subject",
+            label: {
                 type: "plain_text",
-                text: "What do you need help with?"
+                text: "Subject"
+            },
+            element: {
+                type: "plain_text_input",
+                action_id: "subject_action",
+                placeholder: {
+                    type: "plain_text",
+                    text: "What do you need help with?"
+                }
             }
-        }
-    });
-    optsGroupsAndCategories.push({
-        type: "input",
-        block_id: "description",
-        label: {
-            type: "plain_text",
-            text: "Description"
-        },
-        element: {
-            type: "plain_text_input",
-            action_id: "description_action",
-            multiline: true,
-            placeholder: {
+        });
+    }
+    if (privateMetadata.isDescription[privateMetadata.application]) {
+        optsGroupsAndCategories.push({
+            type: "input",
+            block_id: "description",
+            label: {
                 type: "plain_text",
-                text: "Please describe in details what you need help with.."
+                text: "Description"
+            },
+            element: {
+                type: "plain_text_input",
+                action_id: "description_action",
+                multiline: true,
+                placeholder: {
+                    type: "plain_text",
+                    text: "Please describe in details what you need help with.."
+                }
             }
-        }
-    });
+        });
+    }
 
     return {
         type: "modal",

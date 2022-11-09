@@ -45,8 +45,12 @@ async function showCaseCreationModal(client, payload, channelId) {
                     categories: null,
                     subject: null,
                     description: null,
+                    isSubject: {},
+                    isDescription: {},
                     state: "categories"
                 };
+                privateMetadata.isSubject[privateMetadata.application] = queryResult.HCApplication__r.Use_Subject_Field__c;
+                privateMetadata.isDescription[privateMetadata.application] = queryResult.HCApplication__r.Use_Description_Field__c;
                 var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
                 const result = await client.views.open({
                     // Pass a valid trigger_id within 3 seconds of receiving it
@@ -78,9 +82,12 @@ async function showCaseCreationModal(client, payload, channelId) {
                 categories: null,
                 subject: null,
                 description: null,
+                isSubject: {},
+                isDescription: {},
                 state: "categories"
             };
-
+            privateMetadata.isSubject[privateMetadata.application] = queryResult.HCApplication__r.Use_Subject_Field__c;
+            privateMetadata.isDescription[privateMetadata.application] = queryResult.HCApplication__r.Use_Description_Field__c;
             var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
@@ -118,9 +125,12 @@ async function handleCaseCreationModal(ack, body, client, view) {
         }
         if (metaState.state == "categories") {
             var meta = JSON.parse(currentView.private_metadata);
-            meta.description = stateValues.description.description_action.value;
-            meta.subject = stateValues.subject.subject_action.value;
-            console.log(meta.application);
+            if (meta.isDescription[meta.application]) {
+                meta.description = stateValues.description.description_action.value;
+            }
+            if (meta.isSubject[meta.application]) {
+                meta.subject = stateValues.subject.subject_action.value;
+            }
             var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
             var categoriesToPresentOnChannel = []
             for (var x in meta.categoryGroupIdsMap) {

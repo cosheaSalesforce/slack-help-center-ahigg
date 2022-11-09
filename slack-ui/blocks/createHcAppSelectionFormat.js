@@ -11,6 +11,8 @@ function createCaseAppSelectionFormat(slackId, channelId, allApps) {
         categories: null,
         subject: null,
         description: null,
+        isSubject: {},
+        isDescription: {},
         state: "application"
     };
 
@@ -23,7 +25,9 @@ function createCaseAppSelectionFormat(slackId, channelId, allApps) {
                 emoji: true,
             },
             value: allApps[i].Id,
-        })
+        });
+        valuesObj.isSubject[allApps[i].Id] = allApps[i].Use_Subject_Field__c;
+        valuesObj.isDescription[allApps[i].Id] = allApps[i].Use_Description_Field__c;
     }
 
     let view = {
