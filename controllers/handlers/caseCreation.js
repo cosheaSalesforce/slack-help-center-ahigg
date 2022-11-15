@@ -57,7 +57,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             }
         } else {
             var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
-            console.log(queryGroupedCategories);
+            console.log(util.inspect(queryGroupedCategories, false, null, true /* enable colors */))
             // var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
             // var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
             // var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsNames, null, null, null, queryResult.HCApplication__r.Use_Subject_Field__c, queryResult.HCApplication__r.Use_Description_Field__c, "categories");
