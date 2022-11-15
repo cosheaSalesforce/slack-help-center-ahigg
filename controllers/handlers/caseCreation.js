@@ -4,7 +4,7 @@ const mixpanelService = require("../../services/mixpanel.service");
 const createHcAppSelectionHandler = require("..//..//slack-ui/blocks/createHcAppSelectionFormat");
 const createHcCatSelectionHandler = require("..//..//slack-ui/blocks/createHcCetegoriesSelectionFormat");
 const createCaseSubmissionMsgHandler = require("..//..//slack-ui/blocks/caseSubmissionToChannelMsg");
-
+const util = require('util')
 /**
  * The function creates the initial modal for creating a new case
  */
