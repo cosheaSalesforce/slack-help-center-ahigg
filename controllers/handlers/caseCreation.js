@@ -177,6 +177,7 @@ async function handleGroupsAndCategoriesModal(channelId, queryResult, client, pa
     var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
     var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, queryResult.HCApplication__r.Use_Subject_Field__c, queryResult.HCApplication__r.Use_Description_Field__c, "categories");
     var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
+    console.log(viewFormat);
     const result = await client.views.open({
         // Pass a valid trigger_id within 3 seconds of receiving it
         trigger_id: payload.trigger_id,
