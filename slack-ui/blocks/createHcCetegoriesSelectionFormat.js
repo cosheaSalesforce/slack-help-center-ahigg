@@ -1,42 +1,63 @@
 const { Metadata } = require("jsforce");
 
 // creates a case menu format to select Category-Group and Categories for a view and return it
-function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
+function createCategoriesSelectionFormat(privateMetadata, queryResult) {
 
     var optsGroupsAndCategories = []
 
-    for (var x in categoryGroupsNames) {
-        var opts = [];
-
-        for (var j = 0; j < groupedCategories[x].length; j++) {
-            opts.push({
-                text: {
+    for (var x in queryResult) {
+        console.log(x);
+        if (x.Type__c == 'Picklist') {
+            var opts = []
+            for (var j in x.Categories__r) {
+                console.log(j);
+                opts.push({
+                    text: {
+                        type: "plain_text",
+                        text: j.Name,
+                        emoji: true,
+                    },
+                    value: j.Id,
+                })
+            }
+            optsGroupsAndCategories.push({
+                type: "input",
+                block_id: x.Id,
+                label: {
                     type: "plain_text",
-                    text: groupedCategories[x][j].Name,
-                    emoji: true,
+                    text: x.Name,
                 },
-                value: groupedCategories[x][j].Id,
-            })
+                element: {
+                    action_id: x.Id + "_action",
+                    type: "static_select",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Select an Option",
+                    },
+                    options: opts,
+                },
+            });
+        } else {
+            optsGroupsAndCategories.push({
+                type: "input",
+                block_id: x.Id,
+                label: {
+                    type: "plain_text",
+                    text: x.Name,
+                },
+                element: {
+                    action_id: x.Id + "_action",
+                    multiline: (x.Type__c == 'Text') ? false : true,
+                    type: "plain_text_input",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Fill your category here",
+                    },
+                },
+            });
         }
-
-        optsGroupsAndCategories.push({
-            type: "input",
-            block_id: x,
-            label: {
-                type: "plain_text",
-                text: categoryGroupsNames[x],
-            },
-            element: {
-                action_id: x + "_action",
-                type: "static_select",
-                placeholder: {
-                    type: "plain_text",
-                    text: "Select an Option",
-                },
-                options: opts,
-            },
-        });
     }
+
     if (privateMetadata.isSubject[privateMetadata.application]) {
         optsGroupsAndCategories.push({
             type: "input",
