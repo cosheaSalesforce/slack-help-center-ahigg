@@ -142,7 +142,7 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
 function createMapGroupCategoryIdToType(categoriesObj) {
     var CategoryGroupsTypes = {};
     for (var i in categoriesObj) {
-        CategoryGroupsTypes[catGroup.Id] = categoriesObj[i].Type__c;
+        CategoryGroupsTypes[i.Id] = i.Type__c;
     }
     return CategoryGroupsTypes;
 }
