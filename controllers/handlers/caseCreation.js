@@ -34,7 +34,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
             // if there are no child apps, continue as usual
             if (childApplications == null | childApplications.length == 0) {
-                handleGroupsAndCategoriesModal(channelId, queryResult, client);
+                handleGroupsAndCategoriesModal(channelId, queryResult, client, payload);
             } else {
                 var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, null, null, null, null, null, null, null, "application");
                 var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(childApplications, privateMetadata);
@@ -46,7 +46,7 @@ async function showCaseCreationModal(client, payload, channelId) {
                 });
             }
         } else {
-            handleGroupsAndCategoriesModal(channelId, queryResult, client);
+            handleGroupsAndCategoriesModal(channelId, queryResult, client, payload);
         }
 
     } catch (error) {
