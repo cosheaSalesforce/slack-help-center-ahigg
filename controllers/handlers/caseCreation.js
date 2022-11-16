@@ -34,7 +34,7 @@ async function showCaseCreationModal(client, payload, channelId) {
             var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
             // if there are no child apps, continue as usual
             if (childApplications == null | childApplications.length == 0) {
-                handleGroupsAndCategoriesModal(channelId, queryResult);
+                handleGroupsAndCategoriesModal(channelId, queryResult, client);
             } else {
                 var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, null, null, null, null, null, null, null, "application");
                 var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(childApplications, privateMetadata);
@@ -46,7 +46,7 @@ async function showCaseCreationModal(client, payload, channelId) {
                 });
             }
         } else {
-            handleGroupsAndCategoriesModal(channelId, queryResult);
+            handleGroupsAndCategoriesModal(channelId, queryResult, client);
         }
 
     } catch (error) {
@@ -172,7 +172,7 @@ function organizeAppsNamesList(queryResult) {
  * The function receives the query's results that contains a slack channel and application's IDs, and handles the creation of the 
  * modal that asks the user to pick categories from the categories groups
  */
-async function handleGroupsAndCategoriesModal(channelId, queryResult) {
+async function handleGroupsAndCategoriesModal(channelId, queryResult, client) {
     var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
     var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
     var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, queryResult.HCApplication__r.Use_Subject_Field__c, queryResult.HCApplication__r.Use_Description_Field__c, "categories");
