@@ -8,7 +8,7 @@ function createCategoriesSelectionFormat(privateMetadata, queryResult) {
     for (var x of queryResult) {
         if (x.Type__c == 'Picklist') {
             var opts = []
-            for (var j in x.Categories__r) {
+            for (var j of x.Categories__r) {
                 console.log(j);
                 opts.push({
                     text: {
