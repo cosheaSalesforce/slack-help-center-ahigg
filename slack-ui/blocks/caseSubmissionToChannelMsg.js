@@ -7,10 +7,11 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
     console.log(categories);
     console.log(categoriesToPresentOnChannel);
     for (var x in categories) {
-        for (var i = 0; i < categories[x].length; i++) {
-            if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
-                text = text + categories[x][i].Name + " • ";
-        }
+        console.log(x);
+        //for (var i = 0; i < categories[x].length; i++) {
+        if (categoriesToPresentOnChannel.includes(x))
+            text = text + categories[x][i].Name + " • ";
+        //}
     }
 
     const categoriesNames = text.substring(0, text.length - 2);
