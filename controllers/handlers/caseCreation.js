@@ -82,6 +82,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             }
             var allCategories = [];
             var categoriesToPresentOnChannel = []
+            console.log(meta.categoryGroupIdsMap);
             for (var x in meta.categoryGroupIdsMap) {
                 console.log(x);
                 allCategories.push(stateValues[x][x + '_action'].selected_option.value);
