@@ -9,7 +9,6 @@ function createCategoriesSelectionFormat(privateMetadata, queryResult) {
         if (x.Type__c == 'Picklist') {
             var opts = []
             for (var j of x.Categories__r.records) {
-                console.log(j);
                 opts.push({
                     text: {
                         type: "plain_text",

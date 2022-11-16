@@ -21,7 +21,6 @@ async function showCaseCreationModal(client, payload, channelId) {
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
             var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, null, null, null, null, null, null, null, "application");
             var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(appsForPresentation, privateMetadata);
-            console.log(viewFormat);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -180,7 +179,6 @@ async function handleGroupsAndCategoriesModal(channelId, queryResult, client, pa
     isDesc[queryResult.HCApplication__c] = queryResult.HCApplication__r.Use_Description_Field__c;
     var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, isSubj, isDesc, "categories");
     var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
-    console.log(viewFormat);
     const result = await client.views.open({
         // Pass a valid trigger_id within 3 seconds of receiving it
         trigger_id: payload.trigger_id,
