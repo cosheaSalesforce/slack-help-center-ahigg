@@ -6,7 +6,6 @@ function createCategoriesSelectionFormat(privateMetadata, queryResult) {
     var optsGroupsAndCategories = []
 
     for (var x of queryResult) {
-        console.log(x);
         if (x.Type__c == 'Picklist') {
             var opts = []
             for (var j in x.Categories__r) {
