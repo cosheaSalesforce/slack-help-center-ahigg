@@ -174,6 +174,7 @@ function organizeAppsNamesList(queryResult) {
 async function handleGroupsAndCategoriesModal(channelId, queryResult, client, payload) {
     var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
     var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
+    console.log(CategoryGroupsTypes);
     var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, queryResult.HCApplication__r.Use_Subject_Field__c, queryResult.HCApplication__r.Use_Description_Field__c, "categories");
     var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
     console.log(viewFormat);
