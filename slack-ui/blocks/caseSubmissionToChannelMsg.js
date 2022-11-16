@@ -4,6 +4,8 @@
 function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
 
     var text = "";
+    console.log(categories);
+    console.log(categoriesToPresentOnChannel);
     for (var x in categories) {
         for (var i = 0; i < categories[x].length; i++) {
             if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
