@@ -142,7 +142,6 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
 function createMapGroupCategoryIdToType(categoriesObj) {
     var CategoryGroupsTypes = {};
     for (var i of categoriesObj) {
-        console.log(i);
         CategoryGroupsTypes[i.Id] = i.Type__c;
     }
     return CategoryGroupsTypes;
@@ -176,7 +175,6 @@ async function handleGroupsAndCategoriesModal(channelId, queryResult, client, pa
     var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
     console.log(queryGroupedCategories);
     var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
-    console.log(CategoryGroupsTypes);
     var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, queryResult.HCApplication__r.Use_Subject_Field__c, queryResult.HCApplication__r.Use_Description_Field__c, "categories");
     var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
     console.log(viewFormat);
