@@ -84,9 +84,14 @@ async function handleCaseCreationModal(ack, body, client, view) {
             var categoriesToPresentOnChannel = []
             console.log(meta.categoryGroupIdsMap);
             for (var x in meta.categoryGroupIdsMap) {
-                console.log(x);
-                allCategories.push(stateValues[x][x + '_action'].selected_option.value);
-                categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
+                if (categoryGroupIdsMap[x] == 'Picklist') {
+                    allCategories.push(stateValues[x][x + '_action'].selected_option.value);
+                    categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
+                } else {
+                    console.log(stateValues[x][x + '_action'].value);
+                    allCategories.push(stateValues[x][x + '_action'].value);
+                    categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].value);
+                }
             }
             meta.categories = allCategories;
             await ack();
