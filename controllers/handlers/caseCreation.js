@@ -140,12 +140,11 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and groups types as values 
  */
 function createMapGroupCategoryIdToType(categoriesObj) {
-    var CategoryGroupsNames = {};
-    for (var i = 0; i < categoriesObj.length; i++) {
-        var catGroup = categoriesObj[i].Id;
-        CategoryGroupsNames[catGroup.Id] = categoriesObj[i].Name;
+    var CategoryGroupsTypes = {};
+    for (var i in categoriesObj) {
+        CategoryGroupsTypes[catGroup.Id] = categoriesObj[i].Type__c;
     }
-    return CategoryGroupsNames;
+    return CategoryGroupsTypes;
 }
 
 /**
