@@ -89,7 +89,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
                     var info = temp.split(",");
                     allCategories.push(info[0]);
                     categoriesToPresentOnChannel.push(info[1]);
-
                 } else {
                     //console.log(stateValues[x][x + '_action'].value);
                     //allCategories.push(stateValues[x.Id][x.Id + '_action'].value);
@@ -121,7 +120,7 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
         });
         var usersEmail = await slackService.getUserEmailById(userID);
 
-        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.categories, meta.subject, meta.description);
+        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.subject, meta.description);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",

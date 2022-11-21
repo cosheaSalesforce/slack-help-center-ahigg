@@ -1,17 +1,12 @@
 /**
  *  * Creates a message format that lets the channel know a new case was submmited.
  */
-function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
+function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, subject, description) {
 
     var text = "";
-    console.log(categories);
-    console.log(categoriesToPresentOnChannel);
-    for (var x in categories) {
+    for (var x in categoriesToPresentOnChannel) {
         console.log(x);
-        //for (var i = 0; i < categories[x].length; i++) {
-        if (categoriesToPresentOnChannel.includes(x))
-            text = text + categories[x][i].Name + " • ";
-        //}
+        text = text + x + " • ";
     }
 
     const categoriesNames = text.substring(0, text.length - 2);
