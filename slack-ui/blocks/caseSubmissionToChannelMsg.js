@@ -1,31 +1,29 @@
 /**
  *  * Creates a message format that lets the channel know a new case was submmited.
  */
-function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories, subject, description) {
+function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, subject, description) {
 
     var text = "";
-    for (var x in categories) {
-        for (var i = 0; i < categories[x].length; i++) {
-            if (categoriesToPresentOnChannel.includes(categories[x][i].Id))
-                text = text + categories[x][i].Name + " • ";
-        }
+    for (var x of categoriesToPresentOnChannel) {
+        text = text + x + " • ";
     }
- 
+
     const categoriesNames = text.substring(0, text.length - 2);
-    if(categoriesNames.length <= 0) {
+    if (categoriesNames.length <= 0) {
         var block = [
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: "*" + subject + "*",
+                    text: "*" + ((subject) ? subject : '') + "*",
                 }
             },
+
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: description,
+                    text: (description) ? description : '',
                 }
             },
             {
@@ -42,14 +40,14 @@ function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, categories
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: "*" + subject + "*",
+                    text: "*" + ((subject) ? subject : '') + "*",
                 }
             },
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: description,
+                    text: (description) ? description : '',
                 }
             },
             {

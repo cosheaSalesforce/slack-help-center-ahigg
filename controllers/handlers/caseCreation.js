@@ -19,8 +19,8 @@ async function showCaseCreationModal(client, payload, channelId) {
         if (queryResult.HCApplication__c == null) {
             var allHcApplications = await salesforceService.getAllHcApplications();
             var appsForPresentation = organizeAppsNamesList(allHcApplications);
-            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, appsForPresentation);
-            console.log(viewFormat);
+            var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, null, null, null, null, null, null, null, "application");
+            var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(appsForPresentation, privateMetadata);
             const result = await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: payload.trigger_id,
@@ -33,29 +33,10 @@ async function showCaseCreationModal(client, payload, channelId) {
             var childApplications = await salesforceService.getChildApplications(queryResult.HCApplication__c);
             // if there are no child apps, continue as usual
             if (childApplications == null | childApplications.length == 0) {
-                var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
-                var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
-                var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-                var privateMetadata = {
-                    channelSlackId: channelId,
-                    slackChannel: queryResult.Id,
-                    application: queryResult.HCApplication__c,
-                    categoryGroupIdsMap: CategoryGroupsNames,
-                    groupedCategories: GroupedCategories,
-                    categories: null,
-                    subject: null,
-                    description: null,
-                    state: "categories"
-                };
-                var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
-                const result = await client.views.open({
-                    // Pass a valid trigger_id within 3 seconds of receiving it
-                    trigger_id: payload.trigger_id,
-                    // View payload
-                    view: viewFormat,
-                });
+                handleGroupsAndCategoriesModal(channelId, queryResult, client, payload);
             } else {
-                var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(channelId, queryResult.Id, childApplications);
+                var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, null, null, null, null, null, null, null, "application");
+                var viewFormat = createHcAppSelectionHandler.createCaseAppSelectionFormat(childApplications, privateMetadata);
                 const result = await client.views.open({
                     // Pass a valid trigger_id within 3 seconds of receiving it
                     trigger_id: payload.trigger_id,
@@ -64,30 +45,7 @@ async function showCaseCreationModal(client, payload, channelId) {
                 });
             }
         } else {
-            var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
-
-            var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
-            var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-
-            var privateMetadata = {
-                channelSlackId: channelId,
-                slackChannel: queryResult.Id,
-                application: queryResult.HCApplication__c,
-                categoryGroupIdsMap: CategoryGroupsNames,
-                groupedCategories: GroupedCategories,
-                categories: null,
-                subject: null,
-                description: null,
-                state: "categories"
-            };
-
-            var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, GroupedCategories, CategoryGroupsNames);
-            const result = await client.views.open({
-                // Pass a valid trigger_id within 3 seconds of receiving it
-                trigger_id: payload.trigger_id,
-                // View payload
-                view: viewFormat,
-            });
+            handleGroupsAndCategoriesModal(channelId, queryResult, client, payload);
         }
 
     } catch (error) {
@@ -110,24 +68,28 @@ async function handleCaseCreationModal(ack, body, client, view) {
             meta.application = stateValues.application.application_action.selected_option.value;
             meta.state = "categories";
             var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
-            var GroupedCategories = createMapCategoryGroupAndCategories(queryGroupedCategories);
-            var CategoryGroupsNames = createMapGroupCategoryIdToName(queryGroupedCategories);
-            meta.categoryGroupIdsMap = CategoryGroupsNames;
-            meta.groupedCategories = GroupedCategories;
-            await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, GroupedCategories, CategoryGroupsNames) });
+            meta.groupsQuery = queryGroupedCategories;
+            await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, queryGroupedCategories) });
         }
         if (metaState.state == "categories") {
             var meta = JSON.parse(currentView.private_metadata);
-            meta.description = stateValues.description.description_action.value;
-            meta.subject = stateValues.subject.subject_action.value;
-            console.log(meta.application);
-            var groupIdToCategory = []; // maps group Ids to the selected category Ids from the user's selection
-            var categoriesToPresentOnChannel = []
-            for (var x in meta.categoryGroupIdsMap) {
-                groupIdToCategory.push(stateValues[x][x + '_action'].selected_option.value);
-                categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
+            if (meta.isDescription[meta.application]) {
+                meta.description = stateValues.description.description_action.value;
             }
-            meta.categories = groupIdToCategory;
+            if (meta.isSubject[meta.application]) {
+                meta.subject = stateValues.subject.subject_action.value;
+            }
+            var allCategories = [];
+            var categoriesToPresentOnChannel = []
+            for (var x of meta.groupsQuery) {
+                if (x.Type__c == 'Picklist') {
+                    var temp = stateValues[x.Id][x.Id + '_action'].selected_option.value;
+                    var info = temp.split(",");
+                    allCategories.push(info[0]);
+                    categoriesToPresentOnChannel.push(info[1]);
+                }
+            }
+            meta.categories = allCategories;
             await ack();
             try {
                 createHcCaseFromSlack(body, client, view, meta, categoriesToPresentOnChannel);
@@ -152,7 +114,7 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
         });
         var usersEmail = await slackService.getUserEmailById(userID);
 
-        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.groupedCategories, meta.subject, meta.description);
+        var newCaseMsgBlock = createCaseSubmissionMsgHandler.createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, meta.subject, meta.description);
         var postedMessage = await client.chat.postMessage({
             channel: meta.channelSlackId,
             text: "A new case has been submitted:",
@@ -175,30 +137,16 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
     }
 }
 
-/**
- * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and categories values
- */
-function createMapCategoryGroupAndCategories(categoriesObj) {
-    var GroupedCategories = {}
-    for (const x of categoriesObj) {
-        var catGroup = x.categoryGroup;
-        var catGroupCategories = x.groupCategories;
-        GroupedCategories[catGroup.Id] = catGroupCategories;
-    }
-    return GroupedCategories;
-}
-
-/**
- * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and names as values 
- */
-function createMapGroupCategoryIdToName(categoriesObj) {
-    var CategoryGroupsNames = {};
-    for (var i = 0; i < categoriesObj.length; i++) {
-        var catGroup = categoriesObj[i].categoryGroup;
-        CategoryGroupsNames[catGroup.Id] = catGroup.Name;
-    }
-    return CategoryGroupsNames;
-}
+// /**
+//  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and groups types as values 
+//  */
+// function createMapGroupCategoryIdToType(categoriesObj) {
+//     var CategoryGroupsTypes = {};
+//     for (var i of categoriesObj) {
+//         CategoryGroupsTypes[i.Id] = i.Type__c;
+//     }
+//     return CategoryGroupsTypes;
+// }
 
 /**
  * The function receives a list of HC applications, concats the parent app's name to the child's app on the child object and returns the modified list
@@ -219,6 +167,47 @@ function organizeAppsNamesList(queryResult) {
     }
     return editedResults;
 }
+
+/**
+ * The function receives the query's results that contains a slack channel and application's IDs, and handles the creation of the 
+ * modal that asks the user to pick categories from the categories groups
+ */
+async function handleGroupsAndCategoriesModal(channelId, queryResult, client, payload) {
+    var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
+    //var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
+    isSubj = {};
+    isDesc = {};
+    isSubj[queryResult.HCApplication__c] = queryResult.HCApplication__r.Use_Subject_Field__c;
+    isDesc[queryResult.HCApplication__c] = queryResult.HCApplication__r.Use_Description_Field__c;
+    var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, queryGroupedCategories, null, null, null, isSubj, isDesc, "categories");
+    var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
+    const result = await client.views.open({
+        // Pass a valid trigger_id within 3 seconds of receiving it
+        trigger_id: payload.trigger_id,
+        // View payload
+        view: viewFormat,
+    });
+}
+
+/**
+ * The function generates the private metadata that is sent between the modals windows creation process
+ */
+function generatePrivateMetadata(slackChannelId, orgSlackChannelId, applicationId, queriedGroups, groupedCategories, subj, desc, isSubj, isDesc, state) {
+    var privateMetadata = {
+        channelSlackId: slackChannelId,
+        slackChannel: orgSlackChannelId,
+        application: applicationId,
+        groupsQuery: queriedGroups,
+        categories: groupedCategories,
+        subject: subj,
+        description: desc,
+        isSubject: isSubj ? isSubj : {},
+        isDescription: isDesc ? isDesc : {},
+        state: state
+    };
+    return privateMetadata;
+}
+
 module.exports = {
     showCaseCreationModal,
     handleCaseCreationModal,

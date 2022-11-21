@@ -1,73 +1,98 @@
+const { Metadata } = require("jsforce");
+
 // creates a case menu format to select Category-Group and Categories for a view and return it
-function createCategoriesSelectionFormat(privateMetadata, groupedCategories, categoryGroupsNames) {
+function createCategoriesSelectionFormat(privateMetadata, queryResult) {
 
     var optsGroupsAndCategories = []
 
-    for (var x in categoryGroupsNames) {
-        var opts = [];
-
-        for (var j = 0; j < groupedCategories[x].length; j++) {
-            opts.push({
-                text: {
+    for (var x of queryResult) {
+        if (x.Type__c == 'Picklist') {
+            var opts = []
+            for (var j of x.Categories__r.records) {
+                opts.push({
+                    text: {
+                        type: "plain_text",
+                        text: j.Name,
+                        emoji: true,
+                    },
+                    value: j.Id + ',' + j.Name,
+                })
+            }
+            optsGroupsAndCategories.push({
+                type: "input",
+                block_id: x.Id,
+                label: {
                     type: "plain_text",
-                    text: groupedCategories[x][j].Name,
-                    emoji: true,
+                    text: x.Name,
                 },
-                value: groupedCategories[x][j].Id,
-            })
+                element: {
+                    action_id: x.Id + "_action",
+                    type: "static_select",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Select an Option",
+                    },
+                    options: opts,
+                },
+            });
+        } else {
+            optsGroupsAndCategories.push({
+                type: "input",
+                block_id: x.Id,
+                label: {
+                    type: "plain_text",
+                    text: x.Name,
+                },
+                element: {
+                    action_id: x.Id + "_action",
+                    multiline: (x.Type__c == 'Text') ? false : true,
+                    type: "plain_text_input",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Fill your category here",
+                    },
+                },
+            });
         }
+    }
 
+    if (privateMetadata.isSubject[privateMetadata.application]) {
         optsGroupsAndCategories.push({
             type: "input",
-            block_id: x,
+            block_id: "subject",
             label: {
                 type: "plain_text",
-                text: categoryGroupsNames[x],
+                text: "Subject"
             },
             element: {
-                action_id: x + "_action",
-                type: "static_select",
+                type: "plain_text_input",
+                action_id: "subject_action",
                 placeholder: {
                     type: "plain_text",
-                    text: "Select an Option",
-                },
-                options: opts,
-            },
+                    text: "What do you need help with?"
+                }
+            }
         });
     }
-    optsGroupsAndCategories.push({
-        type: "input",
-        block_id: "subject",
-        label: {
-            type: "plain_text",
-            text: "Subject"
-        },
-        element: {
-            type: "plain_text_input",
-            action_id: "subject_action",
-            placeholder: {
+    if (privateMetadata.isDescription[privateMetadata.application]) {
+        optsGroupsAndCategories.push({
+            type: "input",
+            block_id: "description",
+            label: {
                 type: "plain_text",
-                text: "What do you need help with?"
+                text: "Description"
+            },
+            element: {
+                type: "plain_text_input",
+                action_id: "description_action",
+                multiline: true,
+                placeholder: {
+                    type: "plain_text",
+                    text: "Please describe in details what you need help with.."
+                }
             }
-        }
-    });
-    optsGroupsAndCategories.push({
-        type: "input",
-        block_id: "description",
-        label: {
-            type: "plain_text",
-            text: "Description"
-        },
-        element: {
-            type: "plain_text_input",
-            action_id: "description_action",
-            multiline: true,
-            placeholder: {
-                type: "plain_text",
-                text: "Please describe in details what you need help with.."
-            }
-        }
-    });
+        });
+    }
 
     return {
         type: "modal",

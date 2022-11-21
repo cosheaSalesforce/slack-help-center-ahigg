@@ -1,18 +1,7 @@
 const { Channel } = require("jsforce");
 
 // creates a case menu format to select HcAppication for a view and return it
-function createCaseAppSelectionFormat(slackId, channelId, allApps) {
-    // Provide some initial values to this private_metadata object
-    var valuesObj = {
-        channelSlackId: slackId,
-        slackChannel: channelId,
-        application: null,
-        categoryGroupIdsMap: null,
-        categories: null,
-        subject: null,
-        description: null,
-        state: "application"
-    };
+function createCaseAppSelectionFormat(allApps, privateMetadata) {
 
     var opts = [];
     for (var i = 0; i < allApps.length; i++) {
@@ -23,12 +12,14 @@ function createCaseAppSelectionFormat(slackId, channelId, allApps) {
                 emoji: true,
             },
             value: allApps[i].Id,
-        })
+        });
+        privateMetadata.isSubject[allApps[i].Id] = allApps[i].Use_Subject_Field__c;
+        privateMetadata.isDescription[allApps[i].Id] = allApps[i].Use_Description_Field__c;
     }
 
     let view = {
         type: "modal",
-        private_metadata: JSON.stringify(valuesObj),
+        private_metadata: JSON.stringify(privateMetadata),
         // View identifier
         callback_id: "new_case",
         title: {

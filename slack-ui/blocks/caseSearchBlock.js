@@ -1,6 +1,6 @@
 //The function receives information regarding a single case, creates a block for a search result and returns to the caller
 function createCaseSearchFormat(caseSubject, caseOrigin, caseChannel, link) {
-    var linkText = "<" + link + "|" + caseSubject + ">";
+    var linkText = caseSubject ? ("<" + link + "|" + caseSubject + ">") : link;
     var contextTest = caseChannel + " • " + caseOrigin;
 
     var blocks = [
