@@ -82,7 +82,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             }
             var allCategories = [];
             var categoriesToPresentOnChannel = []
-            console.log(stateValues);
+            //console.log(stateValues);
             for (var x of meta.groupsQuery) {
                 if (x.Type__c == 'Picklist') {
                     var temp = stateValues[x.Id][x.Id + '_action'].selected_option.value;
