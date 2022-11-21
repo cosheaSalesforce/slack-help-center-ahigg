@@ -15,7 +15,7 @@ function createCategoriesSelectionFormat(privateMetadata, queryResult) {
                         text: j.Name,
                         emoji: true,
                     },
-                    value: j.Id,
+                    value: j.Id + ',' + j.Name,
                 })
             }
             optsGroupsAndCategories.push({
