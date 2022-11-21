@@ -68,7 +68,6 @@ async function handleCaseCreationModal(ack, body, client, view) {
             meta.application = stateValues.application.application_action.selected_option.value;
             meta.state = "categories";
             var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
-            //var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
             meta.groupsQuery = queryGroupedCategories;
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, queryGroupedCategories) });
         }
@@ -138,16 +137,16 @@ async function createHcCaseFromSlack(body, client, view, meta, categoriesToPrese
     }
 }
 
-/**
- * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and groups types as values 
- */
-function createMapGroupCategoryIdToType(categoriesObj) {
-    var CategoryGroupsTypes = {};
-    for (var i of categoriesObj) {
-        CategoryGroupsTypes[i.Id] = i.Type__c;
-    }
-    return CategoryGroupsTypes;
-}
+// /**
+//  * Receives an object that contains a category group and its categories, and returns a map of group ids as keys and groups types as values 
+//  */
+// function createMapGroupCategoryIdToType(categoriesObj) {
+//     var CategoryGroupsTypes = {};
+//     for (var i of categoriesObj) {
+//         CategoryGroupsTypes[i.Id] = i.Type__c;
+//     }
+//     return CategoryGroupsTypes;
+// }
 
 /**
  * The function receives a list of HC applications, concats the parent app's name to the child's app on the child object and returns the modified list
