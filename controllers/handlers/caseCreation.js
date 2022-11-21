@@ -68,8 +68,8 @@ async function handleCaseCreationModal(ack, body, client, view) {
             meta.application = stateValues.application.application_action.selected_option.value;
             meta.state = "categories";
             var queryGroupedCategories = await salesforceService.getGroupedCategories(meta.application);
-            var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
-            meta.categoryGroupIdsMap = CategoryGroupsTypes;
+            //var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
+            meta.groupsQuery = queryGroupedCategories;
             await ack({ response_action: "update", view: createHcCatSelectionHandler.createCategoriesSelectionFormat(meta, queryGroupedCategories) });
         }
         if (metaState.state == "categories") {
@@ -82,13 +82,13 @@ async function handleCaseCreationModal(ack, body, client, view) {
             }
             var allCategories = [];
             var categoriesToPresentOnChannel = []
-            console.log(meta.categoryGroupIdsMap);
-            for (var x in meta.categoryGroupIdsMap) {
-                if (meta.categoryGroupIdsMap[x] == 'Picklist') {
+            for (var x of meta.groupsQuery) {
+                if (x.Type__c == 'Picklist') {
+                    console.log(stateValues[x][x + '_action']);
                     allCategories.push(stateValues[x][x + '_action'].selected_option.value);
                     categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
                 } else {
-                    console.log(stateValues[x][x + '_action'].value);
+                    //console.log(stateValues[x][x + '_action'].value);
                     allCategories.push(stateValues[x][x + '_action'].value);
                     categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].value);
                 }
@@ -178,12 +178,12 @@ function organizeAppsNamesList(queryResult) {
  */
 async function handleGroupsAndCategoriesModal(channelId, queryResult, client, payload) {
     var queryGroupedCategories = await salesforceService.getGroupedCategories(queryResult.HCApplication__c);
-    var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
+    //var CategoryGroupsTypes = createMapGroupCategoryIdToType(queryGroupedCategories);
     isSubj = {};
     isDesc = {};
     isSubj[queryResult.HCApplication__c] = queryResult.HCApplication__r.Use_Subject_Field__c;
     isDesc[queryResult.HCApplication__c] = queryResult.HCApplication__r.Use_Description_Field__c;
-    var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, CategoryGroupsTypes, null, null, null, isSubj, isDesc, "categories");
+    var privateMetadata = generatePrivateMetadata(channelId, queryResult.Id, queryResult.HCApplication__c, queryGroupedCategories, null, null, null, isSubj, isDesc, "categories");
     var viewFormat = createHcCatSelectionHandler.createCategoriesSelectionFormat(privateMetadata, queryGroupedCategories);
     const result = await client.views.open({
         // Pass a valid trigger_id within 3 seconds of receiving it
@@ -196,12 +196,12 @@ async function handleGroupsAndCategoriesModal(channelId, queryResult, client, pa
 /**
  * The function generates the private metadata that is sent between the modals windows creation process
  */
-function generatePrivateMetadata(slackChannelId, orgSlackChannelId, applicationId, categoryGroupTypes, groupedCategories, subj, desc, isSubj, isDesc, state) {
+function generatePrivateMetadata(slackChannelId, orgSlackChannelId, applicationId, queriedGroups, groupedCategories, subj, desc, isSubj, isDesc, state) {
     var privateMetadata = {
         channelSlackId: slackChannelId,
         slackChannel: orgSlackChannelId,
         application: applicationId,
-        categoryGroupIdsMap: categoryGroupTypes,
+        groupsQuery: queriedGroups,
         categories: groupedCategories,
         subject: subj,
         description: desc,
