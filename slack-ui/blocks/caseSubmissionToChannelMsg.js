@@ -4,7 +4,7 @@
 function createNewCaseMsgFormat(userID, categoriesToPresentOnChannel, subject, description) {
 
     var text = "";
-    for (var x in categoriesToPresentOnChannel) {
+    for (var x of categoriesToPresentOnChannel) {
         console.log(x);
         text = text + x + " • ";
     }
