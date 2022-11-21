@@ -85,12 +85,12 @@ async function handleCaseCreationModal(ack, body, client, view) {
             console.log(stateValues);
             for (var x of meta.groupsQuery) {
                 if (x.Type__c == 'Picklist') {
-                    allCategories.push(stateValues[x][x + '_action'].selected_option.value);
-                    categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
+                    allCategories.push(stateValues[x.Id][x.Id + '_action'].selected_option.value);
+                    categoriesToPresentOnChannel.push(stateValues[x.Id][x.Id + '_action'].selected_option.value);
                 } else {
                     //console.log(stateValues[x][x + '_action'].value);
-                    allCategories.push(stateValues[x][x + '_action'].value);
-                    categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].value);
+                    allCategories.push(stateValues[x.Id][x.Id + '_action'].value);
+                    categoriesToPresentOnChannel.push(stateValues[x.Id][x.Id + '_action'].value);
                 }
             }
             meta.categories = allCategories;
