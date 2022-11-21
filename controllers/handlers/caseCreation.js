@@ -84,6 +84,7 @@ async function handleCaseCreationModal(ack, body, client, view) {
             var categoriesToPresentOnChannel = []
             for (var x of meta.groupsQuery) {
                 if (x.Type__c == 'Picklist') {
+                    console.log('inside the x.type check:');
                     console.log(stateValues[x][x + '_action']);
                     allCategories.push(stateValues[x][x + '_action'].selected_option.value);
                     categoriesToPresentOnChannel.push(stateValues[x][x + '_action'].selected_option.value);
