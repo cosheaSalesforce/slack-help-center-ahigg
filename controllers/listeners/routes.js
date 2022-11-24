@@ -11,10 +11,6 @@ async function init(receiver, app) {
 
     receiver.router.post('/slack-post', async (req, res) => {
         try {
-            // TO:DO Add auth check
-
-            // messenger.postMessages(app, req.body);
-            // res.send({ test: 'test' });
 
             if(req.headers.authorization) {
                 var authToken = req.headers.authorization.split(' ')[1];
@@ -42,10 +38,6 @@ async function init(receiver, app) {
 
     receiver.router.post('/cache-messages', async (req, res) => {
         try {
-            // TO:DO Add auth check
-
-            // cacher.cacheChannelMessages();
-            // res.send({ test: 'test' });
 
             if(req.headers.authorization) {
                 var authToken = req.headers.authorization.split(' ')[1];
@@ -71,10 +63,6 @@ async function init(receiver, app) {
 
     receiver.router.post('/slack-emoji-update', async(req, res) => {
         try {
-            
-            //TODO: Add auth
-            // reactions.addReactionToMessage(app, req.body);
-            // res.status(200).send({'test': 'test'});
 
             if(req.headers.authorization) {
                 var authToken = req.headers.authorization.split(' ')[1];
