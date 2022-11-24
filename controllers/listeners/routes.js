@@ -13,8 +13,25 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
-            messenger.postMessages(app, req.body);
-            res.send({ test: 'test' });
+            // messenger.postMessages(app, req.body);
+            // res.send({ test: 'test' });
+
+            if(req.headers.authorization) {
+                var authToken = req.headers.authorization.split(' ')[1];
+                var decoded = Buffer.from(authToken, 'base64').toString();
+    
+                var username = decoded.split(':')[0];
+                var password = decoded.split(':')[1];
+    
+                if(username == process.env.AUTH_USERNAME && password == process.env.AUTH_PASSWORD) {
+                    messenger.postMessages(app, req.body);
+                    res.status(200).send({ success: true, errorMessage: '' });
+                } else {
+                    res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+                }
+            } else {
+                res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+            }
 
         } catch (error) {
             res.send(error);
@@ -27,8 +44,25 @@ async function init(receiver, app) {
         try {
             // TO:DO Add auth check
 
-            cacher.cacheChannelMessages();
-            res.send({ test: 'test' });
+            // cacher.cacheChannelMessages();
+            // res.send({ test: 'test' });
+
+            if(req.headers.authorization) {
+                var authToken = req.headers.authorization.split(' ')[1];
+                var decoded = Buffer.from(authToken, 'base64').toString();
+    
+                var username = decoded.split(':')[0];
+                var password = decoded.split(':')[1];
+    
+                if(username == process.env.AUTH_USERNAME && password == process.env.AUTH_PASSWORD) {
+                    cacher.cacheChannelMessages();
+                    res.status(200).send({ success: true, errorMessage: '' });
+                } else {
+                    res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+                }
+            } else {
+                res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+            }
             
         } catch (error) {
             res.send(error);
@@ -39,9 +73,25 @@ async function init(receiver, app) {
         try {
             
             //TODO: Add auth
-            reactions.addReactionToMessage(app, req.body);
+            // reactions.addReactionToMessage(app, req.body);
+            // res.status(200).send({'test': 'test'});
 
-            res.status(200).send({'test': 'test'});
+            if(req.headers.authorization) {
+                var authToken = req.headers.authorization.split(' ')[1];
+                var decoded = Buffer.from(authToken, 'base64').toString();
+    
+                var username = decoded.split(':')[0];
+                var password = decoded.split(':')[1];
+    
+                if(username == process.env.AUTH_USERNAME && password == process.env.AUTH_PASSWORD) {
+                    reactions.addReactionToMessage(app, req.body);
+                    res.status(200).send({ success: true, errorMessage: '' });
+                } else {
+                    res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+                }
+            } else {
+                res.status(401).send({ success: true, errorMessage: "Authentication failure." });
+            }
 
         }
         catch (error) {
